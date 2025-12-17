@@ -1,4 +1,3 @@
-import { IRequest } from 'itty-router';
 import { getAllReciters, validateReciter } from '../utils/validation';
 import { successResponse, notFoundResponse } from '../utils/response';
 
@@ -8,7 +7,7 @@ import { successResponse, notFoundResponse } from '../utils/response';
  * - GET /api/v1/reciters - List all reciters
  * - GET /api/v1/reciters/:reciterId - Get specific reciter
  */
-export async function handleRecitersRequest(request: IRequest): Promise<Response> {
+export async function handleRecitersRequest(request: any): Promise<Response> {
   const { reciterId } = request.params;
 
   // If reciterId is provided, return specific reciter

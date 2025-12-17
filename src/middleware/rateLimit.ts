@@ -1,4 +1,3 @@
-import { IRequest } from 'itty-router';
 import { errorResponse } from '../utils/response';
 
 // Simple in-memory rate limiter
@@ -19,7 +18,7 @@ const WINDOW_MS = 60000; // 1 minute
  * Limits requests to 100 per minute per IP address
  * NOTE: For production use, configure rate limiting in Cloudflare Dashboard
  */
-export function rateLimitMiddleware(request: IRequest): Response | void {
+export function rateLimitMiddleware(request: any): Response | void {
   // Get client IP
   const clientIP = request.headers.get('CF-Connecting-IP') || 'unknown';
 

@@ -1,4 +1,3 @@
-import { IRequest } from 'itty-router';
 import { getSurahsByName } from '../utils/ayahMapping';
 import { searchReciters } from '../utils/validation';
 import { successResponse, badRequestResponse } from '../utils/response';
@@ -9,7 +8,7 @@ import { successResponse, badRequestResponse } from '../utils/response';
  * - GET /api/v1/search?q=query&type=surah
  * - GET /api/v1/search?q=query&type=reciter
  */
-export async function handleSearch(request: IRequest): Promise<Response> {
+export async function handleSearch(request: any): Promise<Response> {
   const url = new URL(request.url);
   const query = url.searchParams.get('q');
   const type = url.searchParams.get('type');

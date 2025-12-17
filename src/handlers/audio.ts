@@ -1,4 +1,3 @@
-import { IRequest } from 'itty-router';
 import { getGlobalAyahNumber } from '../utils/ayahMapping';
 import { validateReciter, parseIntParam } from '../utils/validation';
 import { errorResponse, notFoundResponse, badRequestResponse } from '../utils/response';
@@ -14,7 +13,7 @@ export interface Env {
  * - /api/v1/audio/:reciterId/surah/:surahNumber
  * - /api/v1/audio/:reciterId/surah/:surahNumber/ayah/:ayahInSurah
  */
-export async function handleAudioRequest(request: IRequest, env: Env): Promise<Response> {
+export async function handleAudioRequest(request: any, env: Env): Promise<Response> {
   try {
     const { reciterId, ayahNumber, surahNumber, ayahInSurah } = request.params;
 

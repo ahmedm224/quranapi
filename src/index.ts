@@ -1,4 +1,4 @@
-import { Router, IRequest } from 'itty-router';
+import { Router } from 'itty-router';
 import { handleAudioRequest } from './handlers/audio';
 import { handleRecitersRequest } from './handlers/reciters';
 import { handleSurahsRequest } from './handlers/surahs';
@@ -39,15 +39,9 @@ router.get('/api/v1/surahs', handleSurahsRequest);
 router.get('/api/v1/surahs/:surahNumber', handleSurahsRequest);
 
 // Audio streaming endpoints
-router.get('/api/v1/audio/:reciterId/:ayahNumber', (request: IRequest, env: Env) =>
-  handleAudioRequest(request, env)
-);
-router.get('/api/v1/audio/:reciterId/surah/:surahNumber', (request: IRequest, env: Env) =>
-  handleAudioRequest(request, env)
-);
-router.get('/api/v1/audio/:reciterId/surah/:surahNumber/ayah/:ayahInSurah', (request: IRequest, env: Env) =>
-  handleAudioRequest(request, env)
-);
+router.get('/api/v1/audio/:reciterId/:ayahNumber', handleAudioRequest);
+router.get('/api/v1/audio/:reciterId/surah/:surahNumber', handleAudioRequest);
+router.get('/api/v1/audio/:reciterId/surah/:surahNumber/ayah/:ayahInSurah', handleAudioRequest);
 
 // Search endpoint
 router.get('/api/v1/search', handleSearch);
@@ -75,8 +69,8 @@ router.all('*', () => {
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     try {
-      // Handle request through router
-      const response = await router.handle(request, env, ctx);
+      // Handle request through router - itty-router v5 expects just request and env
+      const response = await router.fetch(request, env, ctx);
 
       // Add CORS headers to response if not already present
       if (!response.headers.has('Access-Control-Allow-Origin')) {

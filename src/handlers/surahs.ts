@@ -1,4 +1,3 @@
-import { IRequest } from 'itty-router';
 import { getAllSurahs, getSurahByNumber } from '../utils/ayahMapping';
 import { parseIntParam } from '../utils/validation';
 import { successResponse, notFoundResponse, badRequestResponse } from '../utils/response';
@@ -9,7 +8,7 @@ import { successResponse, notFoundResponse, badRequestResponse } from '../utils/
  * - GET /api/v1/surahs - List all surahs
  * - GET /api/v1/surahs/:surahNumber - Get specific surah
  */
-export async function handleSurahsRequest(request: IRequest): Promise<Response> {
+export async function handleSurahsRequest(request: any): Promise<Response> {
   const { surahNumber } = request.params;
 
   // If surahNumber is provided, return specific surah

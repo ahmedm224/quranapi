@@ -1,9 +1,7 @@
-import { IRequest } from 'itty-router';
-
 /**
  * CORS middleware - handles preflight requests and adds CORS headers
  */
-export function corsMiddleware(request: IRequest): Response | void {
+export function corsMiddleware(request: any): Response | void {
   // Handle preflight OPTIONS requests
   if (request.method === 'OPTIONS') {
     return new Response(null, {
