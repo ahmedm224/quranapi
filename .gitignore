@@ -1,3 +1,34 @@
+# Dependencies
 node_modules/
+
+# Sensitive files
 access.txt
 R2keys.txt
+*.key
+*.pem
+.env
+.env.*
+
+# Build output
+dist/
+.wrangler/
+worker/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Claude Code local settings
+.claude/
+
+# Test files
+*.mp3
+*.wav
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
