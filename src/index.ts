@@ -20,6 +20,48 @@ const router = Router();
 router.all('*', corsMiddleware);
 router.all('*', rateLimitMiddleware);
 
+// Root endpoint - API documentation
+router.get('/', () => {
+  return successResponse({
+    name: 'Quran Audio API',
+    version: '1.0.0',
+    description: 'Public API for streaming Quran audio recitations from 44 renowned reciters',
+    documentation: 'https://github.com/ahmedm224/quranapi#readme',
+    endpoints: {
+      health: '/api/health',
+      reciters: '/api/v1/reciters',
+      surahs: '/api/v1/surahs',
+      audio: '/api/v1/audio/:reciterId/surah/:surahNumber/ayah/:ayahInSurah',
+      search: '/api/v1/search?q=<query>&type=<surah|reciter>',
+      credits: '/api/v1/credits'
+    },
+    examples: {
+      listReciters: 'https://quranapi.cloudlinqed.com/api/v1/reciters',
+      listSurahs: 'https://quranapi.cloudlinqed.com/api/v1/surahs',
+      streamAudio: 'https://quranapi.cloudlinqed.com/api/v1/audio/husary/surah/1/ayah/1',
+      searchSurah: 'https://quranapi.cloudlinqed.com/api/v1/search?q=fatiha&type=surah',
+      getCredits: 'https://quranapi.cloudlinqed.com/api/v1/credits'
+    },
+    features: [
+      '44 renowned Quran reciters (including Warsh variants)',
+      '6,236 individual ayah audio files',
+      'High-quality MP3 streaming from Cloudflare R2',
+      'Global CDN with low latency',
+      'HTTP Range requests support (seekable audio)',
+      'CORS enabled for web applications',
+      'Free and public - no authentication required'
+    ],
+    dataSources: {
+      metadata: 'Tanzil.net',
+      audio: 'EveryAyah.com'
+    },
+    contact: {
+      github: 'https://github.com/ahmedm224/quranapi',
+      issues: 'https://github.com/ahmedm224/quranapi/issues'
+    }
+  });
+});
+
 // Health check endpoint
 router.get('/api/health', () => {
   return successResponse({
