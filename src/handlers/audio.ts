@@ -1,4 +1,4 @@
-import { getGlobalAyahNumber } from '../utils/ayahMapping';
+import { getGlobalAyahNumber, getAyahReference } from '../utils/ayahMapping';
 import { validateReciter, parseIntParam } from '../utils/validation';
 import { errorResponse, notFoundResponse, badRequestResponse } from '../utils/response';
 
@@ -51,8 +51,15 @@ export async function handleAudioRequest(request: any, env: Env): Promise<Respon
       return badRequestResponse('Invalid audio request parameters');
     }
 
-    // Construct R2 key: reciter.r2Path/globalAyah.mp3
-    const r2Key = `${reciter.r2Path}/${globalAyah}.mp3`;
+    // Get the ayah reference (surah and ayah within surah)
+    const ayahRef = getAyahReference(globalAyah);
+
+    // Construct R2 key: reciter.r2Path/SSSAAA.mp3
+    // Format: SSS = Surah (3 digits), AAA = Ayah (3 digits)
+    const surahPadded = String(ayahRef.surah).padStart(3, '0');
+    const ayahPadded = String(ayahRef.ayah).padStart(3, '0');
+    const fileName = `${surahPadded}${ayahPadded}.mp3`;
+    const r2Key = `${reciter.r2Path}/${fileName}`;
 
     // Fetch from R2
     const object = await env.QURAN_AUDIO_BUCKET.get(r2Key);

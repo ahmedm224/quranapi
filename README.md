@@ -28,8 +28,8 @@ curl https://quranapi.cloudlinqed.com/api/v1/reciters
 
 ### Stream an Ayah
 ```bash
-# Stream Ayat al-Kursi (Surah 2, Ayah 255) by Mishary Alafasy
-curl https://quranapi.cloudlinqed.com/api/v1/audio/misharyalafasy/surah/2/ayah/255 -o ayat-kursi.mp3
+# Stream Ayat al-Kursi (Surah 2, Ayah 255) by Abdul Basit
+curl https://quranapi.cloudlinqed.com/api/v1/audio/abdul-basit-murattal/surah/2/ayah/255 -o ayat-kursi.mp3
 ```
 
 ### Get Surah Information
@@ -97,17 +97,17 @@ Returns details for a specific reciter.
 
 **Example:**
 ```bash
-curl https://quranapi.cloudlinqed.com/api/v1/reciters/misharyalafasy
+curl https://quranapi.cloudlinqed.com/api/v1/reciters/abdul-basit-murattal
 ```
 
 **Response:**
 ```json
 {
   "reciter": {
-    "id": "misharyalafasy",
-    "name": "Mishary Rashid Alafasy",
-    "arabicName": "مشاري بن راشد العفاسي",
-    "r2Path": "MisharyAlafasy"
+    "id": "abdul-basit-murattal",
+    "name": "Abdul Basit Abdul Samad (Murattal)",
+    "arabicName": "عبد الباسط عبد الصمد (مرتل)",
+    "r2Path": "Abdul_Basit_Murattal_192kbps"
   }
 }
 ```
@@ -192,7 +192,7 @@ Stream an ayah using the global ayah number (1-6236).
 **Example:**
 ```bash
 # Stream the first ayah (Al-Fatihah 1:1)
-curl https://quranapi.cloudlinqed.com/api/v1/audio/abdulbasit/1 -o fatiha-1.mp3
+curl https://quranapi.cloudlinqed.com/api/v1/audio/husary/1 -o fatiha-1.mp3
 ```
 
 #### Stream Specific Ayah in Surah
@@ -210,13 +210,13 @@ Stream a specific ayah within a surah.
 **Examples:**
 ```bash
 # Stream Ayat al-Kursi (Surah 2, Ayah 255)
-curl https://quranapi.cloudlinqed.com/api/v1/audio/misharyalafasy/surah/2/ayah/255 -o ayat-kursi.mp3
+curl https://quranapi.cloudlinqed.com/api/v1/audio/abdul-basit-murattal/surah/2/ayah/255 -o ayat-kursi.mp3
 
 # Stream Al-Ikhlas complete (Surah 112, Ayahs 1-4)
-curl https://quranapi.cloudlinqed.com/api/v1/audio/saadalghaamdi/surah/112/ayah/1 -o ikhlas-1.mp3
-curl https://quranapi.cloudlinqed.com/api/v1/audio/saadalghaamdi/surah/112/ayah/2 -o ikhlas-2.mp3
-curl https://quranapi.cloudlinqed.com/api/v1/audio/saadalghaamdi/surah/112/ayah/3 -o ikhlas-3.mp3
-curl https://quranapi.cloudlinqed.com/api/v1/audio/saadalghaamdi/surah/112/ayah/4 -o ikhlas-4.mp3
+curl https://quranapi.cloudlinqed.com/api/v1/audio/ghamadi/surah/112/ayah/1 -o ikhlas-1.mp3
+curl https://quranapi.cloudlinqed.com/api/v1/audio/ghamadi/surah/112/ayah/2 -o ikhlas-2.mp3
+curl https://quranapi.cloudlinqed.com/api/v1/audio/ghamadi/surah/112/ayah/3 -o ikhlas-3.mp3
+curl https://quranapi.cloudlinqed.com/api/v1/audio/ghamadi/surah/112/ayah/4 -o ikhlas-4.mp3
 ```
 
 **Features:**
@@ -336,7 +336,7 @@ const surahResponse = await fetch('https://quranapi.cloudlinqed.com/api/v1/surah
 const { surah } = await surahResponse.json();
 
 // Stream audio in HTML5 audio player
-const audioUrl = 'https://quranapi.cloudlinqed.com/api/v1/audio/misharyalafasy/surah/2/ayah/255';
+const audioUrl = 'https://quranapi.cloudlinqed.com/api/v1/audio/husary/surah/2/ayah/255';
 const audio = new Audio(audioUrl);
 audio.play();
 ```
@@ -347,7 +347,7 @@ import { useState, useEffect } from 'react';
 
 function QuranPlayer() {
   const [reciters, setReciters] = useState([]);
-  const [selectedReciter, setSelectedReciter] = useState('misharyalafasy');
+  const [selectedReciter, setSelectedReciter] = useState('husary');
 
   useEffect(() => {
     fetch('https://quranapi.cloudlinqed.com/api/v1/reciters')
@@ -388,21 +388,30 @@ For higher limits, please contact us or deploy your own instance.
 
 ## Available Reciters
 
-The API provides audio from 44 renowned Quran reciters:
+The API provides audio from **44 renowned Quran reciters** including:
 
-- Abdul Basit Abdul Samad (abdulbasit)
-- Mishary Rashid Alafasy (misharyalafasy)
-- Saad Al-Ghamdi (saadalghaamdi)
-- Mahmoud Khalil Al-Hussary (husary)
-- Abu Bakr Al-Shatri (abubakralsha)
-- Ahmed Ajamy (ahmedajamy)
-- Maher Al-Muaiqly (mahermuaiqly)
-- Nasser Al-Qatami (nasser)
-- Saud Al-Shuraim (saoodshuraym)
-- Yasser Ad-Dussary (yasser)
-- And 34 more...
+### Main Reciters (41)
+- **Abdul Basit Abdul Samad** - Murattal & Mujawwad styles (`abdul-basit-murattal`, `abdul-basit-mujawwad`)
+- **Mahmoud Khalil Al-Hussary** - Murattal & Mujawwad styles (`husary`, `husary-mujawwad`)
+- **Mohamed Siddiq Al-Minshawi** - Murattal & Mujawwad styles (`minshawy-murattal`, `minshawy-mujawwad`)
+- **Saad Al-Ghamdi** (`ghamadi`)
+- **Maher Al-Muaiqly** (`maher-almuaiqly`)
+- **Muhammad Ayyub** (`muhammad-ayyoub`)
+- **Abu Bakr Al-Shatri** (`abu-bakr-shatri`)
+- **Hani Ar-Rifai** (`hani-rifai`)
+- **Ahmed al-Ajamy** (`ahmed-al-ajamy`)
+- **Nasser Al-Qatami** (`nasser-alqatami`)
+- **Yasser Ad-Dussary** (`yasser-ad-dussary`)
+- **Saud Al-Shuraim** (`saood-ash-shuraym`)
+- **Abdullah Basfar** (`abdullah-basfar`)
+- And 28 more...
 
-[See full list →](#) (Use `/api/v1/reciters` endpoint)
+### Warsh Recitation Style (3)
+- **Abdul Basit (Warsh)** (`warsh-abdul-basit`)
+- **Ibrahim Al-Dosary (Warsh)** (`warsh-ibrahim-aldosary`)
+- **Yassin Al-Jazaery (Warsh)** (`warsh-yassin-al-jazaery`)
+
+**Full List:** Use the `/api/v1/reciters` endpoint to get all reciters with their IDs and Arabic names.
 
 ---
 
@@ -452,7 +461,22 @@ This API is provided for educational and religious purposes. Please respect the 
 - **Storage:** R2 Object Storage (bucket: "alfurqan")
 - **Audio Format:** MP3
 - **Total Ayahs:** 6,236
-- **Total Reciters:** 44
+- **Total Reciters:** 44 (41 standard + 3 Warsh)
+
+### Audio File Structure
+
+Files are stored in R2 using the format: `SSSAAA.mp3` where:
+- **SSS** = Surah number (3 digits, zero-padded)
+- **AAA** = Ayah number within surah (3 digits, zero-padded)
+
+**Examples:**
+- `001001.mp3` = Surah 1, Ayah 1 (Al-Fatihah, first ayah)
+- `002255.mp3` = Surah 2, Ayah 255 (Ayat al-Kursi)
+- `114006.mp3` = Surah 114, Ayah 6 (last ayah of the Quran)
+
+**Path Structure:**
+- Standard reciters: `reciter-folder/SSSAAA.mp3`
+- Warsh reciters: `warsh/reciter-folder/SSSAAA.mp3`
 
 ---
 
