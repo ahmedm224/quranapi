@@ -1,0 +1,268 @@
+{
+  "reciters": [
+    {
+      "id": "abdulbasit",
+      "name": "Abdul Basit Abdul Samad",
+      "arabicName": "عبد الباسط عبد الصمد",
+      "r2Path": "AbdulBaset"
+    },
+    {
+      "id": "abdurrahmaansudais",
+      "name": "Abdurrahman As-Sudais",
+      "arabicName": "عبد الرحمن السديس",
+      "r2Path": "Abdurrahmaan_As-Sudais"
+    },
+    {
+      "id": "abdullaahbasfar",
+      "name": "Abdullah Basfar",
+      "arabicName": "عبد الله بصفر",
+      "r2Path": "Abdullah_Basfar"
+    },
+    {
+      "id": "abdullahawadaljuhani",
+      "name": "Abdullah Awad Al-Juhani",
+      "arabicName": "عبد الله عواد الجهني",
+      "r2Path": "Abdullah_Awad_Al-Juhani"
+    },
+    {
+      "id": "abdulmuhasinalqasim",
+      "name": "Abdul Muhsin Al-Qasim",
+      "arabicName": "عبد المحسن القاسم",
+      "r2Path": "Abdul_Muhsin_Al-Qasim"
+    },
+    {
+      "id": "abubakralsha",
+      "name": "Abu Bakr Al-Shatri",
+      "arabicName": "أبو بكر الشاطري",
+      "r2Path": "AbubakrAl-Shatri"
+    },
+    {
+      "id": "ahmedajamy",
+      "name": "Ahmed Ajamy",
+      "arabicName": "أحمد العجمي",
+      "r2Path": "Ahmed_Ajamy"
+    },
+    {
+      "id": "akramalaaqsmi",
+      "name": "Akram Al-Alaqmi",
+      "arabicName": "أكرم العلاقمي",
+      "r2Path": "Akram_AlAlaqimy"
+    },
+    {
+      "id": "aliabd",
+      "name": "Ali Abdur-Rahman al-Huthaify",
+      "arabicName": "علي عبد الرحمن الحذيفي",
+      "r2Path": "Ali_Abdulrahmaan_al-Huthaify"
+    },
+    {
+      "id": "alijaber",
+      "name": "Ali Jaber",
+      "arabicName": "علي جابر",
+      "r2Path": "Ali_Jaber"
+    },
+    {
+      "id": "ayman",
+      "name": "Ayman Suwaid",
+      "arabicName": "أيمن سويد",
+      "r2Path": "Ayman_Suwaid"
+    },
+    {
+      "id": "fares",
+      "name": "Fares Abbad",
+      "arabicName": "فارس عباد",
+      "r2Path": "Fares_Abbad"
+    },
+    {
+      "id": "hani",
+      "name": "Hani Ar-Rifai",
+      "arabicName": "هاني الرفاعي",
+      "r2Path": "Hani_Rifai"
+    },
+    {
+      "id": "husary",
+      "name": "Mahmoud Khalil Al-Hussary",
+      "arabicName": "محمود خليل الحصري",
+      "r2Path": "Husary"
+    },
+    {
+      "id": "husarymujawwad",
+      "name": "Mahmoud Khalil Al-Hussary (Mujawwad)",
+      "arabicName": "محمود خليل الحصري (مجود)",
+      "r2Path": "Husary_Mujawwad"
+    },
+    {
+      "id": "hudhaify",
+      "name": "Ali bin Abdur-Rahman Al-Hudhaify",
+      "arabicName": "علي بن عبد الرحمن الحذيفي",
+      "r2Path": "Hudhaify"
+    },
+    {
+      "id": "ibrahimakhdar",
+      "name": "Ibrahim Al-Akhdar",
+      "arabicName": "إبراهيم الأخضر",
+      "r2Path": "Ibrahim_AlAkhdar"
+    },
+    {
+      "id": "khalilhusary",
+      "name": "Mahmoud Khalil Al-Hussary",
+      "arabicName": "محمود خليل الحصري",
+      "r2Path": "Mahmoud_Khalil_Al-Hussary"
+    },
+    {
+      "id": "mahermuaiqly",
+      "name": "Maher Al-Muaiqly",
+      "arabicName": "ماهر المعيقلي",
+      "r2Path": "MaherAlMuaiqly"
+    },
+    {
+      "id": "minshawi",
+      "name": "Mohamed Siddiq Al-Minshawi",
+      "arabicName": "محمد صديق المنشاوي",
+      "r2Path": "Minshawi"
+    },
+    {
+      "id": "minshawimujawwad",
+      "name": "Mohamed Siddiq Al-Minshawi (Mujawwad)",
+      "arabicName": "محمد صديق المنشاوي (مجود)",
+      "r2Path": "Minshawi_Mujawwad"
+    },
+    {
+      "id": "misharyalafasy",
+      "name": "Mishary Rashid Alafasy",
+      "arabicName": "مشاري بن راشد العفاسي",
+      "r2Path": "MisharyAlafasy"
+    },
+    {
+      "id": "muhammadayyub",
+      "name": "Muhammad Ayyub",
+      "arabicName": "محمد أيوب",
+      "r2Path": "Muhammad_Ayyoub"
+    },
+    {
+      "id": "muhammadjibreel",
+      "name": "Muhammad Jibreel",
+      "arabicName": "محمد جبريل",
+      "r2Path": "Muhammad_Jibreel"
+    },
+    {
+      "id": "mustafaismail",
+      "name": "Mustafa Ismail",
+      "arabicName": "مصطفى إسماعيل",
+      "r2Path": "Mustafa_Ismail"
+    },
+    {
+      "id": "nasser",
+      "name": "Nasser Al-Qatami",
+      "arabicName": "ناصر القطامي",
+      "r2Path": "Nasser_Alqatami"
+    },
+    {
+      "id": "parhizgar",
+      "name": "Shahriar Parhizgar",
+      "arabicName": "شهریار پرهیزگار",
+      "r2Path": "Parhizgar"
+    },
+    {
+      "id": "saadalghaamdi",
+      "name": "Saad Al-Ghamdi",
+      "arabicName": "سعد الغامدي",
+      "r2Path": "Saad_Al-Ghamadi"
+    },
+    {
+      "id": "saoodshuraym",
+      "name": "Saud Al-Shuraim",
+      "arabicName": "سعود الشريم",
+      "r2Path": "Saud_Al-Shuraim"
+    },
+    {
+      "id": "salahbudair",
+      "name": "Salah Al-Budair",
+      "arabicName": "صلاح البدير",
+      "r2Path": "Salah_Al_Budair"
+    },
+    {
+      "id": "shaatree",
+      "name": "Abu Bakr Al-Shatri",
+      "arabicName": "أبو بكر الشاطري",
+      "r2Path": "Shaatree"
+    },
+    {
+      "id": "saadalghaamdi2",
+      "name": "Sa'd ibn Sa'id Al-Ghamdi",
+      "arabicName": "سعد بن سعيد الغامدي",
+      "r2Path": "Saad_ibn_Saeed_Al-Ghamadi"
+    },
+    {
+      "id": "waheed",
+      "name": "Abdul Wahid",
+      "arabicName": "عبد الواحد",
+      "r2Path": "Abdul_Wahid"
+    },
+    {
+      "id": "yasser",
+      "name": "Yasser Ad-Dussary",
+      "arabicName": "ياسر الدوسري",
+      "r2Path": "Yasser_Ad-Dussary"
+    },
+    {
+      "id": "mohammedayoub",
+      "name": "Mohammed Ayoub",
+      "arabicName": "محمد أيوب",
+      "r2Path": "Mohammed_Ayoub"
+    },
+    {
+      "id": "bandar",
+      "name": "Bandar Baleela",
+      "arabicName": "بندر بليلة",
+      "r2Path": "Bandar_Baleela"
+    },
+    {
+      "id": "khalidqahtani",
+      "name": "Khalid Al-Qahtani",
+      "arabicName": "خالد القحطاني",
+      "r2Path": "Khalid_Al-Qahtani"
+    },
+    {
+      "id": "nabeelrifai",
+      "name": "Nabeel Ar-Rifai",
+      "arabicName": "نبيل الرفاعي",
+      "r2Path": "Nabeel_Ar-Rifai"
+    },
+    {
+      "id": "wadeealyamani",
+      "name": "Wadee Al-Yamani",
+      "arabicName": "وديع اليمني",
+      "r2Path": "Wadee_Al-Yamani"
+    },
+    {
+      "id": "yaseendossari",
+      "name": "Yaseen Ad-Dossari",
+      "arabicName": "ياسين الدوسري",
+      "r2Path": "Yaseen_Ad-Dossari"
+    },
+    {
+      "id": "emadalmansary",
+      "name": "Emad Al-Mansary",
+      "arabicName": "عماد المنصري",
+      "r2Path": "Emad_Al-Mansary"
+    },
+    {
+      "id": "khaledalgendi",
+      "name": "Khaled Al-Jundi",
+      "arabicName": "خالد الجندي",
+      "r2Path": "Khaled_AlGendi"
+    },
+    {
+      "id": "ahmedneana",
+      "name": "Ahmed Neana",
+      "arabicName": "أحمد نعينع",
+      "r2Path": "Ahmed_Neana"
+    },
+    {
+      "id": "mahmoudalrify",
+      "name": "Mahmoud Al-Rifai",
+      "arabicName": "محمود الرفاعي",
+      "r2Path": "Mahmoud_Al-Rifai"
+    }
+  ]
+}

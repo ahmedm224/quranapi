@@ -1,0 +1,48 @@
+import { successResponse } from '../utils/response';
+
+/**
+ * Handle credits/attribution requests
+ * Returns information about data sources and attributions
+ */
+export async function handleCredits(): Promise<Response> {
+  const credits = {
+    api: {
+      name: 'Quran Audio API',
+      version: '1.0.0',
+      description: 'Public API for streaming Quran audio recitations',
+      repository: '',
+      license: 'MIT'
+    },
+    dataSources: [
+      {
+        name: 'Tanzil',
+        description: 'Quran metadata including surah names, ayah counts, and structure',
+        website: 'https://tanzil.net',
+        documentation: 'https://tanzil.net/docs',
+        attribution: 'Quran metadata sourced from Tanzil.net',
+        license: 'Please refer to Tanzil.net for licensing terms'
+      },
+      {
+        name: 'EveryAyah',
+        description: 'Quran audio recitations by 44 renowned reciters',
+        website: 'https://everyayah.com',
+        attribution: 'Audio recordings sourced from EveryAyah.com',
+        license: 'Please refer to EveryAyah.com for licensing terms',
+        content: {
+          reciters: 44,
+          totalAyahs: 6236,
+          format: 'MP3'
+        }
+      }
+    ],
+    acknowledgments: [
+      'Tanzil.net for providing comprehensive Quran metadata',
+      'EveryAyah.com for providing high-quality Quran audio recitations',
+      'All the reciters who have dedicated their time to recording the Quran',
+      'The open-source community for tools and libraries'
+    ],
+    disclaimer: 'This API is provided for educational and religious purposes. Please respect the rights of the original content creators and refer to their respective websites for terms of use.'
+  };
+
+  return successResponse(credits);
+}

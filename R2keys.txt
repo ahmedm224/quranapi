@@ -1,0 +1,5 @@
+Access ID= bcce2b478fcbb9af5f9fe7a9baf980f6
+Secret= 2c079c398188d72dec1f397281e18630d16e3bc047a2fcf21304290fe085b256
+Endpoint= https://0f9e9700be9de7c96e0471ed6f7038f2.r2.cloudflarestorage.com
+
+Value= KwC70YdgKvi8a93BjDOBwYkvS1XFqZyESQdxcQ79
