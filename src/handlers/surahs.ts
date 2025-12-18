@@ -21,7 +21,9 @@ export async function handleSurahsRequest(request: any): Promise<Response> {
         return notFoundResponse('Surah');
       }
 
-      return successResponse({ surah });
+      return successResponse({ surah }, {
+        'Cache-Control': 'public, max-age=31536000, immutable'
+      });
     } catch (error: any) {
       return badRequestResponse(error.message);
     }
@@ -33,5 +35,7 @@ export async function handleSurahsRequest(request: any): Promise<Response> {
   return successResponse({
     count: surahs.length,
     surahs
+  }, {
+    'Cache-Control': 'public, max-age=31536000, immutable'
   });
 }

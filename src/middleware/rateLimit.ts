@@ -33,6 +33,13 @@ export function rateLimitMiddleware(request: any): Response | void {
       resetAt: now + WINDOW_MS,
     });
 
+    // Attach rate limit info to request for successful responses
+    request.rateLimitInfo = {
+      limit: RATE_LIMIT,
+      remaining: RATE_LIMIT - 1,
+      reset: new Date(now + WINDOW_MS).toISOString(),
+    };
+
     // Clean up old entries periodically
     if (rateLimitMap.size > 10000) {
       cleanupRateLimitMap(now);
@@ -68,6 +75,13 @@ export function rateLimitMiddleware(request: any): Response | void {
 
   // Increment counter
   record.count++;
+
+  // Attach rate limit info to request for successful responses
+  request.rateLimitInfo = {
+    limit: RATE_LIMIT,
+    remaining: RATE_LIMIT - record.count,
+    reset: new Date(record.resetAt).toISOString(),
+  };
 
   return; // Continue to next handler
 }

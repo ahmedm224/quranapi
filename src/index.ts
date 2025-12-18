@@ -7,7 +7,7 @@ import { handleCredits } from './handlers/credits';
 import { corsMiddleware, addCorsHeaders } from './middleware/cors';
 import { rateLimitMiddleware } from './middleware/rateLimit';
 import { handleError } from './middleware/errorHandler';
-import { successResponse } from './utils/response';
+import { successResponse, addRateLimitHeaders } from './utils/response';
 
 export interface Env {
   QURAN_AUDIO_BUCKET: R2Bucket;
@@ -112,7 +112,12 @@ export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     try {
       // Handle request through router - itty-router v5 expects just request and env
-      const response = await router.fetch(request, env, ctx);
+      let response = await router.fetch(request, env, ctx);
+
+      // Add rate limit headers if available
+      if ((request as any).rateLimitInfo) {
+        response = addRateLimitHeaders(response, (request as any).rateLimitInfo);
+      }
 
       // Add CORS headers to response if not already present
       if (!response.headers.has('Access-Control-Allow-Origin')) {
@@ -122,7 +127,13 @@ export default {
       return response;
     } catch (error) {
       // Global error handler
-      const errorResponse = handleError(error);
+      let errorResponse = handleError(error);
+
+      // Add rate limit headers to error responses too
+      if ((request as any).rateLimitInfo) {
+        errorResponse = addRateLimitHeaders(errorResponse, (request as any).rateLimitInfo);
+      }
+
       return addCorsHeaders(errorResponse);
     }
   }

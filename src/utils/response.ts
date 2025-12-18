@@ -103,3 +103,26 @@ export function addCorsHeaders(response: Response): Response {
     headers
   });
 }
+
+/**
+ * Add rate limit headers to a response
+ * @param response - The response to add headers to
+ * @param rateLimitInfo - Rate limit information from the request
+ * @returns Response with rate limit headers
+ */
+export function addRateLimitHeaders(response: Response, rateLimitInfo?: any): Response {
+  if (!rateLimitInfo) {
+    return response;
+  }
+
+  const headers = new Headers(response.headers);
+  headers.set('X-RateLimit-Limit', rateLimitInfo.limit.toString());
+  headers.set('X-RateLimit-Remaining', rateLimitInfo.remaining.toString());
+  headers.set('X-RateLimit-Reset', rateLimitInfo.reset);
+
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers
+  });
+}

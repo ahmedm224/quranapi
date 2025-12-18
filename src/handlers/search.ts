@@ -32,6 +32,8 @@ export async function handleSearch(request: any): Promise<Response> {
       type: 'surah',
       count: results.length,
       results
+    }, {
+      'Cache-Control': 'public, max-age=86400'
     });
   } else if (searchType === 'reciter') {
     // Search reciters by name/id
@@ -42,6 +44,8 @@ export async function handleSearch(request: any): Promise<Response> {
       type: 'reciter',
       count: results.length,
       results
+    }, {
+      'Cache-Control': 'public, max-age=86400'
     });
   } else {
     return badRequestResponse('Invalid type parameter. Must be "surah" or "reciter"');

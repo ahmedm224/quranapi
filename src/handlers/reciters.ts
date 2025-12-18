@@ -18,7 +18,9 @@ export async function handleRecitersRequest(request: any): Promise<Response> {
       return notFoundResponse('Reciter');
     }
 
-    return successResponse({ reciter });
+    return successResponse({ reciter }, {
+      'Cache-Control': 'public, max-age=31536000, immutable'
+    });
   }
 
   // Return all reciters
@@ -27,5 +29,7 @@ export async function handleRecitersRequest(request: any): Promise<Response> {
   return successResponse({
     count: reciters.length,
     reciters
+  }, {
+    'Cache-Control': 'public, max-age=31536000, immutable'
   });
 }
