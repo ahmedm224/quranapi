@@ -12,6 +12,10 @@ bucket_name = "alfurqan"
 name = "quranapi"
 route = "quranapi.cloudlinqed.com/*"
 
+[[env.production.r2_buckets]]
+binding = "QURAN_AUDIO_BUCKET"
+bucket_name = "alfurqan"
+
 # Staging environment
 [env.staging]
 name = "quranapi-staging"
