@@ -379,10 +379,35 @@ function QuranPlayer() {
 ## Rate Limiting
 
 - **Limit:** 100 requests per minute per IP address
-- **Headers:** `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`
+- **Headers:** All responses include rate limit headers:
+  - `X-RateLimit-Limit: 100` - Maximum requests per window
+  - `X-RateLimit-Remaining: <number>` - Requests remaining in current window
+  - `X-RateLimit-Reset: <ISO-timestamp>` - When the rate limit window resets
 - **Response:** `429 Too Many Requests` when limit exceeded
 
 For higher limits, please contact us or deploy your own instance.
+
+---
+
+## Caching & Performance
+
+The API is optimized for high performance with aggressive caching:
+
+**Metadata Endpoints** (Immutable - Cached for 1 year)
+- `/api/v1/reciters` - List of reciters rarely changes
+- `/api/v1/surahs` - Quran structure is fixed (114 surahs)
+- `Cache-Control: public, max-age=31536000, immutable`
+
+**Search Endpoint** (Cached for 24 hours)
+- `/api/v1/search` - Search results cached to reduce load
+- `Cache-Control: public, max-age=86400`
+
+**Audio Files** (Immutable - Cached for 1 year)
+- `/api/v1/audio/*` - MP3 files never change
+- `Cache-Control: public, max-age=31536000, immutable`
+- HTTP Range requests supported for seeking
+
+Cloudflare's global CDN caches these responses at edge locations worldwide, ensuring fast response times and minimal origin load.
 
 ---
 
