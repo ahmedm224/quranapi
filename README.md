@@ -1,8 +1,12 @@
-# Quran Audio API
+# Al Furqan - Quran Audio API & App
 
 A public REST API for streaming Quran audio recitations, built on Cloudflare Workers and R2 storage. Access high-quality MP3 recordings from 44 renowned reciters with 6,236 individual ayah files.
 
-**Base URL:** `https://quranapi.cloudlinqed.com`
+**Website:** https://alfurqan.online
+
+**API Base URL:** `https://alfurqan.online` or `https://api.alfurqan.online`
+
+**Mobile App:** [Download on Google Play](https://play.google.com/store/apps/details?id=com.quranmedia.player)
 
 ---
 
@@ -23,18 +27,18 @@ A public REST API for streaming Quran audio recitations, built on Cloudflare Wor
 
 ### Get All Reciters
 ```bash
-curl https://quranapi.cloudlinqed.com/api/v1/reciters
+curl https://alfurqan.online/api/v1/reciters
 ```
 
 ### Stream an Ayah
 ```bash
 # Stream Ayat al-Kursi (Surah 2, Ayah 255) by Abdul Basit
-curl https://quranapi.cloudlinqed.com/api/v1/audio/abdul-basit-murattal/surah/2/ayah/255 -o ayat-kursi.mp3
+curl https://alfurqan.online/api/v1/audio/abdul-basit-murattal/surah/2/ayah/255 -o ayat-kursi.mp3
 ```
 
 ### Get Surah Information
 ```bash
-curl https://quranapi.cloudlinqed.com/api/v1/surahs/1
+curl https://alfurqan.online/api/v1/surahs/1
 ```
 
 ---
@@ -97,7 +101,7 @@ Returns details for a specific reciter.
 
 **Example:**
 ```bash
-curl https://quranapi.cloudlinqed.com/api/v1/reciters/abdul-basit-murattal
+curl https://alfurqan.online/api/v1/reciters/abdul-basit-murattal
 ```
 
 **Response:**
@@ -155,7 +159,7 @@ Returns details for a specific surah.
 
 **Example:**
 ```bash
-curl https://quranapi.cloudlinqed.com/api/v1/surahs/2
+curl https://alfurqan.online/api/v1/surahs/2
 ```
 
 **Response:**
@@ -192,7 +196,7 @@ Stream an ayah using the global ayah number (1-6236).
 **Example:**
 ```bash
 # Stream the first ayah (Al-Fatihah 1:1)
-curl https://quranapi.cloudlinqed.com/api/v1/audio/husary/1 -o fatiha-1.mp3
+curl https://alfurqan.online/api/v1/audio/husary/1 -o fatiha-1.mp3
 ```
 
 #### Stream Specific Ayah in Surah
@@ -210,13 +214,13 @@ Stream a specific ayah within a surah.
 **Examples:**
 ```bash
 # Stream Ayat al-Kursi (Surah 2, Ayah 255)
-curl https://quranapi.cloudlinqed.com/api/v1/audio/abdul-basit-murattal/surah/2/ayah/255 -o ayat-kursi.mp3
+curl https://alfurqan.online/api/v1/audio/abdul-basit-murattal/surah/2/ayah/255 -o ayat-kursi.mp3
 
 # Stream Al-Ikhlas complete (Surah 112, Ayahs 1-4)
-curl https://quranapi.cloudlinqed.com/api/v1/audio/ghamadi/surah/112/ayah/1 -o ikhlas-1.mp3
-curl https://quranapi.cloudlinqed.com/api/v1/audio/ghamadi/surah/112/ayah/2 -o ikhlas-2.mp3
-curl https://quranapi.cloudlinqed.com/api/v1/audio/ghamadi/surah/112/ayah/3 -o ikhlas-3.mp3
-curl https://quranapi.cloudlinqed.com/api/v1/audio/ghamadi/surah/112/ayah/4 -o ikhlas-4.mp3
+curl https://alfurqan.online/api/v1/audio/ghamadi/surah/112/ayah/1 -o ikhlas-1.mp3
+curl https://alfurqan.online/api/v1/audio/ghamadi/surah/112/ayah/2 -o ikhlas-2.mp3
+curl https://alfurqan.online/api/v1/audio/ghamadi/surah/112/ayah/3 -o ikhlas-3.mp3
+curl https://alfurqan.online/api/v1/audio/ghamadi/surah/112/ayah/4 -o ikhlas-4.mp3
 ```
 
 **Features:**
@@ -242,7 +246,7 @@ Search for surahs or reciters.
 
 Search for surahs:
 ```bash
-curl "https://quranapi.cloudlinqed.com/api/v1/search?q=fatiha&type=surah"
+curl "https://alfurqan.online/api/v1/search?q=fatiha&type=surah"
 ```
 
 **Response:**
@@ -266,7 +270,7 @@ curl "https://quranapi.cloudlinqed.com/api/v1/search?q=fatiha&type=surah"
 
 Search for reciters:
 ```bash
-curl "https://quranapi.cloudlinqed.com/api/v1/search?q=mishary&type=reciter"
+curl "https://alfurqan.online/api/v1/search?q=mishary&type=reciter"
 ```
 
 **Response:**
@@ -328,15 +332,15 @@ Returns attribution information for data sources.
 
 ```javascript
 // Fetch all reciters
-const response = await fetch('https://quranapi.cloudlinqed.com/api/v1/reciters');
+const response = await fetch('https://alfurqan.online/api/v1/reciters');
 const { reciters } = await response.json();
 
 // Get surah metadata
-const surahResponse = await fetch('https://quranapi.cloudlinqed.com/api/v1/surahs/1');
+const surahResponse = await fetch('https://alfurqan.online/api/v1/surahs/1');
 const { surah } = await surahResponse.json();
 
 // Stream audio in HTML5 audio player
-const audioUrl = 'https://quranapi.cloudlinqed.com/api/v1/audio/husary/surah/2/ayah/255';
+const audioUrl = 'https://alfurqan.online/api/v1/audio/husary/surah/2/ayah/255';
 const audio = new Audio(audioUrl);
 audio.play();
 ```
@@ -350,13 +354,13 @@ function QuranPlayer() {
   const [selectedReciter, setSelectedReciter] = useState('husary');
 
   useEffect(() => {
-    fetch('https://quranapi.cloudlinqed.com/api/v1/reciters')
+    fetch('https://alfurqan.online/api/v1/reciters')
       .then(res => res.json())
       .then(data => setReciters(data.reciters));
   }, []);
 
   const playAyah = (surah, ayah) => {
-    const audioUrl = `https://quranapi.cloudlinqed.com/api/v1/audio/${selectedReciter}/surah/${surah}/ayah/${ayah}`;
+    const audioUrl = `https://alfurqan.online/api/v1/audio/${selectedReciter}/surah/${surah}/ayah/${ayah}`;
     const audio = new Audio(audioUrl);
     audio.play();
   };

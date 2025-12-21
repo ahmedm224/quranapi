@@ -10,7 +10,11 @@ bucket_name = "alfurqan"
 # Production environment
 [env.production]
 name = "quranapi"
-route = "quranapi.cloudlinqed.com/*"
+routes = [
+  "quranapi.cloudlinqed.com/*",
+  "alfurqan.online/*",
+  "api.alfurqan.online/*"
+]
 
 [[env.production.r2_buckets]]
 binding = "QURAN_AUDIO_BUCKET"

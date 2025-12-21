@@ -4,6 +4,7 @@ import { handleRecitersRequest } from './handlers/reciters';
 import { handleSurahsRequest } from './handlers/surahs';
 import { handleSearch } from './handlers/search';
 import { handleCredits } from './handlers/credits';
+import { handleLandingPage, handleAssetRequest } from './handlers/website';
 import { corsMiddleware, addCorsHeaders } from './middleware/cors';
 import { rateLimitMiddleware } from './middleware/rateLimit';
 import { handleError } from './middleware/errorHandler';
@@ -20,12 +21,28 @@ const router = Router();
 router.all('*', corsMiddleware);
 router.all('*', rateLimitMiddleware);
 
-// Root endpoint - API documentation
-router.get('/', () => {
+// Static assets (logo, favicon)
+router.get('/assets/:filename', (request: any, env: Env) => {
+  const { filename } = request.params;
+  return handleAssetRequest(request, env, filename);
+});
+
+// Root endpoint - Landing page for alfurqan.online, API docs for others
+router.get('/', (request: any) => {
+  const url = new URL(request.url);
+  const hostname = url.hostname;
+
+  // Serve landing page for main website domain
+  if (hostname === 'alfurqan.online' || hostname === 'www.alfurqan.online') {
+    return handleLandingPage();
+  }
+
+  // Serve API documentation for API domains
   return successResponse({
     name: 'Quran Audio API',
     version: '1.0.0',
     description: 'Public API for streaming Quran audio recitations from 44 renowned reciters',
+    website: 'https://alfurqan.online',
     documentation: 'https://github.com/ahmedm224/quranapi#readme',
     endpoints: {
       health: '/api/health',
@@ -36,11 +53,11 @@ router.get('/', () => {
       credits: '/api/v1/credits'
     },
     examples: {
-      listReciters: 'https://quranapi.cloudlinqed.com/api/v1/reciters',
-      listSurahs: 'https://quranapi.cloudlinqed.com/api/v1/surahs',
-      streamAudio: 'https://quranapi.cloudlinqed.com/api/v1/audio/husary/surah/1/ayah/1',
-      searchSurah: 'https://quranapi.cloudlinqed.com/api/v1/search?q=fatiha&type=surah',
-      getCredits: 'https://quranapi.cloudlinqed.com/api/v1/credits'
+      listReciters: 'https://alfurqan.online/api/v1/reciters',
+      listSurahs: 'https://alfurqan.online/api/v1/surahs',
+      streamAudio: 'https://alfurqan.online/api/v1/audio/husary/surah/1/ayah/1',
+      searchSurah: 'https://alfurqan.online/api/v1/search?q=fatiha&type=surah',
+      getCredits: 'https://alfurqan.online/api/v1/credits'
     },
     features: [
       '44 renowned Quran reciters (including Warsh variants)',
