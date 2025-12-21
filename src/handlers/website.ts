@@ -527,8 +527,18 @@ export function handlePrivacyPage(): Response {
     <ul>
       <li><strong>Internet Access:</strong> Required for streaming Quran audio and fetching text content</li>
       <li><strong>Storage Access:</strong> Only used when you choose to download audio files for offline listening</li>
-      <li><strong>Notification Permission:</strong> For audio playback controls and background playback</li>
+      <li><strong>Notification Permission:</strong> For audio playback controls, background playback, and prayer time alerts</li>
       <li><strong>Foreground Service:</strong> Enables continuous audio playback when the app is in the background</li>
+      <li><strong>Location Access (Optional):</strong> Only requested if you enable the prayer times feature. Used solely to calculate accurate prayer times for your location. You can manually enter your city instead if you prefer not to share your location.</li>
+    </ul>
+
+    <h3>Prayer Times Feature</h3>
+    <p>If you choose to use the prayer times feature, you may optionally grant location access. This permission is:</p>
+    <ul>
+      <li><strong>Completely optional</strong> - You can manually select your city instead</li>
+      <li><strong>Used only locally</strong> - Your location is used to calculate prayer times on your device</li>
+      <li><strong>Never transmitted</strong> - We do not send your location to any server or third party</li>
+      <li><strong>Not stored</strong> - We do not keep a history of your location</li>
     </ul>
 
     <h3>Third-Party Services</h3>
