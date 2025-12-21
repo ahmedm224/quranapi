@@ -34,11 +34,22 @@ export function handleLandingPage(): Response {
       box-sizing: border-box;
     }
 
+    :root {
+      --primary-green: #1B5E20;
+      --light-green: #4CAF50;
+      --accent-green: #81C784;
+      --pale-green: #E8F5E9;
+      --white: #FFFFFF;
+      --light-gray: #F5F5F5;
+      --text-dark: #212121;
+      --text-secondary: #616161;
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      background: var(--white);
       min-height: 100vh;
-      color: #fff;
+      color: var(--text-dark);
     }
 
     .container {
@@ -50,71 +61,70 @@ export function handleLandingPage(): Response {
     header {
       text-align: center;
       padding: 3rem 0;
+      background: linear-gradient(180deg, var(--pale-green) 0%, var(--white) 100%);
     }
 
     .logo {
-      width: 150px;
-      height: 150px;
+      width: 140px;
+      height: 140px;
       margin-bottom: 1.5rem;
-      filter: drop-shadow(0 4px 20px rgba(255, 215, 0, 0.3));
+      filter: drop-shadow(0 4px 15px rgba(27, 94, 32, 0.2));
     }
 
     h1 {
-      font-size: 3rem;
+      font-size: 2.75rem;
       margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, #ffd700, #ffed4a);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: var(--primary-green);
+      font-weight: 700;
     }
 
     .tagline {
-      font-size: 1.25rem;
-      color: #a0aec0;
+      font-size: 1.2rem;
+      color: var(--text-secondary);
       margin-bottom: 2rem;
     }
 
     .arabic {
       font-family: 'Traditional Arabic', 'Scheherazade', serif;
-      font-size: 2rem;
-      color: #ffd700;
-      margin-bottom: 1rem;
+      font-size: 2.25rem;
+      color: var(--primary-green);
+      margin-bottom: 0.5rem;
       direction: rtl;
     }
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
       gap: 2rem;
-      margin-top: 3rem;
+      margin-top: 2rem;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: var(--white);
+      border: 1px solid #E0E0E0;
       border-radius: 16px;
       padding: 2rem;
-      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
       transition: transform 0.3s, box-shadow 0.3s;
     }
 
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 40px rgba(255, 215, 0, 0.1);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(27, 94, 32, 0.15);
     }
 
     .card h2 {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       margin-bottom: 1rem;
-      color: #ffd700;
+      color: var(--primary-green);
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
 
     .card p {
-      color: #a0aec0;
-      line-height: 1.6;
+      color: var(--text-secondary);
+      line-height: 1.7;
       margin-bottom: 1.5rem;
     }
 
@@ -127,60 +137,67 @@ export function handleLandingPage(): Response {
       text-decoration: none;
       font-weight: 600;
       transition: all 0.3s;
+      font-size: 0.95rem;
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #ffd700, #ffed4a);
-      color: #1a1a2e;
+      background: var(--primary-green);
+      color: var(--white);
     }
 
     .btn-primary:hover {
-      transform: scale(1.05);
-      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+      background: #2E7D32;
+      transform: scale(1.02);
+      box-shadow: 0 4px 15px rgba(27, 94, 32, 0.3);
     }
 
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: var(--pale-green);
+      color: var(--primary-green);
+      border: 1px solid var(--accent-green);
     }
 
     .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.2);
+      background: #C8E6C9;
     }
 
     .features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 1.5rem;
       margin-top: 3rem;
-      padding: 2rem;
-      background: rgba(255, 255, 255, 0.03);
+      padding: 2.5rem;
+      background: var(--pale-green);
       border-radius: 16px;
     }
 
     .feature {
       text-align: center;
-      padding: 1rem;
+      padding: 1.5rem 1rem;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
     .feature-icon {
       font-size: 2.5rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
     }
 
     .feature h3 {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       margin-bottom: 0.5rem;
+      color: var(--primary-green);
     }
 
     .feature p {
-      color: #a0aec0;
+      color: var(--text-secondary);
       font-size: 0.9rem;
+      line-height: 1.5;
     }
 
     .api-example {
-      background: #0d1117;
+      background: #263238;
       border-radius: 8px;
       padding: 1rem;
       margin-top: 1rem;
@@ -188,27 +205,36 @@ export function handleLandingPage(): Response {
     }
 
     .api-example code {
-      color: #79c0ff;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.875rem;
+      color: #80CBC4;
+      font-family: 'Fira Code', 'Consolas', monospace;
+      font-size: 0.85rem;
     }
 
     footer {
       text-align: center;
       padding: 3rem 0;
       margin-top: 3rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      color: #a0aec0;
+      border-top: 1px solid #E0E0E0;
+      color: var(--text-secondary);
     }
 
     footer a {
-      color: #ffd700;
+      color: var(--primary-green);
       text-decoration: none;
+      font-weight: 500;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
     }
 
     .credits {
       margin-top: 1rem;
       font-size: 0.875rem;
+    }
+
+    .heart {
+      color: #E53935;
     }
 
     @media (max-width: 768px) {
@@ -224,18 +250,24 @@ export function handleLandingPage(): Response {
         width: 100px;
         height: 100px;
       }
+
+      .features {
+        padding: 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
+  <header>
+    <div class="container">
       <img src="/assets/logo.png" alt="Al Furqan Logo" class="logo">
       <p class="arabic">الفرقان</p>
       <h1>Al Furqan</h1>
       <p class="tagline">Listen to the Holy Quran with 44 world-renowned reciters</p>
-    </header>
+    </div>
+  </header>
 
+  <div class="container">
     <div class="cards">
       <div class="card">
         <h2>📱 Mobile App</h2>
@@ -265,7 +297,7 @@ export function handleLandingPage(): Response {
         </a>
         <a href="https://github.com/ahmedm224/quranapi" class="btn btn-secondary"
            target="_blank" rel="noopener" style="margin-left: 0.5rem;">
-          View on GitHub
+          GitHub
         </a>
         <div class="api-example">
           <code>curl https://alfurqan.online/api/v1/audio/husary/1</code>
@@ -297,7 +329,7 @@ export function handleLandingPage(): Response {
     </div>
 
     <footer>
-      <p>Made with ❤️ for the Ummah</p>
+      <p>Made with <span class="heart">❤️</span> for the Ummah</p>
       <p class="credits">
         Audio files sourced from <a href="https://everyayah.com" target="_blank">EveryAyah.com</a> ·
         Quran data from <a href="https://tanzil.net" target="_blank">Tanzil.net</a>
