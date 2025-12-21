@@ -230,6 +230,72 @@ curl https://alfurqan.online/api/v1/audio/ghamadi/surah/112/ayah/4 -o ikhlas-4.m
 
 ---
 
+### Quran Text (SVG Pages)
+
+High-quality SVG pages of the Quran (Madani Mushaf) for displaying Quran text in applications.
+
+#### Get Manifest
+```
+GET /api/v1/quran-text/manifest
+```
+
+Returns version info and metadata about available pages.
+
+**Response:**
+```json
+{
+  "name": "Quran Text SVG",
+  "version": "1.0.0",
+  "totalPages": 604,
+  "format": "svg",
+  "source": {
+    "name": "quran-svg",
+    "url": "https://github.com/batoulapps/quran-svg",
+    "license": "MIT",
+    "originalSource": "King Fahd Quran Printing Complex"
+  }
+}
+```
+
+#### Get Single Page
+```
+GET /api/v1/quran-text/page/:pageNumber
+```
+
+Download a single SVG page.
+
+**Parameters:**
+- `pageNumber` (integer, required) - Page number (1-604)
+
+**Example:**
+```bash
+# Download page 1 (Al-Fatihah)
+curl https://alfurqan.online/api/v1/quran-text/page/1 -o page-1.svg
+
+# Download page 604 (last page)
+curl https://alfurqan.online/api/v1/quran-text/page/604 -o page-604.svg
+```
+
+**Response:** SVG file with headers:
+- `Content-Type: image/svg+xml`
+- `Cache-Control: public, max-age=31536000, immutable`
+
+#### Download All Pages (ZIP)
+```
+GET /api/v1/quran-text/download
+```
+
+Download complete bundle of all 604 pages as a ZIP file (~384 MB).
+
+**Example:**
+```bash
+curl https://alfurqan.online/api/v1/quran-text/download -o quran-pages.zip
+```
+
+**Use Case:** Ideal for mobile apps to download Quran text for offline use after installation.
+
+---
+
 ### Search
 
 ```
@@ -466,6 +532,16 @@ Audio recordings are sourced from **EveryAyah.com**:
 
 **Website:** https://everyayah.com
 
+### Quran SVG (Batoul Apps)
+
+SVG pages of the Quran are sourced from the **quran-svg** project:
+- 604 high-quality SVG pages (Madani Mushaf)
+- Originally from King Fahd Quran Printing Complex
+- MIT License
+
+**Repository:** https://github.com/batoulapps/quran-svg
+**Contributors:** Ameir Al-Zoubi, Matthew Crenshaw
+
 ---
 
 ## Acknowledgments
@@ -474,6 +550,8 @@ We are deeply grateful to:
 
 - **Tanzil.net** for providing comprehensive and accurate Quran metadata
 - **EveryAyah.com** for making high-quality Quran recitations freely available
+- **Batoul Apps** for creating the quran-svg project with beautiful SVG pages
+- **King Fahd Quran Printing Complex** for the original Quran typography
 - All the **reciters** who have dedicated their time and talent to recording the Quran
 - The **open-source community** for the tools and libraries that made this project possible
 

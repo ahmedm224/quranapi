@@ -4,6 +4,7 @@ import { handleRecitersRequest } from './handlers/reciters';
 import { handleSurahsRequest } from './handlers/surahs';
 import { handleSearch } from './handlers/search';
 import { handleCredits } from './handlers/credits';
+import { handleManifest, handlePageRequest, handleDownloadRequest } from './handlers/quranText';
 import { handleLandingPage, handlePrivacyPage, handleAssetRequest } from './handlers/website';
 import { corsMiddleware, addCorsHeaders } from './middleware/cors';
 import { rateLimitMiddleware } from './middleware/rateLimit';
@@ -52,6 +53,11 @@ router.get('/', (request: any) => {
       reciters: '/api/v1/reciters',
       surahs: '/api/v1/surahs',
       audio: '/api/v1/audio/:reciterId/surah/:surahNumber/ayah/:ayahInSurah',
+      quranText: {
+        manifest: '/api/v1/quran-text/manifest',
+        page: '/api/v1/quran-text/page/:pageNumber',
+        download: '/api/v1/quran-text/download'
+      },
       search: '/api/v1/search?q=<query>&type=<surah|reciter>',
       credits: '/api/v1/credits'
     },
@@ -59,12 +65,15 @@ router.get('/', (request: any) => {
       listReciters: 'https://alfurqan.online/api/v1/reciters',
       listSurahs: 'https://alfurqan.online/api/v1/surahs',
       streamAudio: 'https://alfurqan.online/api/v1/audio/husary/surah/1/ayah/1',
+      quranTextManifest: 'https://alfurqan.online/api/v1/quran-text/manifest',
+      quranTextPage: 'https://alfurqan.online/api/v1/quran-text/page/1',
       searchSurah: 'https://alfurqan.online/api/v1/search?q=fatiha&type=surah',
       getCredits: 'https://alfurqan.online/api/v1/credits'
     },
     features: [
       '44 renowned Quran reciters (including Warsh variants)',
       '6,236 individual ayah audio files',
+      '604 Quran text pages in SVG format',
       'High-quality MP3 streaming from Cloudflare R2',
       'Global CDN with low latency',
       'HTTP Range requests support (seekable audio)',
@@ -73,7 +82,8 @@ router.get('/', (request: any) => {
     ],
     dataSources: {
       metadata: 'Tanzil.net',
-      audio: 'EveryAyah.com'
+      audio: 'EveryAyah.com',
+      quranText: 'github.com/batoulapps/quran-svg (King Fahd Quran Printing Complex)'
     },
     contact: {
       github: 'https://github.com/ahmedm224/quranapi',
@@ -104,6 +114,16 @@ router.get('/api/v1/surahs/:surahNumber', handleSurahsRequest);
 router.get('/api/v1/audio/:reciterId/:ayahNumber', handleAudioRequest);
 router.get('/api/v1/audio/:reciterId/surah/:surahNumber', handleAudioRequest);
 router.get('/api/v1/audio/:reciterId/surah/:surahNumber/ayah/:ayahInSurah', handleAudioRequest);
+
+// Quran Text SVG endpoints
+router.get('/api/v1/quran-text/manifest', handleManifest);
+router.get('/api/v1/quran-text/page/:pageNumber', (request: any, env: Env) => {
+  const { pageNumber } = request.params;
+  return handlePageRequest(request, env, pageNumber);
+});
+router.get('/api/v1/quran-text/download', (request: any, env: Env) => {
+  return handleDownloadRequest(request, env);
+});
 
 // Search endpoint
 router.get('/api/v1/search', handleSearch);

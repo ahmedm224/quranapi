@@ -33,11 +33,29 @@ export async function handleCredits(): Promise<Response> {
           totalAyahs: 6236,
           format: 'MP3'
         }
+      },
+      {
+        name: 'Quran SVG',
+        description: 'SVG files for the pages of the Quran (Madani Mushaf)',
+        website: 'https://github.com/batoulapps/quran-svg',
+        attribution: 'SVG pages created by Batoul Apps, sourced from King Fahd Quran Printing Complex',
+        license: 'MIT',
+        contributors: [
+          'Ameir Al-Zoubi (z3bi)',
+          'Matthew Crenshaw (sgtsquiggs)'
+        ],
+        content: {
+          totalPages: 604,
+          format: 'SVG',
+          originalSource: 'King Fahd Quran Printing Complex'
+        }
       }
     ],
     acknowledgments: [
       'Tanzil.net for providing comprehensive Quran metadata',
       'EveryAyah.com for providing high-quality Quran audio recitations',
+      'Batoul Apps (quran-svg) for providing Quran text in SVG format',
+      'King Fahd Quran Printing Complex for the original Quran typography',
       'All the reciters who have dedicated their time to recording the Quran',
       'The open-source community for tools and libraries'
     ],
