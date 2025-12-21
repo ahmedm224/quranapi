@@ -4,7 +4,7 @@ import { handleRecitersRequest } from './handlers/reciters';
 import { handleSurahsRequest } from './handlers/surahs';
 import { handleSearch } from './handlers/search';
 import { handleCredits } from './handlers/credits';
-import { handleLandingPage, handleAssetRequest } from './handlers/website';
+import { handleLandingPage, handlePrivacyPage, handleAssetRequest } from './handlers/website';
 import { corsMiddleware, addCorsHeaders } from './middleware/cors';
 import { rateLimitMiddleware } from './middleware/rateLimit';
 import { handleError } from './middleware/errorHandler';
@@ -26,6 +26,9 @@ router.get('/assets/:filename', (request: any, env: Env) => {
   const { filename } = request.params;
   return handleAssetRequest(request, env, filename);
 });
+
+// Privacy policy page
+router.get('/privacy', () => handlePrivacyPage());
 
 // Root endpoint - Landing page for alfurqan.online, API docs for others
 router.get('/', (request: any) => {

@@ -348,6 +348,243 @@ export function handleLandingPage(): Response {
 }
 
 /**
+ * Serve the privacy policy page
+ */
+export function handlePrivacyPage(): Response {
+  const html = `<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - Al Furqan</title>
+  <meta name="description" content="Privacy Policy for the Al Furqan Quran Audio App">
+  <link rel="icon" type="image/png" href="/assets/logo.png">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-green: #1B5E20;
+      --light-green: #4CAF50;
+      --accent-green: #81C784;
+      --pale-green: #E8F5E9;
+      --white: #FFFFFF;
+      --text-dark: #212121;
+      --text-secondary: #616161;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: var(--white);
+      min-height: 100vh;
+      color: var(--text-dark);
+      line-height: 1.7;
+    }
+
+    .header {
+      background: var(--pale-green);
+      padding: 2rem;
+      text-align: center;
+      border-bottom: 1px solid #E0E0E0;
+    }
+
+    .header a {
+      text-decoration: none;
+      color: var(--primary-green);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .header img {
+      width: 50px;
+      height: 50px;
+    }
+
+    .header h1 {
+      font-size: 1.5rem;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    h2 {
+      color: var(--primary-green);
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .effective-date {
+      text-align: center;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    h3 {
+      color: var(--primary-green);
+      font-size: 1.25rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: var(--text-dark);
+    }
+
+    ul {
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+    }
+
+    .highlight {
+      background: var(--pale-green);
+      padding: 1.25rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+      border-left: 4px solid var(--primary-green);
+    }
+
+    .highlight p {
+      margin-bottom: 0;
+      color: var(--text-dark);
+    }
+
+    .contact {
+      background: var(--light-green);
+      color: var(--white);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .contact h3 {
+      color: var(--white);
+      margin-top: 0;
+    }
+
+    .contact a {
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid #E0E0E0;
+      margin-top: 3rem;
+      color: var(--text-secondary);
+    }
+
+    footer a {
+      color: var(--primary-green);
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 2rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a href="/">
+      <img src="/assets/logo.png" alt="Al Furqan Logo">
+      <h1>Al Furqan</h1>
+    </a>
+  </div>
+
+  <div class="container">
+    <h2>Privacy Policy</h2>
+    <p class="effective-date">Effective Date: November 14, 2025</p>
+
+    <div class="highlight">
+      <p><strong>Summary:</strong> Al Furqan is designed with privacy in mind. We do not collect, store, or share any personal information. The app works without requiring accounts, logins, or any identifying information.</p>
+    </div>
+
+    <h3>No Personal Data Collection</h3>
+    <p>Al Furqan does not collect your name, email address, phone number, or any other contact details. You can use the app completely anonymously without creating an account or providing any personal information.</p>
+
+    <h3>Permissions We Request</h3>
+    <p>The application requests only standard Android permissions necessary for its core functionality:</p>
+    <ul>
+      <li><strong>Internet Access:</strong> Required for streaming Quran audio and fetching text content</li>
+      <li><strong>Storage Access:</strong> Only used when you choose to download audio files for offline listening</li>
+      <li><strong>Notification Permission:</strong> For audio playback controls and background playback</li>
+      <li><strong>Foreground Service:</strong> Enables continuous audio playback when the app is in the background</li>
+    </ul>
+
+    <h3>Third-Party Services</h3>
+    <p>The app retrieves Quran content from the following sources:</p>
+    <ul>
+      <li>Al-Quran Cloud API (for Quran text)</li>
+      <li>Tanzil Project (for Quran metadata)</li>
+      <li>EveryAyah.com (for audio recitations via our API)</li>
+    </ul>
+    <p>When you use the app, standard network information (such as your IP address) may be visible to these services. However, we do not access, store, or use this information for our own purposes.</p>
+
+    <h3>Local Storage Only</h3>
+    <p>When you download audio files for offline listening, these files are stored only on your device. We do not:</p>
+    <ul>
+      <li>Upload downloaded audio to our servers</li>
+      <li>Track which surahs or recitations you download</li>
+      <li>Sync your listening progress to any external service</li>
+    </ul>
+
+    <h3>No Tracking or Analytics</h3>
+    <p>Al Furqan does not include any analytics, advertising SDKs, or tracking technologies. We do not:</p>
+    <ul>
+      <li>Track your listening habits or preferences</li>
+      <li>Display advertisements</li>
+      <li>Profile users in any way</li>
+      <li>Share data with third parties for marketing purposes</li>
+    </ul>
+
+    <h3>Children's Privacy</h3>
+    <p>Our app is suitable for users of all ages. Since we do not collect any personal information, there is no special risk to children's privacy.</p>
+
+    <h3>Changes to This Policy</h3>
+    <p>If we make any changes to this privacy policy, we will update the "Effective Date" at the top of this page. We encourage you to review this policy periodically.</p>
+
+    <div class="contact">
+      <h3>Contact Us</h3>
+      <p>If you have any questions about this Privacy Policy, please contact us at:</p>
+      <p><a href="mailto:privacy@cloudlinqed.com">privacy@cloudlinqed.com</a></p>
+    </div>
+  </div>
+
+  <footer>
+    <p><a href="/">← Back to Al Furqan</a></p>
+  </footer>
+</body>
+</html>`;
+
+  return new Response(html, {
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'public, max-age=86400',
+    },
+  });
+}
+
+/**
  * Serve static assets from R2 (logo, favicon, etc.)
  */
 export async function handleAssetRequest(
