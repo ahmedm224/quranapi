@@ -238,12 +238,54 @@ export function handleLandingPage(): Response {
     }
 
     @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+
+      header {
+        padding: 2rem 0;
+      }
+
       h1 {
-        font-size: 2rem;
+        font-size: 1.75rem;
+      }
+
+      .tagline {
+        font-size: 1rem;
+        padding: 0 1rem;
+      }
+
+      .arabic {
+        font-size: 1.75rem;
       }
 
       .cards {
         grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+
+      .card {
+        padding: 1.5rem;
+      }
+
+      .card h2 {
+        font-size: 1.2rem;
+      }
+
+      .card p {
+        font-size: 0.95rem;
+      }
+
+      .btn {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9rem;
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .btn-secondary {
+        margin-left: 0 !important;
       }
 
       .logo {
@@ -252,7 +294,53 @@ export function handleLandingPage(): Response {
       }
 
       .features {
-        padding: 1.5rem;
+        padding: 1.25rem;
+        gap: 1rem;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .feature {
+        padding: 1rem 0.75rem;
+      }
+
+      .feature-icon {
+        font-size: 2rem;
+      }
+
+      .feature h3 {
+        font-size: 1rem;
+      }
+
+      .feature p {
+        font-size: 0.8rem;
+      }
+
+      .api-example {
+        padding: 0.75rem;
+      }
+
+      .api-example code {
+        font-size: 0.75rem;
+        word-break: break-all;
+      }
+
+      footer {
+        padding: 2rem 1rem;
+        margin-top: 2rem;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .arabic {
+        font-size: 1.5rem;
       }
     }
   </style>

@@ -49,6 +49,18 @@ export async function handleCredits(): Promise<Response> {
           format: 'SVG',
           originalSource: 'King Fahd Quran Printing Complex'
         }
+      },
+      {
+        name: 'Assabile',
+        description: 'Athan (Adhan) audio recordings from muezzins worldwide',
+        website: 'https://www.assabile.com',
+        attribution: 'Athan audio recordings sourced from Assabile.com',
+        license: 'Please refer to Assabile.com for licensing terms',
+        content: {
+          totalAthans: 32,
+          muezzins: 'Various renowned muezzins including Abdulbasit Abdusamad, Ali Ibn Ahmad Mala, Yasser Al-Dosari, and more',
+          format: 'MP3'
+        }
       }
     ],
     acknowledgments: [
@@ -56,7 +68,8 @@ export async function handleCredits(): Promise<Response> {
       'EveryAyah.com for providing high-quality Quran audio recitations',
       'Batoul Apps (quran-svg) for providing Quran text in SVG format',
       'King Fahd Quran Printing Complex for the original Quran typography',
-      'All the reciters who have dedicated their time to recording the Quran',
+      'Assabile.com for providing athan audio recordings',
+      'All the reciters and muezzins who have dedicated their time to recording the Quran and athan',
       'The open-source community for tools and libraries'
     ],
     disclaimer: 'This API is provided for educational and religious purposes. Please respect the rights of the original content creators and refer to their respective websites for terms of use.'

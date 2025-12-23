@@ -296,6 +296,122 @@ curl https://alfurqan.online/api/v1/quran-text/download -o quran-pages.zip
 
 ---
 
+### Athan (Call to Prayer)
+
+Audio recordings of the Athan (Adhan) from various muezzins worldwide.
+
+#### Get Manifest
+```
+GET /api/v1/athan/manifest
+```
+
+Returns version info and metadata about available athans.
+
+**Response:**
+```json
+{
+  "name": "Athan Audio Collection",
+  "version": "1.0.0",
+  "totalAthans": 32,
+  "source": {
+    "name": "Assabile",
+    "url": "https://www.assabile.com"
+  }
+}
+```
+
+#### List All Muezzins
+```
+GET /api/v1/athan/muezzins
+```
+
+Returns a list of all available muezzins.
+
+**Response:**
+```json
+{
+  "count": 21,
+  "muezzins": [
+    {
+      "name": "Nasser Al Obaid",
+      "location": "Saudi Arabia",
+      "count": 2
+    },
+    ...
+  ]
+}
+```
+
+#### List All Athans
+```
+GET /api/v1/athan/list
+```
+
+Returns all available athan recordings. Supports filtering.
+
+**Query Parameters:**
+- `muezzin` (string, optional) - Filter by muezzin name
+- `location` (string, optional) - Filter by location
+
+**Examples:**
+```bash
+# Get all athans
+curl https://alfurqan.online/api/v1/athan/list
+
+# Filter by muezzin
+curl "https://alfurqan.online/api/v1/athan/list?muezzin=Nasser"
+
+# Filter by location
+curl "https://alfurqan.online/api/v1/athan/list?location=Egypt"
+```
+
+**Response:**
+```json
+{
+  "count": 32,
+  "athans": [
+    {
+      "id": "1a014366658c",
+      "name": "Abdulbasit Abdusamad",
+      "muezzin": "Abdulbasit Abdusamad",
+      "location": "Egypt",
+      "audioUrl": "/api/v1/athan/1a014366658c"
+    },
+    ...
+  ]
+}
+```
+
+#### Stream Athan Audio
+```
+GET /api/v1/athan/:id
+```
+
+Stream a specific athan recording.
+
+**Parameters:**
+- `id` (string, required) - Athan identifier
+
+**Example:**
+```bash
+# Stream Abdulbasit Abdusamad's athan
+curl https://alfurqan.online/api/v1/athan/1a014366658c -o athan.mp3
+```
+
+#### Download All Athans (ZIP)
+```
+GET /api/v1/athan/download
+```
+
+Download complete bundle of all athan recordings as a ZIP file.
+
+**Example:**
+```bash
+curl https://alfurqan.online/api/v1/athan/download -o athan-collection.zip
+```
+
+---
+
 ### Search
 
 ```

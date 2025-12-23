@@ -5,6 +5,7 @@ import { handleSurahsRequest } from './handlers/surahs';
 import { handleSearch } from './handlers/search';
 import { handleCredits } from './handlers/credits';
 import { handleManifest, handlePageRequest, handleDownloadRequest } from './handlers/quranText';
+import { handleAthanManifest, handleMuezzinsList, handleAthanList, handleAthanAudio, handleAthanDownload } from './handlers/athan';
 import { handleLandingPage, handlePrivacyPage, handleAssetRequest } from './handlers/website';
 import { corsMiddleware, addCorsHeaders } from './middleware/cors';
 import { rateLimitMiddleware } from './middleware/rateLimit';
@@ -58,6 +59,13 @@ router.get('/', (request: any) => {
         page: '/api/v1/quran-text/page/:pageNumber',
         download: '/api/v1/quran-text/download'
       },
+      athan: {
+        manifest: '/api/v1/athan/manifest',
+        muezzins: '/api/v1/athan/muezzins',
+        list: '/api/v1/athan/list?muezzin=<id>&country=<country>&type=<regular|fajr|takbeer>',
+        audio: '/api/v1/athan/:id',
+        download: '/api/v1/athan/download'
+      },
       search: '/api/v1/search?q=<query>&type=<surah|reciter>',
       credits: '/api/v1/credits'
     },
@@ -68,12 +76,16 @@ router.get('/', (request: any) => {
       quranTextManifest: 'https://alfurqan.online/api/v1/quran-text/manifest',
       quranTextPage: 'https://alfurqan.online/api/v1/quran-text/page/1',
       searchSurah: 'https://alfurqan.online/api/v1/search?q=fatiha&type=surah',
+      athanMuezzins: 'https://alfurqan.online/api/v1/athan/muezzins',
+      athanList: 'https://alfurqan.online/api/v1/athan/list',
+      athanAudio: 'https://alfurqan.online/api/v1/athan/206930',
       getCredits: 'https://alfurqan.online/api/v1/credits'
     },
     features: [
       '44 renowned Quran reciters (including Warsh variants)',
       '6,236 individual ayah audio files',
       '604 Quran text pages in SVG format',
+      '32 athan recordings from famous muezzins worldwide',
       'High-quality MP3 streaming from Cloudflare R2',
       'Global CDN with low latency',
       'HTTP Range requests support (seekable audio)',
@@ -83,7 +95,8 @@ router.get('/', (request: any) => {
     dataSources: {
       metadata: 'Tanzil.net',
       audio: 'EveryAyah.com',
-      quranText: 'github.com/batoulapps/quran-svg (King Fahd Quran Printing Complex)'
+      quranText: 'github.com/batoulapps/quran-svg (King Fahd Quran Printing Complex)',
+      athan: 'Assabile.com'
     },
     contact: {
       github: 'https://github.com/ahmedm224/quranapi',
@@ -123,6 +136,18 @@ router.get('/api/v1/quran-text/page/:pageNumber', (request: any, env: Env) => {
 });
 router.get('/api/v1/quran-text/download', (request: any, env: Env) => {
   return handleDownloadRequest(request, env);
+});
+
+// Athan (Adhan) endpoints
+router.get('/api/v1/athan/manifest', handleAthanManifest);
+router.get('/api/v1/athan/muezzins', handleMuezzinsList);
+router.get('/api/v1/athan/list', handleAthanList);
+router.get('/api/v1/athan/download', (request: any, env: Env) => {
+  return handleAthanDownload(request, env);
+});
+router.get('/api/v1/athan/:athanId', (request: any, env: Env) => {
+  const { athanId } = request.params;
+  return handleAthanAudio(request, env, athanId);
 });
 
 // Search endpoint
