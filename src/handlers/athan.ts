@@ -188,8 +188,16 @@ export async function handleAthanAudio(
     );
   }
 
-  // Fetch from R2
-  const r2Key = `athan/${athanId}.mp3`;
+  const r2Key = `Athan/${athanId}.mp3`;
+
+  // Check for Range header
+  const rangeHeader = request.headers.get('Range');
+
+  if (rangeHeader) {
+    return handleAthanRangeRequest(env, r2Key, rangeHeader, athan);
+  }
+
+  // Fetch full object from R2
   const object = await env.QURAN_AUDIO_BUCKET.get(r2Key);
 
   if (!object) {
@@ -216,6 +224,7 @@ export async function handleAthanAudio(
       'Content-Type': 'audio/mpeg',
       'Content-Length': object.size.toString(),
       'Cache-Control': 'public, max-age=31536000, immutable',
+      'Accept-Ranges': 'bytes',
       'Access-Control-Allow-Origin': '*',
       'X-Athan-Id': athanId,
       'X-Muezzin': athan.muezzin,
@@ -225,13 +234,97 @@ export async function handleAthanAudio(
 }
 
 /**
+ * Handle HTTP Range requests for athan audio seeking
+ */
+async function handleAthanRangeRequest(
+  env: Env,
+  r2Key: string,
+  rangeHeader: string,
+  athan: Athan
+): Promise<Response> {
+  try {
+    // Parse range header (e.g., "bytes=0-1023")
+    const rangeMatch = rangeHeader.match(/bytes=(\d+)-(\d*)/);
+    if (!rangeMatch) {
+      return new Response('Invalid Range header', { status: 416 });
+    }
+
+    const start = parseInt(rangeMatch[1]);
+    const requestedEnd = rangeMatch[2] ? parseInt(rangeMatch[2]) : undefined;
+
+    // First, get object metadata to know the total size
+    const headObject = await env.QURAN_AUDIO_BUCKET.head(r2Key);
+    if (!headObject) {
+      return new Response(
+        JSON.stringify({
+          error: {
+            message: 'Audio file not available',
+            code: 'FILE_NOT_FOUND'
+          }
+        }),
+        {
+          status: 404,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+        }
+      );
+    }
+
+    const totalSize = headObject.size;
+    const end = requestedEnd !== undefined ? Math.min(requestedEnd, totalSize - 1) : totalSize - 1;
+
+    // Validate range
+    if (start >= totalSize || start > end) {
+      return new Response('Range Not Satisfiable', {
+        status: 416,
+        headers: {
+          'Content-Range': `bytes */${totalSize}`,
+        },
+      });
+    }
+
+    // Fetch the range from R2 using the range option
+    const object = await env.QURAN_AUDIO_BUCKET.get(r2Key, {
+      range: { offset: start, length: end - start + 1 },
+    });
+
+    if (!object) {
+      return new Response('Range request failed', { status: 500 });
+    }
+
+    // Prepare response headers
+    const headers = new Headers();
+    headers.set('Content-Type', 'audio/mpeg');
+    headers.set('Content-Range', `bytes ${start}-${end}/${totalSize}`);
+    headers.set('Content-Length', (end - start + 1).toString());
+    headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+    headers.set('Accept-Ranges', 'bytes');
+    headers.set('Access-Control-Allow-Origin', '*');
+    headers.set('X-Athan-Id', athan.id);
+    headers.set('X-Muezzin', athan.muezzin);
+    headers.set('X-Location', athan.location);
+
+    return new Response(object.body, {
+      status: 206,
+      headers,
+    });
+
+  } catch (error) {
+    console.error('Athan range request error:', error);
+    return new Response('Internal server error', { status: 500 });
+  }
+}
+
+/**
  * Download complete athan bundle (ZIP)
  */
 export async function handleAthanDownload(
   request: Request,
   env: Env
 ): Promise<Response> {
-  const r2Key = 'athan/athan-collection.zip';
+  const r2Key = 'Athan/athan-collection.zip';
   const object = await env.QURAN_AUDIO_BUCKET.get(r2Key);
 
   if (!object) {

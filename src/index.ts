@@ -4,9 +4,9 @@ import { handleRecitersRequest } from './handlers/reciters';
 import { handleSurahsRequest } from './handlers/surahs';
 import { handleSearch } from './handlers/search';
 import { handleCredits } from './handlers/credits';
-import { handleManifest, handlePageRequest, handleDownloadRequest } from './handlers/quranText';
+import { handleManifest, handlePageRequest, handleTextPageRequest, handleDownloadRequest, handleFontsManifest, handleV4FontRequest, handleV2FontRequest, handleLayoutRequest } from './handlers/quranText';
 import { handleAthanManifest, handleMuezzinsList, handleAthanList, handleAthanAudio, handleAthanDownload } from './handlers/athan';
-import { handleLandingPage, handlePrivacyPage, handleAssetRequest } from './handlers/website';
+import { handleLandingPage, handlePrivacyPage, handleDocsPage, handleReadPage, handleReadPageSSR, handleRobotsTxt, handleSitemapXml, handleIndexNowKey, handleAssetRequest } from './handlers/website';
 import { corsMiddleware, addCorsHeaders } from './middleware/cors';
 import { rateLimitMiddleware } from './middleware/rateLimit';
 import { handleError } from './middleware/errorHandler';
@@ -31,6 +31,25 @@ router.get('/assets/:filename', (request: any, env: Env) => {
 
 // Privacy policy page
 router.get('/privacy', () => handlePrivacyPage());
+
+// API documentation page
+router.get('/docs', () => handleDocsPage());
+
+// Quran reading page - SEO routes
+router.get('/read', () => handleReadPage());
+router.get('/read/page/:pageNumber', (request: any, env: Env) => {
+  const { pageNumber } = request.params;
+  return handleReadPageSSR(request, env, parseInt(pageNumber), 'page');
+});
+router.get('/read/surah/:surahNumber', (request: any, env: Env) => {
+  const { surahNumber } = request.params;
+  return handleReadPageSSR(request, env, parseInt(surahNumber), 'surah');
+});
+
+// SEO files
+router.get('/robots.txt', () => handleRobotsTxt());
+router.get('/sitemap.xml', () => handleSitemapXml());
+router.get('/0c27f4cb527e4b419806d643e343ee94.txt', () => handleIndexNowKey());
 
 // Root endpoint - Landing page for alfurqan.online, API docs for others
 router.get('/', (request: any) => {
@@ -59,6 +78,12 @@ router.get('/', (request: any) => {
         page: '/api/v1/quran-text/page/:pageNumber',
         download: '/api/v1/quran-text/download'
       },
+      quranFonts: {
+        manifest: '/api/v1/quran-fonts/manifest',
+        v4Tajweed: '/api/v1/quran-fonts/v4/:pageNumber',
+        v2Plain: '/api/v1/quran-fonts/v2/:pageNumber',
+        layout: '/api/v1/quran-fonts/layout/:pageNumber'
+      },
       athan: {
         manifest: '/api/v1/athan/manifest',
         muezzins: '/api/v1/athan/muezzins',
@@ -75,6 +100,10 @@ router.get('/', (request: any) => {
       streamAudio: 'https://alfurqan.online/api/v1/audio/husary/surah/1/ayah/1',
       quranTextManifest: 'https://alfurqan.online/api/v1/quran-text/manifest',
       quranTextPage: 'https://alfurqan.online/api/v1/quran-text/page/1',
+      quranFontsManifest: 'https://alfurqan.online/api/v1/quran-fonts/manifest',
+      quranFontV4: 'https://alfurqan.online/api/v1/quran-fonts/v4/1',
+      quranFontV2: 'https://alfurqan.online/api/v1/quran-fonts/v2/1',
+      quranFontLayout: 'https://alfurqan.online/api/v1/quran-fonts/layout/1',
       searchSurah: 'https://alfurqan.online/api/v1/search?q=fatiha&type=surah',
       athanMuezzins: 'https://alfurqan.online/api/v1/athan/muezzins',
       athanList: 'https://alfurqan.online/api/v1/athan/list',
@@ -85,6 +114,8 @@ router.get('/', (request: any) => {
       '44 renowned Quran reciters (including Warsh variants)',
       '6,236 individual ayah audio files',
       '604 Quran text pages in SVG format',
+      '604 QCF page fonts (V4 Tajweed with colors, V2 Plain for custom styling)',
+      '604 Mushaf layout JSON files with word-level glyph codes',
       '32 athan recordings from famous muezzins worldwide',
       'High-quality MP3 streaming from Cloudflare R2',
       'Global CDN with low latency',
@@ -134,8 +165,28 @@ router.get('/api/v1/quran-text/page/:pageNumber', (request: any, env: Env) => {
   const { pageNumber } = request.params;
   return handlePageRequest(request, env, pageNumber);
 });
+// Quran Text JSON endpoint (local data)
+router.get('/api/v1/quran-text/text/:pageNumber', (request: any, env: Env) => {
+  const { pageNumber } = request.params;
+  return handleTextPageRequest(request, env, pageNumber);
+});
 router.get('/api/v1/quran-text/download', (request: any, env: Env) => {
   return handleDownloadRequest(request, env);
+});
+
+// QCF Fonts endpoints (Quran Complex Fonts for Mushaf rendering)
+router.get('/api/v1/quran-fonts/manifest', handleFontsManifest);
+router.get('/api/v1/quran-fonts/v4/:pageNumber', (request: any, env: Env) => {
+  const { pageNumber } = request.params;
+  return handleV4FontRequest(request, env, pageNumber);
+});
+router.get('/api/v1/quran-fonts/v2/:pageNumber', (request: any, env: Env) => {
+  const { pageNumber } = request.params;
+  return handleV2FontRequest(request, env, pageNumber);
+});
+router.get('/api/v1/quran-fonts/layout/:pageNumber', (request: any, env: Env) => {
+  const { pageNumber } = request.params;
+  return handleLayoutRequest(request, env, pageNumber);
 });
 
 // Athan (Adhan) endpoints

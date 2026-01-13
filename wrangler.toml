@@ -6,6 +6,7 @@ compatibility_date = "2024-01-01"
 [[r2_buckets]]
 binding = "QURAN_AUDIO_BUCKET"
 bucket_name = "alfurqan"
+preview_bucket_name = "alfurqan"
 
 # Production environment
 [env.production]

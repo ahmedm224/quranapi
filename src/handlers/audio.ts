@@ -61,7 +61,15 @@ export async function handleAudioRequest(request: any, env: Env): Promise<Respon
     const fileName = `${surahPadded}${ayahPadded}.mp3`;
     const r2Key = `${reciter.r2Path}/${fileName}`;
 
-    // Fetch from R2
+    // Check for Range header first
+    const rangeHeader = request.headers.get('Range');
+
+    if (rangeHeader) {
+      // Handle range request - need to get object with range option
+      return handleRangeRequest(env, r2Key, rangeHeader);
+    }
+
+    // Fetch full object from R2
     const object = await env.QURAN_AUDIO_BUCKET.get(r2Key);
 
     if (!object) {
@@ -79,12 +87,6 @@ export async function handleAudioRequest(request: any, env: Env): Promise<Respon
     headers.set('Access-Control-Allow-Origin', '*');
     headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
 
-    // Handle range requests for audio seeking
-    const rangeHeader = request.headers.get('Range');
-    if (rangeHeader) {
-      return handleRangeRequest(object, rangeHeader, headers);
-    }
-
     // Return full audio file
     return new Response(object.body, { headers });
 
@@ -96,15 +98,15 @@ export async function handleAudioRequest(request: any, env: Env): Promise<Respon
 
 /**
  * Handle HTTP Range requests for audio seeking
- * @param object - R2 object
+ * @param env - Environment with R2 bucket
+ * @param r2Key - R2 object key
  * @param rangeHeader - Range header value
- * @param baseHeaders - Base headers to include
  * @returns Response with partial content (206)
  */
 async function handleRangeRequest(
-  object: R2ObjectBody,
-  rangeHeader: string,
-  baseHeaders: Headers
+  env: Env,
+  r2Key: string,
+  rangeHeader: string
 ): Promise<Response> {
   try {
     // Parse range header (e.g., "bytes=0-1023")
@@ -114,28 +116,49 @@ async function handleRangeRequest(
     }
 
     const start = parseInt(rangeMatch[1]);
-    const end = rangeMatch[2] ? parseInt(rangeMatch[2]) : object.size - 1;
+    const requestedEnd = rangeMatch[2] ? parseInt(rangeMatch[2]) : undefined;
 
-    // Validate range
-    if (start >= object.size || end >= object.size || start > end) {
-      return new Response('Range Not Satisfiable', { status: 416 });
+    // First, get object metadata to know the total size
+    const headObject = await env.QURAN_AUDIO_BUCKET.head(r2Key);
+    if (!headObject) {
+      return notFoundResponse(`Audio file (${r2Key})`);
     }
 
-    // Fetch the range from R2
-    const rangeObject = await object.range({ offset: start, length: end - start + 1 });
+    const totalSize = headObject.size;
+    const end = requestedEnd !== undefined ? Math.min(requestedEnd, totalSize - 1) : totalSize - 1;
 
-    if (!rangeObject) {
+    // Validate range
+    if (start >= totalSize || start > end) {
+      return new Response('Range Not Satisfiable', {
+        status: 416,
+        headers: {
+          'Content-Range': `bytes */${totalSize}`,
+        },
+      });
+    }
+
+    // Fetch the range from R2 using the range option
+    const object = await env.QURAN_AUDIO_BUCKET.get(r2Key, {
+      range: { offset: start, length: end - start + 1 },
+    });
+
+    if (!object) {
       return new Response('Range request failed', { status: 500 });
     }
 
-    // Set range-specific headers
-    const headers = new Headers(baseHeaders);
-    headers.set('Content-Range', `bytes ${start}-${end}/${object.size}`);
+    // Prepare response headers
+    const headers = new Headers();
+    headers.set('Content-Type', 'audio/mpeg');
+    headers.set('Content-Range', `bytes ${start}-${end}/${totalSize}`);
     headers.set('Content-Length', (end - start + 1).toString());
+    headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+    headers.set('Accept-Ranges', 'bytes');
+    headers.set('Access-Control-Allow-Origin', '*');
+    headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
 
-    return new Response(rangeObject, {
+    return new Response(object.body, {
       status: 206,
-      headers
+      headers,
     });
 
   } catch (error) {

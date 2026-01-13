@@ -14,6 +14,7 @@ A public REST API for streaming Quran audio recitations, built on Cloudflare Wor
 
 - 🎧 **44 Reciters** - Stream audio from renowned Quran reciters
 - 📖 **6,236 Ayahs** - Complete Quran coverage with individual ayah files
+- 🔤 **QCF Fonts** - 604 page fonts for authentic Mushaf rendering (V4 Tajweed + V2 Plain)
 - 🌍 **Global CDN** - Low-latency access via Cloudflare's edge network
 - 🔍 **Search** - Find surahs and reciters by name
 - 📊 **Metadata** - Complete surah information with ayah counts
@@ -296,6 +297,164 @@ curl https://alfurqan.online/api/v1/quran-text/download -o quran-pages.zip
 
 ---
 
+### QCF Fonts (Quran Complex Fonts)
+
+Page-specific fonts for authentic Mushaf rendering. Each page (1-604) has its own font file with glyph mappings for pixel-perfect Quran display.
+
+#### Get Manifest
+```
+GET /api/v1/quran-fonts/manifest
+```
+
+Returns metadata about available fonts and usage instructions.
+
+**Response:**
+```json
+{
+  "name": "Quran Complex Fonts (QCF)",
+  "version": "1.0.0",
+  "totalPages": 604,
+  "fonts": {
+    "v4": {
+      "name": "QCF V4 - Tajweed",
+      "description": "COLRv1 fonts with embedded Tajweed color layers. Colors cannot be overridden.",
+      "format": "ttf",
+      "glyphCodes": "qpcV2"
+    },
+    "v2": {
+      "name": "QCF V2 - Plain",
+      "description": "Plain black fonts that accept text color customization via CSS/styling.",
+      "format": "ttf",
+      "glyphCodes": "qpcV2"
+    }
+  },
+  "layout": {
+    "name": "Mushaf Layout",
+    "description": "Pre-computed line/word layout with qpcV1 and qpcV2 glyph codes for each page"
+  }
+}
+```
+
+#### Get V4 Tajweed Font
+```
+GET /api/v1/quran-fonts/v4/:pageNumber
+```
+
+Download a V4 Tajweed font file (TTF) with embedded color layers for Tajweed rules.
+
+**Parameters:**
+- `pageNumber` (integer, required) - Page number (1-604)
+
+**Example:**
+```bash
+# Download Tajweed font for page 1
+curl https://alfurqan.online/api/v1/quran-fonts/v4/1 -o p1-tajweed.ttf
+```
+
+**Features:**
+- COLRv1 color font technology
+- Embedded Tajweed color rules (red for ghunnah, green for ikhfa, etc.)
+- Colors cannot be overridden via CSS
+
+#### Get V2 Plain Font
+```
+GET /api/v1/quran-fonts/v2/:pageNumber
+```
+
+Download a V2 Plain font file (TTF) that accepts custom text colors.
+
+**Parameters:**
+- `pageNumber` (integer, required) - Page number (1-604)
+
+**Example:**
+```bash
+# Download plain font for page 1
+curl https://alfurqan.online/api/v1/quran-fonts/v2/1 -o p1-plain.ttf
+```
+
+**Features:**
+- Standard TTF font
+- Accepts text color customization via CSS `color` property
+- Ideal for custom themes (dark mode, sepia, etc.)
+
+#### Get Mushaf Layout
+```
+GET /api/v1/quran-fonts/layout/:pageNumber
+```
+
+Get the pre-computed layout JSON for a page, containing line and word positions with glyph codes.
+
+**Parameters:**
+- `pageNumber` (integer, required) - Page number (1-604)
+
+**Example:**
+```bash
+curl https://alfurqan.online/api/v1/quran-fonts/layout/1
+```
+
+**Response:**
+```json
+{
+  "page": 1,
+  "lines": [
+    {
+      "line": 9,
+      "type": "surah-header",
+      "surah": 1,
+      "text": "سُورَةُ ٱلْفَاتِحَةِ"
+    },
+    {
+      "line": 9,
+      "type": "basmala",
+      "text": "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ ١",
+      "verseRange": "1:1-1:1",
+      "words": [
+        {
+          "location": "1:1:1",
+          "word": "بِسْمِ",
+          "qpcV2": "ﱁ",
+          "qpcV1": "ﭑ"
+        },
+        {
+          "location": "1:1:2",
+          "word": "ٱللَّهِ",
+          "qpcV2": "ﱂ",
+          "qpcV1": "ﭒ"
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### Usage Notes
+
+**Word Spacing (Critical):**
+```javascript
+// CORRECT - words must be separated by space
+const glyphText = line.words.map(w => w.qpcV2).join(' ');
+
+// WRONG - words will attach together incorrectly
+const glyphText = line.words.map(w => w.qpcV2).join('');
+```
+
+**Glyph Codes:**
+- Both V4 and V2 fonts use `qpcV2` glyph codes (not `qpcV1`)
+- The `qpcV1` codes are included for backwards compatibility but are not recommended
+
+**Basmala Handling:**
+Basmala lines (type: "basmala") may not have `words` array with qpcV2 codes. Use the `text` field directly with a standard Arabic font, or use this Unicode text:
+```javascript
+const basmala = "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ";
+```
+
+**Font Sources:**
+- V4 Tajweed: https://verses.quran.foundation/fonts/quran/hafs/v4/ttf/
+- V2 Plain: https://github.com/nuqayah/qpc-fonts/tree/master/mushaf-v2
+- Layout JSON: https://github.com/zonetecde/mushaf-layout
+
+---
+
 ### Athan (Call to Prayer)
 
 Audio recordings of the Athan (Adhan) from various muezzins worldwide.
@@ -397,6 +556,11 @@ Stream a specific athan recording.
 # Stream Abdulbasit Abdusamad's athan
 curl https://alfurqan.online/api/v1/athan/1a014366658c -o athan.mp3
 ```
+
+**Features:**
+- ✅ HTTP Range requests supported (seekable audio)
+- ✅ Cached for 1 year (immutable)
+- ✅ Direct streaming from Cloudflare R2
 
 #### Download All Athans (ZIP)
 ```
@@ -589,9 +753,10 @@ The API is optimized for high performance with aggressive caching:
 - `Cache-Control: public, max-age=86400`
 
 **Audio Files** (Immutable - Cached for 1 year)
-- `/api/v1/audio/*` - MP3 files never change
+- `/api/v1/audio/*` - Quran recitation MP3 files
+- `/api/v1/athan/:id` - Athan audio MP3 files
 - `Cache-Control: public, max-age=31536000, immutable`
-- HTTP Range requests supported for seeking
+- HTTP Range requests supported for seeking (iOS/Android compatible)
 
 Cloudflare's global CDN caches these responses at edge locations worldwide, ensuring fast response times and minimal origin load.
 
@@ -658,6 +823,24 @@ SVG pages of the Quran are sourced from the **quran-svg** project:
 **Repository:** https://github.com/batoulapps/quran-svg
 **Contributors:** Ameir Al-Zoubi, Matthew Crenshaw
 
+### QCF Fonts (Quran Complex Fonts)
+
+Page-specific fonts from the **King Fahd Quran Printing Complex**:
+- 604 V4 Tajweed fonts with COLRv1 color layers
+- 604 V2 Plain fonts for custom styling
+- Original typography from the Madani Mushaf
+
+**V4 Source:** https://verses.quran.foundation/fonts/quran/hafs/v4/ttf/
+**V2 Source:** https://github.com/nuqayah/qpc-fonts/tree/master/mushaf-v2
+
+### Mushaf Layout
+
+Pre-computed page layouts from the **mushaf-layout** project:
+- 604 JSON files with line/word positions
+- qpcV1 and qpcV2 glyph codes for font rendering
+
+**Repository:** https://github.com/zonetecde/mushaf-layout
+
 ---
 
 ## Acknowledgments
@@ -667,7 +850,10 @@ We are deeply grateful to:
 - **Tanzil.net** for providing comprehensive and accurate Quran metadata
 - **EveryAyah.com** for making high-quality Quran recitations freely available
 - **Batoul Apps** for creating the quran-svg project with beautiful SVG pages
-- **King Fahd Quran Printing Complex** for the original Quran typography
+- **King Fahd Quran Printing Complex** for the original Quran typography and QCF fonts
+- **Quran Foundation** for hosting V4 Tajweed fonts with COLRv1 color technology
+- **Nuqayah** for maintaining the QPC fonts repository (V2 plain fonts)
+- **Zonetecde** for the mushaf-layout project with pre-computed page layouts
 - All the **reciters** who have dedicated their time and talent to recording the Quran
 - The **open-source community** for the tools and libraries that made this project possible
 
