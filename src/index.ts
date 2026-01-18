@@ -4,8 +4,9 @@ import { handleRecitersRequest } from './handlers/reciters';
 import { handleSurahsRequest } from './handlers/surahs';
 import { handleSearch } from './handlers/search';
 import { handleCredits } from './handlers/credits';
-import { handleManifest, handlePageRequest, handleTextPageRequest, handleDownloadRequest, handleFontsManifest, handleV4FontRequest, handleV2FontRequest, handleLayoutRequest } from './handlers/quranText';
+import { handleManifest, handlePageRequest, handleTextPageRequest, handleDownloadRequest, handleFontsManifest, handleV4FontRequest, handleV2FontRequest, handleLayoutRequest, handleV2FontsDownload, handleV4FontsDownload } from './handlers/quranText';
 import { handleAthanManifest, handleMuezzinsList, handleAthanList, handleAthanAudio, handleAthanDownload } from './handlers/athan';
+import { handleTafseerManifest, handleTafseerList, handleTafseerInfo, handleTafseerSurah, handleTafseerAyah, handleTafseerDownload, handleTafseerDownloadList } from './handlers/tafseer';
 import { handleLandingPage, handlePrivacyPage, handleDocsPage, handleReadPage, handleReadPageSSR, handleRobotsTxt, handleSitemapXml, handleIndexNowKey, handleAssetRequest } from './handlers/website';
 import { corsMiddleware, addCorsHeaders } from './middleware/cors';
 import { rateLimitMiddleware } from './middleware/rateLimit';
@@ -82,7 +83,9 @@ router.get('/', (request: any) => {
         manifest: '/api/v1/quran-fonts/manifest',
         v4Tajweed: '/api/v1/quran-fonts/v4/:pageNumber',
         v2Plain: '/api/v1/quran-fonts/v2/:pageNumber',
-        layout: '/api/v1/quran-fonts/layout/:pageNumber'
+        layout: '/api/v1/quran-fonts/layout/:pageNumber',
+        downloadV2: '/api/v1/fonts/qcf-v2.zip',
+        downloadV4: '/api/v1/fonts/qcf-v4.zip'
       },
       athan: {
         manifest: '/api/v1/athan/manifest',
@@ -90,6 +93,15 @@ router.get('/', (request: any) => {
         list: '/api/v1/athan/list?muezzin=<id>&country=<country>&type=<regular|fajr|takbeer>',
         audio: '/api/v1/athan/:id',
         download: '/api/v1/athan/download'
+      },
+      tafseer: {
+        manifest: '/api/v1/tafseer/manifest',
+        list: '/api/v1/tafseer/list',
+        info: '/api/v1/tafseer/:tafseerId',
+        surah: '/api/v1/tafseer/:tafseerId/surah/:surahNumber',
+        ayah: '/api/v1/tafseer/:tafseerId/surah/:surahNumber/ayah/:ayahNumber',
+        downloads: '/api/v1/tafseer/downloads',
+        download: '/api/v1/tafseer/download/:tafseerId'
       },
       search: '/api/v1/search?q=<query>&type=<surah|reciter>',
       credits: '/api/v1/credits'
@@ -108,11 +120,17 @@ router.get('/', (request: any) => {
       athanMuezzins: 'https://alfurqan.online/api/v1/athan/muezzins',
       athanList: 'https://alfurqan.online/api/v1/athan/list',
       athanAudio: 'https://alfurqan.online/api/v1/athan/206930',
+      tafseerList: 'https://alfurqan.online/api/v1/tafseer/list',
+      tafseerSurah: 'https://alfurqan.online/api/v1/tafseer/muyassar/surah/1',
+      tafseerAyah: 'https://alfurqan.online/api/v1/tafseer/ibn-kathir-english/surah/2/ayah/255',
+      tafseerDownloads: 'https://alfurqan.online/api/v1/tafseer/downloads',
+      tafseerDownload: 'https://alfurqan.online/api/v1/tafseer/download/muyassar',
       getCredits: 'https://alfurqan.online/api/v1/credits'
     },
     features: [
       '44 renowned Quran reciters (including Warsh variants)',
       '6,236 individual ayah audio files',
+      '8 Tafseer sources (Arabic & English) with word-by-word meanings',
       '604 Quran text pages in SVG format',
       '604 QCF page fonts (V4 Tajweed with colors, V2 Plain for custom styling)',
       '604 Mushaf layout JSON files with word-level glyph codes',
@@ -189,6 +207,14 @@ router.get('/api/v1/quran-fonts/layout/:pageNumber', (request: any, env: Env) =>
   return handleLayoutRequest(request, env, pageNumber);
 });
 
+// QCF Fonts download endpoints (ZIP archives for mobile apps)
+router.get('/api/v1/fonts/qcf-v2.zip', (request: any, env: Env) => {
+  return handleV2FontsDownload(request, env);
+});
+router.get('/api/v1/fonts/qcf-v4.zip', (request: any, env: Env) => {
+  return handleV4FontsDownload(request, env);
+});
+
 // Athan (Adhan) endpoints
 router.get('/api/v1/athan/manifest', handleAthanManifest);
 router.get('/api/v1/athan/muezzins', handleMuezzinsList);
@@ -199,6 +225,27 @@ router.get('/api/v1/athan/download', (request: any, env: Env) => {
 router.get('/api/v1/athan/:athanId', (request: any, env: Env) => {
   const { athanId } = request.params;
   return handleAthanAudio(request, env, athanId);
+});
+
+// Tafseer endpoints
+router.get('/api/v1/tafseer/manifest', handleTafseerManifest);
+router.get('/api/v1/tafseer/list', handleTafseerList);
+router.get('/api/v1/tafseer/downloads', handleTafseerDownloadList);
+router.get('/api/v1/tafseer/download/:tafseerId', (request: any, env: Env) => {
+  const { tafseerId } = request.params;
+  return handleTafseerDownload(request, env, tafseerId);
+});
+router.get('/api/v1/tafseer/:tafseerId/surah/:surahNumber/ayah/:ayahNumber', (request: any, env: Env) => {
+  const { tafseerId, surahNumber, ayahNumber } = request.params;
+  return handleTafseerAyah(request, env, tafseerId, surahNumber, ayahNumber);
+});
+router.get('/api/v1/tafseer/:tafseerId/surah/:surahNumber', (request: any, env: Env) => {
+  const { tafseerId, surahNumber } = request.params;
+  return handleTafseerSurah(request, env, tafseerId, surahNumber);
+});
+router.get('/api/v1/tafseer/:tafseerId', (request: any, env: Env) => {
+  const { tafseerId } = request.params;
+  return handleTafseerInfo(request, env, tafseerId);
 });
 
 // Search endpoint

@@ -14,6 +14,7 @@ A public REST API for streaming Quran audio recitations, built on Cloudflare Wor
 
 - 🎧 **44 Reciters** - Stream audio from renowned Quran reciters
 - 📖 **6,236 Ayahs** - Complete Quran coverage with individual ayah files
+- 📚 **8 Tafseers** - Arabic & English tafseer with word-by-word meanings
 - 🔤 **QCF Fonts** - 604 page fonts for authentic Mushaf rendering (V4 Tajweed + V2 Plain)
 - 🌍 **Global CDN** - Low-latency access via Cloudflare's edge network
 - 🔍 **Search** - Find surahs and reciters by name
@@ -452,6 +453,200 @@ const basmala = "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَ
 - V4 Tajweed: https://verses.quran.foundation/fonts/quran/hafs/v4/ttf/
 - V2 Plain: https://github.com/nuqayah/qpc-fonts/tree/master/mushaf-v2
 - Layout JSON: https://github.com/zonetecde/mushaf-layout
+
+---
+
+### Tafseer (Quran Exegesis)
+
+Quran tafseer (exegesis) and word-by-word meanings from renowned scholars.
+
+#### Get Manifest
+```
+GET /api/v1/tafseer/manifest
+```
+
+Returns metadata about all available tafseers.
+
+**Response:**
+```json
+{
+  "name": "Quran Tafseer API",
+  "version": "1.0.0",
+  "total": 8,
+  "types": { "tafseer": 6, "word-meanings": 2 },
+  "languages": { "arabic": 5, "english": 3 },
+  "tafseers": [
+    {
+      "id": "ibn-kathir-english",
+      "name_en": "Tafsir Ibn Kathir",
+      "name_ar": "تفسير ابن كثير",
+      "language": "english",
+      "type": "tafseer"
+    }
+  ]
+}
+```
+
+#### List All Tafseers
+```
+GET /api/v1/tafseer/list
+```
+
+Returns a simple list of available tafseers.
+
+**Available Tafseers:**
+
+| ID | Name | Language | Type |
+|----|------|----------|------|
+| `word-by-word-english` | Word by Word Translation | English | Word Meanings |
+| `mufradat` | Quran Mufradat (مفردات القرآن) | Arabic | Word Meanings |
+| `ibn-kathir-english` | Tafsir Ibn Kathir | English | Tafseer |
+| `maarif-ul-quran` | Ma'ariful Quran | English | Tafseer |
+| `al-saddi` | Tafsir Al-Saddi (تفسير السعدي) | Arabic | Tafseer |
+| `al-tabari` | Tafsir Al-Tabari (تفسير الطبري) | Arabic | Tafseer |
+| `ibn-kathir` | Tafsir Ibn Kathir (تفسير ابن كثير) | Arabic | Tafseer |
+| `muyassar` | Al-Tafsir Al-Muyassar (التفسير الميسر) | Arabic | Tafseer |
+
+#### Get Tafseer for Surah
+```
+GET /api/v1/tafseer/:tafseerId/surah/:surahNumber
+```
+
+Get complete tafseer for a surah.
+
+**Parameters:**
+- `tafseerId` (string, required) - Tafseer identifier from the list above
+- `surahNumber` (integer, required) - Surah number (1-114)
+
+**Example:**
+```bash
+curl https://alfurqan.online/api/v1/tafseer/muyassar/surah/1
+```
+
+**Response:**
+```json
+{
+  "tafseer": {
+    "id": "muyassar",
+    "name_en": "Al-Tafsir Al-Muyassar",
+    "name_ar": "التفسير الميسر",
+    "language": "arabic"
+  },
+  "surah": {
+    "number": 1,
+    "name": "الفاتحة",
+    "ayahs": [
+      { "ayah": 1, "text": "سورة الفاتحة سميت هذه السورة بالفاتحة..." },
+      { "ayah": 2, "text": "(الحَمْدُ للهِ رَبِّ العَالَمِينَ)..." }
+    ]
+  }
+}
+```
+
+#### Get Tafseer for Specific Ayah
+```
+GET /api/v1/tafseer/:tafseerId/surah/:surahNumber/ayah/:ayahNumber
+```
+
+Get tafseer for a specific ayah.
+
+**Parameters:**
+- `tafseerId` (string, required) - Tafseer identifier
+- `surahNumber` (integer, required) - Surah number (1-114)
+- `ayahNumber` (integer, required) - Ayah number within the surah
+
+**Example:**
+```bash
+# Get Ibn Kathir English tafseer for Ayat al-Kursi (2:255)
+curl https://alfurqan.online/api/v1/tafseer/ibn-kathir-english/surah/2/ayah/255
+```
+
+**Response:**
+```json
+{
+  "tafseer": {
+    "id": "ibn-kathir-english",
+    "name_en": "Tafsir Ibn Kathir",
+    "language": "english"
+  },
+  "surah": { "number": 2, "name": "Al-Baqara" },
+  "ayah": {
+    "ayah": 255,
+    "text": "This is Ayat Al-Kursi (the Verse of the Footstool)..."
+  }
+}
+```
+
+#### Word by Word Response
+
+For `word-by-word-english`, the response includes detailed word analysis:
+
+```json
+{
+  "ayah": {
+    "ayah": 1,
+    "words": [
+      {
+        "position": 1,
+        "arabic": "بِسْمِ",
+        "translation": "In (the) name",
+        "transliteration": "bis'mi"
+      },
+      {
+        "position": 2,
+        "arabic": "ٱللَّهِ",
+        "translation": "(of) Allah",
+        "transliteration": "l-lahi"
+      }
+    ]
+  }
+}
+```
+
+#### List Tafseer Downloads
+```
+GET /api/v1/tafseer/downloads
+```
+
+Returns a list of all available tafseer ZIP files for download.
+
+**Response:**
+```json
+{
+  "count": 8,
+  "downloads": [
+    {
+      "id": "ibn-kathir-english",
+      "name_en": "Tafsir Ibn Kathir",
+      "name_ar": "تفسير ابن كثير",
+      "language": "english",
+      "type": "tafseer",
+      "download_url": "/api/v1/tafseer/download/ibn-kathir-english"
+    }
+  ]
+}
+```
+
+#### Download Tafseer ZIP
+```
+GET /api/v1/tafseer/download/:tafseerId
+```
+
+Download a complete tafseer as a ZIP archive for offline use in mobile apps.
+
+**Parameters:**
+- `tafseerId` (string, required) - Tafseer identifier from the list
+
+**Example:**
+```bash
+# Download Al-Tafsir Al-Muyassar
+curl -O https://alfurqan.online/api/v1/tafseer/download/muyassar
+
+# Download Ibn Kathir English
+curl -O https://alfurqan.online/api/v1/tafseer/download/ibn-kathir-english
+```
+
+**Response:** ZIP file containing the complete tafseer JSON data.
 
 ---
 
