@@ -8,6 +8,11 @@ binding = "QURAN_AUDIO_BUCKET"
 bucket_name = "alfurqan"
 preview_bucket_name = "alfurqan"
 
+[[r2_buckets]]
+binding = "RECITE_MODEL_BUCKET"
+bucket_name = "clawless-models"
+preview_bucket_name = "clawless-models"
+
 # Production environment
 [env.production]
 name = "quranapi"
@@ -20,6 +25,10 @@ routes = [
 [[env.production.r2_buckets]]
 binding = "QURAN_AUDIO_BUCKET"
 bucket_name = "alfurqan"
+
+[[env.production.r2_buckets]]
+binding = "RECITE_MODEL_BUCKET"
+bucket_name = "clawless-models"
 
 # Staging environment
 [env.staging]

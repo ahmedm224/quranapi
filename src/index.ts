@@ -4,10 +4,12 @@ import { handleRecitersRequest } from './handlers/reciters';
 import { handleSurahsRequest } from './handlers/surahs';
 import { handleSearch } from './handlers/search';
 import { handleCredits } from './handlers/credits';
-import { handleManifest, handlePageRequest, handleTextPageRequest, handleDownloadRequest, handleFontsManifest, handleV4FontRequest, handleV2FontRequest, handleLayoutRequest, handleV2FontsDownload, handleV4FontsDownload } from './handlers/quranText';
+import { handleManifest, handlePageRequest, handleTextPageRequest, handleDownloadRequest, handleFontsManifest, handleV4FontRequest, handleV2FontRequest, handleLayoutRequest, handleV2FontsDownload, handleV4FontsDownload, handleSvgDownload } from './handlers/quranText';
 import { handleAthanManifest, handleMuezzinsList, handleAthanList, handleAthanAudio, handleAthanDownload } from './handlers/athan';
 import { handleTafseerManifest, handleTafseerList, handleTafseerInfo, handleTafseerSurah, handleTafseerAyah, handleTafseerDownload, handleTafseerDownloadList } from './handlers/tafseer';
+import { handleHadithManifest, handleHadithList, handleHadithBookInfo, handleHadithChapter, handleHadithByNumber, handleHadithDownloadList, handleHadithDownload } from './handlers/hadith';
 import { handleLandingPage, handlePrivacyPage, handleDocsPage, handleReadPage, handleReadPageSSR, handleRobotsTxt, handleSitemapXml, handleIndexNowKey, handleAssetRequest } from './handlers/website';
+import { handleReciteModelRequest } from './handlers/reciteModel';
 import { corsMiddleware, addCorsHeaders } from './middleware/cors';
 import { rateLimitMiddleware } from './middleware/rateLimit';
 import { handleError } from './middleware/errorHandler';
@@ -15,6 +17,7 @@ import { successResponse, addRateLimitHeaders } from './utils/response';
 
 export interface Env {
   QURAN_AUDIO_BUCKET: R2Bucket;
+  RECITE_MODEL_BUCKET: R2Bucket;
 }
 
 // Create router
@@ -36,13 +39,17 @@ router.get('/privacy', () => handlePrivacyPage());
 // API documentation page
 router.get('/docs', () => handleDocsPage());
 
-// Quran reading page - SEO routes
+// Quran reading page - all routes serve SVG Mushaf reader (JS parses URL for page)
 router.get('/read', () => handleReadPage());
-router.get('/read/page/:pageNumber', (request: any, env: Env) => {
+router.get('/read/page/:pageNumber', () => handleReadPage());
+router.get('/read/surah/:surahNumber', () => handleReadPage());
+
+// SSR routes for search engine crawlers (bot-specific, linked from sitemap)
+router.get('/read-seo/page/:pageNumber', (request: any, env: Env) => {
   const { pageNumber } = request.params;
   return handleReadPageSSR(request, env, parseInt(pageNumber), 'page');
 });
-router.get('/read/surah/:surahNumber', (request: any, env: Env) => {
+router.get('/read-seo/surah/:surahNumber', (request: any, env: Env) => {
   const { surahNumber } = request.params;
   return handleReadPageSSR(request, env, parseInt(surahNumber), 'surah');
 });
@@ -103,6 +110,15 @@ router.get('/', (request: any) => {
         downloads: '/api/v1/tafseer/downloads',
         download: '/api/v1/tafseer/download/:tafseerId'
       },
+      hadith: {
+        manifest: '/api/v1/hadith/manifest',
+        list: '/api/v1/hadith/list',
+        book: '/api/v1/hadith/:bookId',
+        chapter: '/api/v1/hadith/:bookId/chapter/:chapterId',
+        hadith: '/api/v1/hadith/:bookId/hadith/:hadithId',
+        downloads: '/api/v1/hadith/downloads',
+        download: '/api/v1/hadith/download/:bookId'
+      },
       search: '/api/v1/search?q=<query>&type=<surah|reciter>',
       credits: '/api/v1/credits'
     },
@@ -125,11 +141,17 @@ router.get('/', (request: any) => {
       tafseerAyah: 'https://alfurqan.online/api/v1/tafseer/ibn-kathir-english/surah/2/ayah/255',
       tafseerDownloads: 'https://alfurqan.online/api/v1/tafseer/downloads',
       tafseerDownload: 'https://alfurqan.online/api/v1/tafseer/download/muyassar',
+      hadithList: 'https://alfurqan.online/api/v1/hadith/list',
+      hadithBook: 'https://alfurqan.online/api/v1/hadith/bukhari',
+      hadithChapter: 'https://alfurqan.online/api/v1/hadith/bukhari/chapter/1',
+      hadithSingle: 'https://alfurqan.online/api/v1/hadith/nawawi40/hadith/1',
+      hadithDownloads: 'https://alfurqan.online/api/v1/hadith/downloads',
       getCredits: 'https://alfurqan.online/api/v1/credits'
     },
     features: [
       '44 renowned Quran reciters (including Warsh variants)',
       '6,236 individual ayah audio files',
+      '17 Hadith books (50,884 hadiths) with Arabic & English text',
       '8 Tafseer sources (Arabic & English) with word-by-word meanings',
       '604 Quran text pages in SVG format',
       '604 QCF page fonts (V4 Tajweed with colors, V2 Plain for custom styling)',
@@ -145,7 +167,8 @@ router.get('/', (request: any) => {
       metadata: 'Tanzil.net',
       audio: 'EveryAyah.com',
       quranText: 'github.com/batoulapps/quran-svg (King Fahd Quran Printing Complex)',
-      athan: 'Assabile.com'
+      athan: 'Assabile.com',
+      hadith: 'github.com/AhmedBaset/hadith-json'
     },
     contact: {
       github: 'https://github.com/ahmedm224/quranapi',
@@ -214,6 +237,9 @@ router.get('/api/v1/fonts/qcf-v2.zip', (request: any, env: Env) => {
 router.get('/api/v1/fonts/qcf-v4.zip', (request: any, env: Env) => {
   return handleV4FontsDownload(request, env);
 });
+router.get('/api/v1/fonts/quran-svg.zip', (request: any, env: Env) => {
+  return handleSvgDownload(request, env);
+});
 
 // Athan (Adhan) endpoints
 router.get('/api/v1/athan/manifest', handleAthanManifest);
@@ -246,6 +272,36 @@ router.get('/api/v1/tafseer/:tafseerId/surah/:surahNumber', (request: any, env: 
 router.get('/api/v1/tafseer/:tafseerId', (request: any, env: Env) => {
   const { tafseerId } = request.params;
   return handleTafseerInfo(request, env, tafseerId);
+});
+
+// Hadith endpoints
+router.get('/api/v1/hadith/manifest', handleHadithManifest);
+router.get('/api/v1/hadith/list', handleHadithList);
+router.get('/api/v1/hadith/downloads', handleHadithDownloadList);
+router.get('/api/v1/hadith/download/:bookId', (request: any, env: Env) => {
+  const { bookId } = request.params;
+  return handleHadithDownload(request, env, bookId);
+});
+router.get('/api/v1/hadith/:bookId/chapter/:chapterId', (request: any, env: Env) => {
+  const { bookId, chapterId } = request.params;
+  return handleHadithChapter(request, env, bookId, chapterId);
+});
+router.get('/api/v1/hadith/:bookId/hadith/:hadithId', (request: any, env: Env) => {
+  const { bookId, hadithId } = request.params;
+  return handleHadithByNumber(request, env, bookId, hadithId);
+});
+router.get('/api/v1/hadith/:bookId', (request: any, env: Env) => {
+  const { bookId } = request.params;
+  return handleHadithBookInfo(request, env, bookId);
+});
+
+// Private model assets (undocumented — gated by X-Client header)
+router.get('/m/v1/manifest.json', (request: any, env: Env) => {
+  return handleReciteModelRequest(request, env, 'manifest.json');
+});
+router.get('/m/v1/v1/:filename', (request: any, env: Env) => {
+  const { filename } = request.params;
+  return handleReciteModelRequest(request, env, `v1/${filename}`);
 });
 
 // Search endpoint

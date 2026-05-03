@@ -271,7 +271,21 @@ export function handleFontsManifest(): Response {
         manifest: '/api/v1/quran-fonts/manifest',
         v4Font: '/api/v1/quran-fonts/v4/:pageNumber',
         v2Font: '/api/v1/quran-fonts/v2/:pageNumber',
-        layout: '/api/v1/quran-fonts/layout/:pageNumber'
+        layout: '/api/v1/quran-fonts/layout/:pageNumber',
+        downloadV2: '/api/v1/fonts/qcf-v2.zip',
+        downloadV4: '/api/v1/fonts/qcf-v4.zip'
+      },
+      downloads: {
+        v2: {
+          url: '/api/v1/fonts/qcf-v2.zip',
+          description: 'All 604 V2 plain fonts in a single ZIP archive',
+          format: 'zip'
+        },
+        v4: {
+          url: '/api/v1/fonts/qcf-v4.zip',
+          description: 'All 604 V4 Tajweed fonts in a single ZIP archive',
+          format: 'zip'
+        }
       },
       pageRange: {
         first: 1,
@@ -476,6 +490,123 @@ export async function handleLayoutRequest(
       'Cache-Control': 'public, max-age=31536000, immutable',
       'Access-Control-Allow-Origin': '*',
       'X-Page-Number': page.toString(),
+    },
+  });
+}
+
+/**
+ * Download QCF V2 fonts as ZIP archive
+ */
+export async function handleV2FontsDownload(
+  request: Request,
+  env: Env
+): Promise<Response> {
+  const r2Key = 'assets/quran-fonts/qcf-v2.zip';
+  const object = await env.QURAN_AUDIO_BUCKET.get(r2Key);
+
+  if (!object) {
+    return new Response(
+      JSON.stringify({
+        error: {
+          message: 'QCF V2 fonts archive not found',
+          code: 'ARCHIVE_NOT_FOUND'
+        }
+      }),
+      {
+        status: 404,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      }
+    );
+  }
+
+  return new Response(object.body, {
+    headers: {
+      'Content-Type': 'application/zip',
+      'Content-Length': object.size.toString(),
+      'Content-Disposition': 'attachment; filename="qcf-v2.zip"',
+      'Cache-Control': 'public, max-age=86400',
+      'Access-Control-Allow-Origin': '*',
+    },
+  });
+}
+
+/**
+ * Download QCF V4 fonts as ZIP archive
+ */
+export async function handleV4FontsDownload(
+  request: Request,
+  env: Env
+): Promise<Response> {
+  const r2Key = 'assets/quran-fonts/qcf-v4.zip';
+  const object = await env.QURAN_AUDIO_BUCKET.get(r2Key);
+
+  if (!object) {
+    return new Response(
+      JSON.stringify({
+        error: {
+          message: 'QCF V4 fonts archive not found',
+          code: 'ARCHIVE_NOT_FOUND'
+        }
+      }),
+      {
+        status: 404,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      }
+    );
+  }
+
+  return new Response(object.body, {
+    headers: {
+      'Content-Type': 'application/zip',
+      'Content-Length': object.size.toString(),
+      'Content-Disposition': 'attachment; filename="qcf-v4.zip"',
+      'Cache-Control': 'public, max-age=86400',
+      'Access-Control-Allow-Origin': '*',
+    },
+  });
+}
+
+/**
+ * Download Quran SVG pages as ZIP archive
+ */
+export async function handleSvgDownload(
+  request: Request,
+  env: Env
+): Promise<Response> {
+  const r2Key = 'assets/quran-fonts/quran-svg.zip';
+  const object = await env.QURAN_AUDIO_BUCKET.get(r2Key);
+
+  if (!object) {
+    return new Response(
+      JSON.stringify({
+        error: {
+          message: 'Quran SVG archive not found',
+          code: 'ARCHIVE_NOT_FOUND'
+        }
+      }),
+      {
+        status: 404,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      }
+    );
+  }
+
+  return new Response(object.body, {
+    headers: {
+      'Content-Type': 'application/zip',
+      'Content-Length': object.size.toString(),
+      'Content-Disposition': 'attachment; filename="quran-svg.zip"',
+      'Cache-Control': 'public, max-age=86400',
+      'Access-Control-Allow-Origin': '*',
     },
   });
 }

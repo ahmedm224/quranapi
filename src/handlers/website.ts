@@ -504,18 +504,19 @@ export function handleLandingPage(): Response {
 
       <div class="api-section">
         <h2>🔌 Free API for Developers</h2>
-        <p>Build Quran apps with our open API. Stream audio from 44 reciters, access Quran text, and Athan recordings.</p>
+        <p>Build Quran apps with our comprehensive API. Audio, text, tafseer, fonts - everything you need.</p>
         <div class="api-highlights">
           <span class="api-highlight"><strong>44</strong> Reciters</span>
+          <span class="api-highlight"><strong>8</strong> Tafseers</span>
+          <span class="api-highlight"><strong>604</strong> QCF Fonts</span>
           <span class="api-highlight"><strong>32</strong> Athans</span>
-          <span class="api-highlight"><strong>604</strong> Pages</span>
           <span class="api-highlight">No API Key</span>
         </div>
         <div class="api-example">
-          <code>curl alfurqan.online/api/v1/audio/husary/1</code>
+          <code>curl alfurqan.online/api/v1/tafseer/muyassar/surah/1</code>
         </div>
         <div class="api-buttons">
-          <a href="/docs" class="btn btn-primary">API Docs</a>
+          <a href="/docs" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.9rem 2rem;">View Full Documentation</a>
           <a href="https://github.com/ahmedm224/quranapi" class="btn btn-secondary" target="_blank" rel="noopener">GitHub</a>
         </div>
       </div>
@@ -526,7 +527,7 @@ export function handleLandingPage(): Response {
     <p class="footer-links">
       <a href="/read">Read Quran</a> · <a href="/docs">API Docs</a> · <a href="/privacy">Privacy</a> · <a href="https://github.com/ahmedm224/quranapi" target="_blank">GitHub</a>
     </p>
-    <p>Audio: <a href="https://everyayah.com" target="_blank">EveryAyah</a> · Data: <a href="https://tanzil.net" target="_blank">Tanzil</a> · Athan: <a href="https://www.assabile.com" target="_blank">Assabile</a></p>
+    <p>Audio: <a href="https://everyayah.com" target="_blank">EveryAyah</a> · Data: <a href="https://tanzil.net" target="_blank">Tanzil</a> · Athan: <a href="https://www.assabile.com" target="_blank">Assabile</a> · Hadith: <a href="https://github.com/AhmedBaset/hadith-json" target="_blank">hadith-json</a></p>
   </footer>
 </body>
 </html>`;
@@ -904,9 +905,9 @@ export function handleDocsPage(): Response {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API Documentation - Al Furqan Quran Audio API</title>
-  <meta name="description" content="Complete API documentation for streaming Quran audio. Access 44 reciters, 6,236 ayahs, Quran text SVG pages, and athan recordings. Free, no authentication required.">
-  <meta name="keywords" content="Quran API Documentation, Quran Audio API, REST API, Islamic API, Quran Streaming API, Audio API">
+  <title>API Documentation - Al Furqan Quran API</title>
+  <meta name="description" content="Complete API documentation for Al Furqan Quran API. Access 44 reciters, Quran text, 8 tafseer sources, QCF fonts, and athan recordings. Free, no authentication required.">
+  <meta name="keywords" content="Quran API Documentation, Quran Audio API, Tafseer API, QCF Fonts, REST API, Islamic API">
   <meta name="author" content="Al Furqan">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://alfurqan.online/docs">
@@ -915,23 +916,23 @@ export function handleDocsPage(): Response {
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Al Furqan">
-  <meta property="og:title" content="API Documentation - Al Furqan Quran Audio API">
-  <meta property="og:description" content="Complete API documentation for streaming Quran audio from 44 reciters. Free and open API.">
+  <meta property="og:title" content="API Documentation - Al Furqan Quran API">
+  <meta property="og:description" content="Complete API documentation for Quran audio, text, tafseer, and fonts. Free and open API.">
   <meta property="og:image" content="https://alfurqan.online/assets/logo.png">
   <meta property="og:url" content="https://alfurqan.online/docs">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="API Documentation - Al Furqan">
-  <meta name="twitter:description" content="Complete API documentation for streaming Quran audio from 44 reciters.">
+  <meta name="twitter:description" content="Complete API documentation for Quran audio, text, tafseer, and fonts.">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "Al Furqan Quran Audio API Documentation",
-    "description": "Complete API documentation for streaming Quran audio recitations",
+    "headline": "Al Furqan Quran API Documentation",
+    "description": "Complete API documentation for Quran audio, text, tafseer, and fonts",
     "url": "https://alfurqan.online/docs",
     "author": {
       "@type": "Organization",
@@ -963,8 +964,8 @@ export function handleDocsPage(): Response {
       --white: #FFFFFF;
       --text-dark: #212121;
       --text-secondary: #616161;
-      --code-bg: #263238;
-      --code-text: #80CBC4;
+      --code-bg: #1e1e1e;
+      --code-text: #d4d4d4;
     }
 
     body {
@@ -976,16 +977,15 @@ export function handleDocsPage(): Response {
     }
 
     .header {
-      background: var(--pale-green);
-      padding: 1.5rem 2rem;
-      border-bottom: 1px solid #E0E0E0;
+      background: var(--primary-green);
+      padding: 1rem 2rem;
       position: sticky;
       top: 0;
       z-index: 100;
     }
 
     .header-content {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
       display: flex;
       align-items: center;
@@ -994,30 +994,32 @@ export function handleDocsPage(): Response {
 
     .header a.logo-link {
       text-decoration: none;
-      color: var(--primary-green);
+      color: var(--white);
       display: inline-flex;
       align-items: center;
       gap: 0.75rem;
     }
 
     .header img {
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
     }
 
     .header h1 {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
+      font-weight: 600;
     }
 
     .header nav a {
-      color: var(--primary-green);
+      color: var(--white);
       text-decoration: none;
       margin-left: 1.5rem;
       font-weight: 500;
+      opacity: 0.9;
     }
 
     .header nav a:hover {
-      text-decoration: underline;
+      opacity: 1;
     }
 
     .layout {
@@ -1027,23 +1029,25 @@ export function handleDocsPage(): Response {
     }
 
     .sidebar {
-      width: 280px;
-      padding: 2rem 1.5rem;
+      width: 260px;
+      padding: 1.5rem 1rem;
       border-right: 1px solid #E0E0E0;
-      height: calc(100vh - 70px);
+      height: calc(100vh - 56px);
       overflow-y: auto;
       position: sticky;
-      top: 70px;
-      background: var(--white);
+      top: 56px;
+      background: #FAFAFA;
+      font-size: 0.9rem;
     }
 
     .sidebar h3 {
       color: var(--primary-green);
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      margin-bottom: 0.75rem;
-      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+      margin-top: 1.25rem;
+      font-weight: 700;
     }
 
     .sidebar h3:first-child {
@@ -1303,15 +1307,30 @@ export function handleDocsPage(): Response {
       <a href="#base-url">Base URL</a>
       <a href="#rate-limiting">Rate Limiting</a>
 
-      <h3>Endpoints</h3>
-      <a href="#health">Health Check</a>
+      <h3>Audio</h3>
       <a href="#reciters">Reciters</a>
       <a href="#surahs">Surahs</a>
       <a href="#audio">Audio Streaming</a>
-      <a href="#quran-text">Quran Text (SVG)</a>
-      <a href="#athan">Athan (Call to Prayer)</a>
+      <a href="#athan">Athan</a>
+
+      <h3>Quran Text</h3>
+      <a href="#quran-text">Text Pages (SVG)</a>
+      <a href="#qcf-fonts">QCF Fonts</a>
+
+      <h3>Tafseer</h3>
+      <a href="#tafseer">Tafseer Sources</a>
+      <a href="#tafseer-endpoints">Tafseer Endpoints</a>
+
+      <h3>Hadith</h3>
+      <a href="#hadith">Hadith Collections</a>
+      <a href="#hadith-endpoints">Hadith Endpoints</a>
+
+      <h3>Other</h3>
       <a href="#search">Search</a>
       <a href="#credits">Credits</a>
+
+      <h3>Downloads</h3>
+      <a href="#downloads">Mobile App Downloads</a>
 
       <h3>Resources</h3>
       <a href="#code-examples">Code Examples</a>
@@ -1320,18 +1339,23 @@ export function handleDocsPage(): Response {
 
     <main class="content">
       <div class="intro-box" id="introduction">
-        <h2>Quran Audio API</h2>
-        <p>Free, open API for streaming Quran audio recitations from 44 renowned reciters. Access 6,236 individual ayah audio files, 604 Quran text pages, and 32 athan recordings.</p>
+        <h2>Al Furqan Quran API</h2>
+        <p>Free, open API for Quran applications. Audio recitations from 44 reciters, 8 tafseer sources, QCF fonts for Mushaf rendering, and more. No API key required.</p>
         <div class="feature-grid">
           <div class="feature-item">
             <div class="icon">🎙️</div>
             <h4>44 Reciters</h4>
-            <p>World-renowned reciters</p>
+            <p>6,236 ayah audio files</p>
           </div>
           <div class="feature-item">
             <div class="icon">📖</div>
-            <h4>6,236 Ayahs</h4>
-            <p>Complete Quran audio</p>
+            <h4>8 Tafseers</h4>
+            <p>Arabic & English exegesis</p>
+          </div>
+          <div class="feature-item">
+            <div class="icon">🔤</div>
+            <h4>QCF Fonts</h4>
+            <p>604 page fonts (V2 & V4)</p>
           </div>
           <div class="feature-item">
             <div class="icon">🕌</div>
@@ -1497,6 +1521,86 @@ export function handleDocsPage(): Response {
       </div>
       <p>Downloads complete bundle of all 604 pages as a ZIP file (~384 MB).</p>
 
+      <h2 id="qcf-fonts">QCF Fonts (Quran Complex Fonts)</h2>
+      <p>Page-specific fonts for rendering Quran text in mobile/web apps. Two versions available:</p>
+      <table>
+        <tr><th>Version</th><th>Description</th><th>Use Case</th></tr>
+        <tr><td><strong>V4 (Tajweed)</strong></td><td>COLRv1 color fonts with embedded Tajweed colors</td><td>Display Tajweed rules automatically</td></tr>
+        <tr><td><strong>V2 (Plain)</strong></td><td>Standard black fonts</td><td>Custom styling & theming</td></tr>
+      </table>
+
+      <h3>Get Fonts Manifest</h3>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/quran-fonts/manifest</span>
+        <a href="/api/v1/quran-fonts/manifest" class="try-it" target="_blank">Try it</a>
+      </div>
+      <p>Returns metadata about available fonts including total pages and usage instructions.</p>
+
+      <h3>Get V4 Tajweed Font</h3>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/quran-fonts/v4/:pageNumber</span>
+        <a href="/api/v1/quran-fonts/v4/1" class="try-it" target="_blank">Try it</a>
+      </div>
+      <p>Returns the V4 color font (.ttf) for a specific page with embedded Tajweed colors.</p>
+      <table>
+        <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+        <tr><td><code>pageNumber</code></td><td>integer</td><td>Page number (1-604)</td></tr>
+      </table>
+
+      <h3>Get V2 Plain Font</h3>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/quran-fonts/v2/:pageNumber</span>
+        <a href="/api/v1/quran-fonts/v2/1" class="try-it" target="_blank">Try it</a>
+      </div>
+      <p>Returns the V2 plain font (.ttf) for a specific page for custom styling.</p>
+
+      <h3>Get Page Layout</h3>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/quran-fonts/layout/:pageNumber</span>
+        <a href="/api/v1/quran-fonts/layout/1" class="try-it" target="_blank">Try it</a>
+      </div>
+      <p>Returns JSON layout data with glyph codes for each word on the page.</p>
+      <div class="code-block"><code>{
+  <span class="key">"pageNumber"</span>: <span class="number">1</span>,
+  <span class="key">"lines"</span>: [
+    {
+      <span class="key">"lineNumber"</span>: <span class="number">1</span>,
+      <span class="key">"words"</span>: [
+        {
+          <span class="key">"surah"</span>: <span class="number">1</span>,
+          <span class="key">"ayah"</span>: <span class="number">1</span>,
+          <span class="key">"qpcV2"</span>: <span class="string">"&#xFC50;"</span>
+        }
+      ]
+    }
+  ]
+}</code></div>
+
+      <h3>Download All V2 Fonts (ZIP)</h3>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/fonts/qcf-v2.zip</span>
+      </div>
+      <p>Downloads all 604 V2 plain fonts as a ZIP archive for offline use.</p>
+
+      <h3>Download All V4 Fonts (ZIP)</h3>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/fonts/qcf-v4.zip</span>
+      </div>
+      <p>Downloads all 604 V4 Tajweed fonts as a ZIP archive for offline use.</p>
+
+      <h3>Download Quran SVG Pages (ZIP)</h3>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/fonts/quran-svg.zip</span>
+      </div>
+      <p>Downloads all 604 Quran pages as SVG vector graphics (King Fahd Complex) in a ZIP archive.</p>
+
       <h2 id="athan">Athan (Call to Prayer)</h2>
       <p>Audio recordings of the Athan from 29 muezzins worldwide.</p>
 
@@ -1547,6 +1651,222 @@ curl "https://alfurqan.online/api/v1/athan/list?location=Egypt"</code></div>
         <span class="method">GET</span>
         <span class="path">/api/v1/athan/download</span>
       </div>
+      <p>Downloads all athan recordings as a ZIP archive.</p>
+
+      <h2 id="tafseer">Tafseer (Quran Exegesis)</h2>
+      <p>Quran tafseer (exegesis) and word-by-word meanings from renowned scholars.</p>
+
+      <h3 id="tafseer-sources">Available Tafseers</h3>
+      <table>
+        <tr><th>ID</th><th>Name</th><th>Language</th><th>Type</th></tr>
+        <tr><td><code>word-by-word-english</code></td><td>Word by Word Translation</td><td>English</td><td>Word Meanings</td></tr>
+        <tr><td><code>mufradat</code></td><td>Quran Mufradat (مفردات القرآن)</td><td>Arabic</td><td>Word Meanings</td></tr>
+        <tr><td><code>ibn-kathir-english</code></td><td>Tafsir Ibn Kathir</td><td>English</td><td>Tafseer</td></tr>
+        <tr><td><code>maarif-ul-quran</code></td><td>Ma'ariful Quran</td><td>English</td><td>Tafseer</td></tr>
+        <tr><td><code>al-saddi</code></td><td>Tafsir Al-Saddi (تفسير السعدي)</td><td>Arabic</td><td>Tafseer</td></tr>
+        <tr><td><code>al-tabari</code></td><td>Tafsir Al-Tabari (تفسير الطبري)</td><td>Arabic</td><td>Tafseer</td></tr>
+        <tr><td><code>ibn-kathir</code></td><td>Tafsir Ibn Kathir (تفسير ابن كثير)</td><td>Arabic</td><td>Tafseer</td></tr>
+        <tr><td><code>muyassar</code></td><td>Al-Tafsir Al-Muyassar (التفسير الميسر)</td><td>Arabic</td><td>Tafseer</td></tr>
+      </table>
+
+      <h3 id="tafseer-endpoints">Tafseer Endpoints</h3>
+
+      <h4>Get Manifest</h4>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/tafseer/manifest</span>
+        <a href="/api/v1/tafseer/manifest" class="try-it" target="_blank">Try it</a>
+      </div>
+      <p>Returns metadata about all available tafseers.</p>
+
+      <h4>List All Tafseers</h4>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/tafseer/list</span>
+        <a href="/api/v1/tafseer/list" class="try-it" target="_blank">Try it</a>
+      </div>
+
+      <h4>Get Tafseer for Surah</h4>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/tafseer/:tafseerId/surah/:surahNumber</span>
+        <a href="/api/v1/tafseer/muyassar/surah/1" class="try-it" target="_blank">Try it</a>
+      </div>
+      <table>
+        <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+        <tr><td><code>tafseerId</code></td><td>string</td><td>Tafseer ID from the table above</td></tr>
+        <tr><td><code>surahNumber</code></td><td>integer</td><td>Surah number (1-114)</td></tr>
+      </table>
+      <div class="code-block"><code><span class="comment"># Get Al-Muyassar tafseer for Surah Al-Fatiha</span>
+curl https://alfurqan.online/api/v1/tafseer/muyassar/surah/1</code></div>
+
+      <h4>Get Tafseer for Specific Ayah</h4>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/tafseer/:tafseerId/surah/:surahNumber/ayah/:ayahNumber</span>
+        <a href="/api/v1/tafseer/ibn-kathir-english/surah/2/ayah/255" class="try-it" target="_blank">Try it</a>
+      </div>
+      <table>
+        <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+        <tr><td><code>tafseerId</code></td><td>string</td><td>Tafseer ID</td></tr>
+        <tr><td><code>surahNumber</code></td><td>integer</td><td>Surah number (1-114)</td></tr>
+        <tr><td><code>ayahNumber</code></td><td>integer</td><td>Ayah number within the surah</td></tr>
+      </table>
+      <div class="code-block"><code><span class="comment"># Get Ibn Kathir English tafseer for Ayat al-Kursi</span>
+curl https://alfurqan.online/api/v1/tafseer/ibn-kathir-english/surah/2/ayah/255</code></div>
+
+      <h4>Response Example</h4>
+      <div class="code-block"><code>{
+  <span class="key">"tafseer"</span>: {
+    <span class="key">"id"</span>: <span class="string">"ibn-kathir-english"</span>,
+    <span class="key">"name_en"</span>: <span class="string">"Tafsir Ibn Kathir"</span>,
+    <span class="key">"language"</span>: <span class="string">"english"</span>
+  },
+  <span class="key">"surah"</span>: { <span class="key">"number"</span>: <span class="number">2</span>, <span class="key">"name"</span>: <span class="string">"Al-Baqara"</span> },
+  <span class="key">"ayah"</span>: {
+    <span class="key">"ayah"</span>: <span class="number">255</span>,
+    <span class="key">"text"</span>: <span class="string">"This is Ayat Al-Kursi..."</span>
+  }
+}</code></div>
+
+      <h4>Download Tafseer (ZIP)</h4>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/tafseer/download/:tafseerId</span>
+      </div>
+      <p>Download a complete tafseer as a ZIP archive for offline use.</p>
+      <div class="code-block"><code><span class="comment"># Download Al-Muyassar tafseer</span>
+curl -O https://alfurqan.online/api/v1/tafseer/download/muyassar
+
+<span class="comment"># Download Ibn Kathir English</span>
+curl -O https://alfurqan.online/api/v1/tafseer/download/ibn-kathir-english</code></div>
+
+      <h4>List All Downloads</h4>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/tafseer/downloads</span>
+        <a href="/api/v1/tafseer/downloads" class="try-it" target="_blank">Try it</a>
+      </div>
+      <p>Returns a list of all available tafseer ZIP downloads with URLs.</p>
+
+      <h2 id="hadith">Hadith Collections</h2>
+      <p>Authentic hadith collections with Arabic text and English translations from 17 renowned books.</p>
+
+      <h3>Available Books</h3>
+      <table>
+        <tr><th>ID</th><th>Name</th><th>Category</th></tr>
+        <tr><td><code>bukhari</code></td><td>Sahih al-Bukhari</td><td>The 9 Books</td></tr>
+        <tr><td><code>muslim</code></td><td>Sahih Muslim</td><td>The 9 Books</td></tr>
+        <tr><td><code>abudawud</code></td><td>Sunan Abu Dawud</td><td>The 9 Books</td></tr>
+        <tr><td><code>nasai</code></td><td>Sunan an-Nasa'i</td><td>The 9 Books</td></tr>
+        <tr><td><code>tirmidhi</code></td><td>Jami at-Tirmidhi</td><td>The 9 Books</td></tr>
+        <tr><td><code>ibnmajah</code></td><td>Sunan Ibn Majah</td><td>The 9 Books</td></tr>
+        <tr><td><code>malik</code></td><td>Muwatta Malik</td><td>The 9 Books</td></tr>
+        <tr><td><code>darimi</code></td><td>Sunan ad-Darimi</td><td>The 9 Books</td></tr>
+        <tr><td><code>ahmed</code></td><td>Musnad Ahmad</td><td>The 9 Books</td></tr>
+        <tr><td><code>nawawi40</code></td><td>An-Nawawi's Forty Hadith</td><td>Forties</td></tr>
+        <tr><td><code>qudsi40</code></td><td>Forty Hadith Qudsi</td><td>Forties</td></tr>
+        <tr><td><code>shahwaliullah40</code></td><td>Shah Waliullah's Forty Hadith</td><td>Forties</td></tr>
+        <tr><td><code>riyad_assalihin</code></td><td>Riyad as-Salihin</td><td>Other Books</td></tr>
+        <tr><td><code>mishkat_almasabih</code></td><td>Mishkat al-Masabih</td><td>Other Books</td></tr>
+        <tr><td><code>bulugh_almaram</code></td><td>Bulugh al-Maram</td><td>Other Books</td></tr>
+        <tr><td><code>aladab_almufrad</code></td><td>Al-Adab Al-Mufrad</td><td>Other Books</td></tr>
+        <tr><td><code>shamail_muhammadiyah</code></td><td>Shamail Muhammadiyah</td><td>Other Books</td></tr>
+      </table>
+
+      <h3 id="hadith-endpoints">Hadith Endpoints</h3>
+
+      <h4>Get Manifest</h4>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/hadith/manifest</span>
+        <a href="/api/v1/hadith/manifest" class="try-it" target="_blank">Try it</a>
+      </div>
+      <p>Returns metadata about all available hadith books, categories, and endpoints.</p>
+
+      <h4>List All Books</h4>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/hadith/list</span>
+        <a href="/api/v1/hadith/list" class="try-it" target="_blank">Try it</a>
+      </div>
+      <p>Returns a simplified list of all 17 hadith books.</p>
+
+      <h4>Get Book Info &amp; Chapters</h4>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/hadith/:bookId</span>
+        <a href="/api/v1/hadith/bukhari" class="try-it" target="_blank">Try it</a>
+      </div>
+      <table>
+        <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+        <tr><td><code>bookId</code></td><td>string</td><td>Book ID from the table above</td></tr>
+      </table>
+      <p>Returns book metadata and a list of all chapters with hadith counts and ranges.</p>
+
+      <h4>Get Chapter Hadiths</h4>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/hadith/:bookId/chapter/:chapterId</span>
+        <a href="/api/v1/hadith/bukhari/chapter/1" class="try-it" target="_blank">Try it</a>
+      </div>
+      <table>
+        <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+        <tr><td><code>bookId</code></td><td>string</td><td>Book ID</td></tr>
+        <tr><td><code>chapterId</code></td><td>integer</td><td>Chapter number within the book</td></tr>
+      </table>
+      <p>Returns all hadiths in a specific chapter with Arabic text and English translation.</p>
+
+      <h4>Get Single Hadith</h4>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/hadith/:bookId/hadith/:hadithId</span>
+        <a href="/api/v1/hadith/nawawi40/hadith/1" class="try-it" target="_blank">Try it</a>
+      </div>
+      <table>
+        <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+        <tr><td><code>bookId</code></td><td>string</td><td>Book ID</td></tr>
+        <tr><td><code>hadithId</code></td><td>integer</td><td>Hadith number within the book (idInBook)</td></tr>
+      </table>
+      <p>Returns a single hadith by its number within the book.</p>
+
+      <h4>Response Example</h4>
+      <div class="code-block"><code>{
+  <span class="key">"book"</span>: {
+    <span class="key">"id"</span>: <span class="string">"nawawi40"</span>,
+    <span class="key">"name_en"</span>: <span class="string">"An-Nawawi's Forty Hadith"</span>,
+    <span class="key">"name_ar"</span>: <span class="string">"..."</span>
+  },
+  <span class="key">"hadith"</span>: {
+    <span class="key">"id"</span>: 1,
+    <span class="key">"idInBook"</span>: 1,
+    <span class="key">"chapterId"</span>: 1,
+    <span class="key">"arabic"</span>: <span class="string">"..."</span>,
+    <span class="key">"english"</span>: {
+      <span class="key">"narrator"</span>: <span class="string">"..."</span>,
+      <span class="key">"text"</span>: <span class="string">"..."</span>
+    }
+  }
+}</code></div>
+
+      <h4>Download Book (ZIP)</h4>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/hadith/download/:bookId</span>
+      </div>
+      <table>
+        <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+        <tr><td><code>bookId</code></td><td>string</td><td>Book ID to download</td></tr>
+      </table>
+      <p>Download a complete hadith book as a ZIP archive for offline use in apps.</p>
+
+      <h4>List All Downloads</h4>
+      <div class="endpoint">
+        <span class="method">GET</span>
+        <span class="path">/api/v1/hadith/downloads</span>
+        <a href="/api/v1/hadith/downloads" class="try-it" target="_blank">Try it</a>
+      </div>
+      <p>Returns a list of all available hadith book ZIP downloads with URLs.</p>
 
       <h2 id="search">Search</h2>
       <div class="endpoint">
@@ -1603,13 +1923,48 @@ curl https://alfurqan.online/api/v1/audio/abdul-basit-murattal/surah/2/ayah/255 
 <span class="comment"># Get surah info</span>
 curl https://alfurqan.online/api/v1/surahs/1</code></div>
 
+      <h2 id="downloads">Downloads for Mobile Apps</h2>
+      <p>ZIP archives for offline use in mobile applications. All downloads include complete data sets.</p>
+
+      <table>
+        <tr><th>Resource</th><th>Endpoint</th><th>Description</th></tr>
+        <tr><td><strong>Quran SVG Pages</strong></td><td><code>/api/v1/quran-text/download</code></td><td>604 SVG pages (~384 MB)</td></tr>
+        <tr><td><strong>QCF V2 Fonts</strong></td><td><code>/api/v1/fonts/qcf-v2.zip</code></td><td>604 plain fonts for custom styling</td></tr>
+        <tr><td><strong>QCF V4 Fonts</strong></td><td><code>/api/v1/fonts/qcf-v4.zip</code></td><td>604 Tajweed color fonts</td></tr>
+        <tr><td><strong>Quran SVG Pages</strong></td><td><code>/api/v1/fonts/quran-svg.zip</code></td><td>604 SVG vector pages (King Fahd Complex)</td></tr>
+        <tr><td><strong>All Athans</strong></td><td><code>/api/v1/athan/download</code></td><td>32 athan recordings</td></tr>
+        <tr><td><strong>Tafseer (each)</strong></td><td><code>/api/v1/tafseer/download/:id</code></td><td>Individual tafseer JSON files</td></tr>
+        <tr><td><strong>Hadith (each)</strong></td><td><code>/api/v1/hadith/download/:id</code></td><td>Individual hadith book JSON files</td></tr>
+      </table>
+
+      <h3>Download Examples</h3>
+      <div class="code-block"><code><span class="comment"># Download all Quran SVG pages</span>
+curl -O https://alfurqan.online/api/v1/quran-text/download
+
+<span class="comment"># Download QCF V4 Tajweed fonts</span>
+curl -O https://alfurqan.online/api/v1/fonts/qcf-v4.zip
+
+<span class="comment"># Download Quran SVG pages</span>
+curl -O https://alfurqan.online/api/v1/fonts/quran-svg.zip
+
+<span class="comment"># Download Ibn Kathir English tafseer</span>
+curl -O https://alfurqan.online/api/v1/tafseer/download/ibn-kathir-english
+
+<span class="comment"># Download all athans</span>
+curl -O https://alfurqan.online/api/v1/athan/download
+
+<span class="comment"># Download Sahih al-Bukhari hadith book</span>
+curl -O https://alfurqan.online/api/v1/hadith/download/bukhari</code></div>
+
       <h2 id="data-sources">Data Sources</h2>
       <table>
         <tr><th>Source</th><th>Data Provided</th><th>Website</th></tr>
         <tr><td><strong>Tanzil.net</strong></td><td>Quran metadata (surah names, ayah counts)</td><td><a href="https://tanzil.net" target="_blank">tanzil.net</a></td></tr>
         <tr><td><strong>EveryAyah.com</strong></td><td>Audio recitations (44 reciters)</td><td><a href="https://everyayah.com" target="_blank">everyayah.com</a></td></tr>
         <tr><td><strong>Quran-SVG</strong></td><td>604 SVG pages (Madani Mushaf)</td><td><a href="https://github.com/batoulapps/quran-svg" target="_blank">github.com/batoulapps/quran-svg</a></td></tr>
+        <tr><td><strong>Quran.com</strong></td><td>QCF fonts, Tafseer data</td><td><a href="https://quran.com" target="_blank">quran.com</a></td></tr>
         <tr><td><strong>Assabile.com</strong></td><td>Athan recordings (32 athans)</td><td><a href="https://www.assabile.com" target="_blank">assabile.com</a></td></tr>
+        <tr><td><strong>Hadith-JSON</strong></td><td>17 Hadith books (50,884 hadiths)</td><td><a href="https://github.com/AhmedBaset/hadith-json" target="_blank">github.com/AhmedBaset/hadith-json</a></td></tr>
       </table>
 
       <footer>
@@ -1630,17 +1985,27 @@ curl https://alfurqan.online/api/v1/surahs/1</code></div>
 }
 
 /**
- * Serve the Quran reading page - Page-based (604 pages) with searchable text
+ * Serve the Quran reading page - SVG Mushaf Reader (604 pages)
  */
-export function handleReadPage(): Response {
+export function handleReadPage(startPage?: number): Response {
+  // Server-render surah options
+  const surahOptions = SURAHS_DATA.map(s =>
+    `<option value="${s.page}">${s.number}. ${s.name} - ${s.englishName}</option>`
+  ).join('\n');
+
+  // Server-render juz options
+  const juzOptions = JUZ_PAGES.map((page, i) =>
+    `<option value="${page}">الجزء ${i + 1}</option>`
+  ).join('\n');
+
   const html = `<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <title>القرآن الكريم - Al Furqan | Read Quran Online</title>
-  <meta name="description" content="اقرأ القرآن الكريم كاملاً مع الاستماع إلى التلاوة من 44 قارئ. Read the Holy Quran online with audio from 44 reciters. 604 pages of the Madani Mushaf.">
-  <meta name="keywords" content="Quran, القرآن الكريم, Read Quran, Quran Online, Quran Text, Islamic, Muslim, سورة, آية, مصحف">
+  <meta name="description" content="اقرأ القرآن الكريم كاملاً - مصحف المدينة المنورة بصيغة SVG مع الاستماع إلى التلاوة. Read the Holy Quran - Madani Mushaf SVG with audio recitation.">
+  <meta name="keywords" content="Quran, القرآن الكريم, Read Quran, Mushaf, مصحف, Quran Online, Islamic, Muslim">
   <meta name="author" content="Al Furqan">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://alfurqan.online/read">
@@ -1651,854 +2016,701 @@ export function handleReadPage(): Response {
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Al Furqan">
   <meta property="og:title" content="القرآن الكريم - Read Quran Online">
-  <meta property="og:description" content="اقرأ القرآن الكريم مع الاستماع من 44 قارئ. Read Quran with audio from 44 reciters.">
+  <meta property="og:description" content="مصحف المدينة المنورة مع الاستماع من 44 قارئ. Madani Mushaf with audio from 44 reciters.">
   <meta property="og:image" content="https://alfurqan.online/assets/logo.png">
   <meta property="og:url" content="https://alfurqan.online/read">
 
-  <!-- Quran Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --primary-green: #1B5E20;
-      --light-green: #4CAF50;
-      --accent-green: #81C784;
-      --pale-green: #E8F5E9;
-      --white: #FFFFFF;
-      --text-dark: #212121;
-      --text-secondary: #616161;
-      --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      --quran-bg: #FFFEF7;
-    }
-
-    html, body {
-      height: 100%;
-      overflow: hidden;
-    }
-
-    body {
-      font-family: 'Amiri', -apple-system, BlinkMacSystemFont, serif;
-      background: #F5F5F5;
-      color: var(--text-dark);
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Header - Mobile First */
-    .header {
-      background: var(--primary-green);
-      color: var(--white);
-      padding: 0.5rem 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-shrink: 0;
-      box-shadow: var(--shadow);
-      z-index: 100;
-    }
-
-    .header-title {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-      color: var(--white);
-    }
-
-    .header-title img {
-      width: 28px;
-      height: 28px;
-    }
-
-    .header-title h1 {
-      font-size: 1rem;
-      font-weight: 700;
-      font-family: 'Amiri', serif;
-    }
-
-    .app-link {
-      color: var(--white);
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      background: rgba(255,255,255,0.15);
-      font-size: 0.7rem;
-      text-decoration: none;
-      transition: background 0.2s;
-    }
-
-    .app-link:hover {
-      background: rgba(255,255,255,0.25);
-    }
-
-    /* Controls Bar - Mobile First */
-    .controls {
-      background: var(--white);
-      padding: 0.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      border-bottom: 1px solid #E0E0E0;
-      flex-shrink: 0;
-    }
-
-    .controls-row {
-      display: flex;
-      gap: 0.4rem;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .nav-row {
-      gap: 0.5rem;
-    }
-
-    select {
-      padding: 0.4rem 0.5rem;
-      border: 1px solid #E0E0E0;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-family: 'Amiri', serif;
-      background: var(--white);
-      color: var(--text-dark);
-      cursor: pointer;
-      min-width: 80px;
-      flex: 1;
-      max-width: 140px;
-    }
-
-    .page-display {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      background: var(--pale-green);
-      padding: 0.3rem 0.5rem;
-      border-radius: 6px;
-    }
-
-    .page-input {
-      width: 45px;
-      text-align: center;
-      font-weight: 600;
-      font-size: 0.9rem;
-      font-family: 'Amiri', serif;
-      border: 1px solid #E0E0E0;
-      border-radius: 4px;
-      padding: 0.25rem;
-      background: var(--white);
-    }
-
-    .page-total {
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      white-space: nowrap;
-    }
-
-    .nav-btn {
-      background: var(--primary-green);
-      border: none;
-      padding: 0.4rem 0.6rem;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.75rem;
-      font-family: 'Amiri', serif;
-      color: var(--white);
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      transition: background 0.2s;
-      min-height: 36px;
-    }
-
-    .nav-btn:hover {
-      background: #2E7D32;
-    }
-
-    .nav-btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    .nav-arrow {
-      font-size: 1rem;
-      line-height: 1;
-    }
-
-    .nav-label {
-      display: none;
-    }
-
-    /* Quran Text Display */
-    .quran-container {
-      flex: 1;
-      overflow-y: auto;
-      overflow-x: hidden;
-      background: var(--quran-bg);
-      padding: 0;
-    }
-
-    .page-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.4rem 1rem;
-      background: linear-gradient(180deg, var(--pale-green) 0%, var(--quran-bg) 100%);
-    }
-
-    .page-surah {
-      font-family: 'Amiri', serif;
-      font-size: 1rem;
-      color: var(--primary-green);
-      font-weight: 600;
-    }
-
-    .page-juz {
-      font-family: 'Amiri', serif;
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-    }
-
-    .surah-title {
-      text-align: center;
-      font-family: 'Amiri Quran', 'Amiri', serif;
-      font-size: 1rem;
-      color: #313c2e;
-      margin: 0.75rem auto 0.5rem;
-      padding: 0;
-      background-image: url('/assets/surah_header.svg');
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-      background-position: center;
-      max-width: 100%;
-      width: 280px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-      padding-bottom: 2px;
-    }
-
-    .bismillah {
-      text-align: center;
-      font-family: 'Amiri Quran', 'Amiri', serif;
-      font-size: 1.4rem;
-      color: var(--primary-green);
-      padding: 0.5rem 1rem;
-      line-height: 2;
-    }
-
-    .ayahs-container {
-      padding: 0.5rem 1rem 4.5rem;
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: justify;
-    }
-
-    .ayah {
-      display: inline;
-      font-family: 'Amiri Quran', 'Amiri', serif;
-      font-size: 1.4rem;
-      line-height: 2.2;
-      color: var(--text-dark);
-      cursor: pointer;
-      transition: background 0.2s;
-      border-radius: 4px;
-      padding: 0 2px;
-    }
-
-    .ayah:hover {
-      background: var(--pale-green);
-    }
-
-    .ayah.playing {
-      background: var(--accent-green);
-    }
-
-    .ayah-num {
-      font-family: 'Amiri', serif;
-      font-size: 0.75rem;
-      color: var(--primary-green);
-      vertical-align: super;
-      margin: 0 1px;
-    }
-
-    .loading {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 3rem;
-      color: var(--text-secondary);
-      font-size: 1rem;
-    }
-
-    .loading::after {
-      content: '';
-      width: 20px;
-      height: 20px;
-      border: 2px solid var(--pale-green);
-      border-top-color: var(--primary-green);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-right: 0.5rem;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* Audio Player - Fixed Bottom */
-    .audio-player {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: var(--white);
-      border-top: 1px solid #E0E0E0;
-      padding: 0.4rem 0.75rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
-      z-index: 50;
-    }
-
-    .play-btn {
-      background: var(--primary-green);
-      color: var(--white);
-      border: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: background 0.2s, transform 0.1s;
-    }
-
-    .play-btn:hover {
-      background: #2E7D32;
-    }
-
-    .play-btn:active {
-      transform: scale(0.95);
-    }
-
-    .play-btn.playing {
-      background: var(--light-green);
-    }
-
-    .audio-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .audio-status {
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .audio-progress {
-      width: 100%;
-      height: 3px;
-      background: var(--pale-green);
-      border-radius: 2px;
-      margin-top: 0.3rem;
-      overflow: hidden;
-    }
-
-    .audio-progress-bar {
-      height: 100%;
-      background: var(--primary-green);
-      width: 0%;
-      transition: width 0.3s;
-    }
-
-    /* Desktop Styles */
-    @media (min-width: 768px) {
-      .header {
-        padding: 0.6rem 2rem;
-      }
-
-      .header-title h1 {
-        font-size: 1.2rem;
-      }
-
-      .controls {
-        padding: 0.6rem 2rem;
-        gap: 0.75rem;
-      }
-
-      .controls {
-        flex-direction: row;
-        justify-content: center;
-        padding: 0.6rem 1rem;
-      }
-
-      .controls-row {
-        flex-wrap: nowrap;
-      }
-
-      select {
-        min-width: 130px;
-        max-width: 180px;
-        font-size: 0.85rem;
-      }
-
-      .page-input {
-        width: 55px;
-      }
-
-      .nav-label {
-        display: inline;
-      }
-
-      .nav-btn {
-        padding: 0.4rem 0.8rem;
-      }
-
-      .page-header {
-        padding: 0.5rem 2rem;
-      }
-
-      .page-surah {
-        font-size: 1.1rem;
-      }
-
-      .page-juz {
-        font-size: 1rem;
-      }
-
-      .surah-title {
-        font-size: 1.3rem;
-        width: 400px;
-        height: 42px;
-      }
-
-      .bismillah {
-        font-size: 1.7rem;
-      }
-
-      .ayahs-container {
-        padding: 1rem 2rem 5rem;
-      }
-
-      .ayah {
-        font-size: 1.7rem;
-        line-height: 2.4;
-      }
-
-      .ayah-num {
-        font-size: 0.85rem;
-      }
-
-      .audio-player {
-        padding: 0.5rem 2rem;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .ayah {
-        font-size: 1.9rem;
-      }
-    }
-
-    .error {
-      color: #D32F2F;
-      text-align: center;
-      padding: 2rem;
-    }
-
-    .hidden {
-      display: none !important;
+    *{margin:0;padding:0;box-sizing:border-box}
+    html,body{height:100%;overflow:hidden}
+    body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f0f0f0;color:#212121;display:flex;flex-direction:column}
+
+    /* Header */
+    .header{background:#1B5E20;color:#fff;padding:0 1rem;height:44px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:100}
+    .header-title{display:flex;align-items:center;gap:0.4rem;text-decoration:none;color:#fff;font-weight:700;font-size:0.95rem}
+    .header-title img{width:26px;height:26px}
+    .header-page-info{font-size:0.85rem;color:#C8E6C9;font-family:'Traditional Arabic',serif}
+
+    /* Nav */
+    .nav{background:#2E7D32;color:#fff;padding:5px 10px;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;flex-shrink:0;z-index:99}
+    .nav label{font-size:12px;color:#C8E6C9}
+    .nav select,.nav input[type="number"]{background:#1B5E20;color:#E8F5E9;border:1px solid #4CAF50;border-radius:4px;padding:4px 6px;font-size:12px;cursor:pointer}
+    .nav select:focus,.nav input:focus{outline:1px solid #81C784}
+    .nav-btn{background:#4CAF50;color:#fff;border:1px solid #388E3C;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:bold;cursor:pointer;min-width:32px;transition:background 0.15s}
+    .nav-btn:hover{background:#66BB6A}
+    .page-input{width:50px;text-align:center}
+
+    /* Mushaf Container */
+    .mushaf-container{flex:1;display:flex;justify-content:center;align-items:center;overflow:hidden;padding:8px;background:#e8e8e8}
+
+    /* Book Spread */
+    .book-spread{display:flex;direction:ltr;position:relative;filter:drop-shadow(0 6px 24px rgba(0,0,0,0.35))}
+
+    /* Page Frame */
+    .page-frame{position:relative;background:#FFFEF7;overflow:hidden;height:calc(100vh - 160px);aspect-ratio:335/544;transition:background 0.3s}
+    .page-frame.left-page{border-radius:4px 0 0 4px;box-shadow:inset -4px 0 12px rgba(0,0,0,0.06)}
+    .page-frame.right-page{border-radius:0 4px 4px 0;box-shadow:inset 4px 0 12px rgba(0,0,0,0.06)}
+
+    /* SVG Container */
+    .svg-container{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2% 3%;position:relative}
+    .svg-container svg{width:100%;height:100%}
+
+    /* Ayah Highlight Overlay */
+    .line-overlay{position:absolute;pointer-events:none;z-index:10}
+    .line-strip{position:absolute;left:0;width:100%;cursor:pointer;pointer-events:auto;transition:background 0.15s}
+    .line-strip:hover{background:rgba(76,175,80,0.08)}
+    .line-strip.highlighted{background:rgba(76,175,80,0.2)}
+    .line-strip.highlighted:hover{background:rgba(76,175,80,0.28)}
+
+    /* Book Spine */
+    .book-spine{width:5px;background:linear-gradient(90deg,rgba(0,0,0,0.12) 0%,rgba(0,0,0,0.25) 40%,rgba(0,0,0,0.3) 50%,rgba(0,0,0,0.25) 60%,rgba(0,0,0,0.12) 100%);z-index:10;flex-shrink:0}
+
+    /* Page Number */
+    .page-number{position:absolute;bottom:2px;left:50%;transform:translateX(-50%);font-size:11px;color:#999;font-family:'Traditional Arabic',serif;z-index:5;user-select:none}
+
+    /* Loading */
+    .page-loading{display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+    .spinner{width:32px;height:32px;border:3px solid #E8F5E9;border-top-color:#1B5E20;border-radius:50%;animation:spin 0.8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* Single page mode */
+    .book-spread.single .book-spine{display:none}
+    .page-frame.single-page{border-radius:4px;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+
+    /* Audio Bar */
+    .audio-bar{background:#1B5E20;color:#fff;padding:6px 12px;display:flex;align-items:center;gap:10px;flex-shrink:0;z-index:100}
+    .audio-btn{background:none;border:2px solid #81C784;color:#fff;border-radius:50%;width:34px;height:34px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0}
+    .audio-btn:hover{background:#4CAF50;border-color:#4CAF50}
+    .audio-btn.playing{background:#4CAF50;border-color:#66BB6A}
+    .audio-status{font-size:12px;min-width:60px;text-align:center;color:#C8E6C9;white-space:nowrap}
+    .progress-wrap{flex:1;height:4px;background:rgba(255,255,255,0.2);border-radius:2px;cursor:pointer;min-width:60px}
+    .progress-bar{height:100%;background:#81C784;border-radius:2px;width:0;transition:width 0.2s}
+
+    /* Hidden */
+    .hidden{display:none!important}
+
+    /* Responsive */
+    @media(max-width:768px){
+      .header{height:40px;padding:0 8px}
+      .nav{padding:4px 6px;gap:4px}
+      .nav label{display:none}
+      .mushaf-container{padding:4px}
+      .book-spread{flex-direction:column;align-items:center}
+      .book-spine{display:none}
+      .page-frame{width:100vw;height:calc(100vh - 90px);aspect-ratio:unset;border-radius:0!important;box-shadow:none}
+      .svg-container{padding:2px 6px}
+      .audio-bar{padding:4px 8px;gap:6px}
     }
   </style>
 </head>
 <body>
   <header class="header">
     <a href="/" class="header-title">
-      <img src="/assets/logo.png" alt="Al Furqan">
-      <h1>القرآن الكريم</h1>
+      <img src="/assets/logo.png" alt="Al Furqan" width="26" height="26">
+      <span>Al Furqan</span>
     </a>
-    <a href="https://play.google.com/store/apps/details?id=com.quranmedia.player" class="app-link" target="_blank" rel="noopener">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17,19H7V5H17M17,1H7C5.89,1 5,1.89 5,3V21A2,2 0 0,0 7,23H17A2,2 0 0,0 19,21V3C19,1.89 18.1,1 17,1Z"/></svg>
-      <span>التطبيق</span>
-    </a>
+    <span class="header-page-info" id="pageInfo"></span>
   </header>
 
-  <nav class="controls">
-    <div class="controls-row">
-      <select id="surahSelect" aria-label="انتقل لسورة"></select>
-      <select id="juzSelect" aria-label="انتقل لجزء"></select>
-      <select id="reciterSelect" aria-label="اختر القارئ"></select>
-    </div>
-    <div class="controls-row nav-row">
-      <button class="nav-btn nav-next" id="nextPageBtn" aria-label="الصفحة التالية" disabled>
-        <span class="nav-arrow">←</span>
-        <span class="nav-label">التالية</span>
-      </button>
-      <div class="page-display">
-        <input type="number" class="page-input" id="pageInput" min="1" max="604" value="1" aria-label="رقم الصفحة">
-        <span class="page-total">من ٦٠٤</span>
-      </div>
-      <button class="nav-btn nav-prev" id="prevPageBtn" aria-label="الصفحة السابقة" disabled>
-        <span class="nav-label">السابقة</span>
-        <span class="nav-arrow">→</span>
-      </button>
-    </div>
+  <nav class="nav">
+    <label>السورة</label>
+    <select id="surahSelect">
+      ${surahOptions}
+    </select>
+    <label>الجزء</label>
+    <select id="juzSelect">
+      ${juzOptions}
+    </select>
+    <label>القارئ</label>
+    <select id="reciterSelect"><option value="">Loading...</option></select>
+    <input type="number" id="pageInput" class="page-input" min="1" max="604" value="1">
+    <button class="nav-btn" id="prevBtn" title="السابق">&#8594;</button>
+    <button class="nav-btn" id="nextBtn" title="التالي">&#8592;</button>
   </nav>
 
-  <main class="quran-container" id="quranContainer">
-    <div class="loading">جاري التحميل...</div>
+  <main class="mushaf-container">
+    <div class="book-spread" id="bookSpread">
+      <div class="page-frame left-page" id="leftPage">
+        <div class="svg-container" id="leftSvg"><div class="page-loading"><div class="spinner"></div></div></div>
+        <div class="page-number" id="leftPageNum"></div>
+      </div>
+      <div class="book-spine"></div>
+      <div class="page-frame right-page" id="rightPage">
+        <div class="svg-container" id="rightSvg"><div class="page-loading"><div class="spinner"></div></div></div>
+        <div class="page-number" id="rightPageNum"></div>
+      </div>
+    </div>
   </main>
 
-  <div class="audio-player">
-    <button class="play-btn" id="playBtn" aria-label="تشغيل">
-      <svg id="playIcon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M8 5v14l11-7z"/>
-      </svg>
-      <svg id="pauseIcon" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-      </svg>
-    </button>
-    <div class="audio-info">
-      <div class="audio-status" id="audioStatus">اضغط على آية للاستماع</div>
-      <div class="audio-progress">
-        <div class="audio-progress-bar" id="progressBar"></div>
-      </div>
+  <div class="audio-bar" id="audioBar">
+    <button class="audio-btn" id="playBtn" title="Play/Pause">&#9654;</button>
+    <div class="audio-status" id="audioStatus">&mdash;</div>
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-bar" id="progressBar"></div>
     </div>
   </div>
 
   <script>
-    // State
-    let currentPage = parseInt(localStorage.getItem('quranPage') || '1');
-    let selectedReciter = localStorage.getItem('quranReciter') || 'husary';
-    let isPlaying = false;
-    let audio = null;
-    let pageVerses = [];
-    let currentVerseIndex = 0;
-    let reciters = [];
-    let surahs = [];
+    var TOTAL_PAGES = 604;
+    var verseCache = {};
+    var currentPage = 1;
+    var isMobile = window.innerWidth <= 768;
+    var isPlaying = false;
+    var currentVerseIndex = 0;
+    var currentVerses = [];
+    var selectedReciter = '';
+    var audio = new Audio();
+    var lineDataCache = {};
+    var highlightedVerseKey = '';
+    var sequentialPlay = false;
 
-    // Surah starting pages (Madani Mushaf)
-    const surahPages = [1,2,50,77,106,128,151,177,187,208,221,235,249,255,262,267,282,293,305,312,322,332,342,350,359,367,377,385,396,404,411,415,418,428,434,440,446,453,458,467,477,483,489,495,499,502,507,511,515,518,520,523,526,528,531,534,537,542,545,549,551,553,554,556,558,560,562,564,566,568,570,572,574,575,577,578,580,582,583,585,586,587,587,589,590,591,591,592,593,594,595,595,596,596,597,597,598,598,599,599,600,600,601,601,601,602,602,602,603,603,603,604,604,604];
+    // Surah data for page info lookup
+    var SURAHS = [
+      {n:1,name:'\u0627\u0644\u0641\u0627\u062a\u062d\u0629',p:1},{n:2,name:'\u0627\u0644\u0628\u0642\u0631\u0629',p:2},{n:3,name:'\u0622\u0644 \u0639\u0645\u0631\u0627\u0646',p:50},{n:4,name:'\u0627\u0644\u0646\u0633\u0627\u0621',p:77},
+      {n:5,name:'\u0627\u0644\u0645\u0627\u0626\u062f\u0629',p:106},{n:6,name:'\u0627\u0644\u0623\u0646\u0639\u0627\u0645',p:128},{n:7,name:'\u0627\u0644\u0623\u0639\u0631\u0627\u0641',p:151},{n:8,name:'\u0627\u0644\u0623\u0646\u0641\u0627\u0644',p:177},
+      {n:9,name:'\u0627\u0644\u062a\u0648\u0628\u0629',p:187},{n:10,name:'\u064a\u0648\u0646\u0633',p:208},{n:11,name:'\u0647\u0648\u062f',p:221},{n:12,name:'\u064a\u0648\u0633\u0641',p:235},
+      {n:13,name:'\u0627\u0644\u0631\u0639\u062f',p:249},{n:14,name:'\u0625\u0628\u0631\u0627\u0647\u064a\u0645',p:255},{n:15,name:'\u0627\u0644\u062d\u062c\u0631',p:262},{n:16,name:'\u0627\u0644\u0646\u062d\u0644',p:267},
+      {n:17,name:'\u0627\u0644\u0625\u0633\u0631\u0627\u0621',p:282},{n:18,name:'\u0627\u0644\u0643\u0647\u0641',p:293},{n:19,name:'\u0645\u0631\u064a\u0645',p:305},{n:20,name:'\u0637\u0647',p:312},
+      {n:21,name:'\u0627\u0644\u0623\u0646\u0628\u064a\u0627\u0621',p:322},{n:22,name:'\u0627\u0644\u062d\u062c',p:332},{n:23,name:'\u0627\u0644\u0645\u0624\u0645\u0646\u0648\u0646',p:342},{n:24,name:'\u0627\u0644\u0646\u0648\u0631',p:350},
+      {n:25,name:'\u0627\u0644\u0641\u0631\u0642\u0627\u0646',p:359},{n:26,name:'\u0627\u0644\u0634\u0639\u0631\u0627\u0621',p:367},{n:27,name:'\u0627\u0644\u0646\u0645\u0644',p:377},{n:28,name:'\u0627\u0644\u0642\u0635\u0635',p:385},
+      {n:29,name:'\u0627\u0644\u0639\u0646\u0643\u0628\u0648\u062a',p:396},{n:30,name:'\u0627\u0644\u0631\u0648\u0645',p:404},{n:31,name:'\u0644\u0642\u0645\u0627\u0646',p:411},{n:32,name:'\u0627\u0644\u0633\u062c\u062f\u0629',p:415},
+      {n:33,name:'\u0627\u0644\u0623\u062d\u0632\u0627\u0628',p:418},{n:34,name:'\u0633\u0628\u0623',p:428},{n:35,name:'\u0641\u0627\u0637\u0631',p:434},{n:36,name:'\u064a\u0633',p:440},
+      {n:37,name:'\u0627\u0644\u0635\u0627\u0641\u0627\u062a',p:446},{n:38,name:'\u0635',p:453},{n:39,name:'\u0627\u0644\u0632\u0645\u0631',p:458},{n:40,name:'\u063a\u0627\u0641\u0631',p:467},
+      {n:41,name:'\u0641\u0635\u0644\u062a',p:477},{n:42,name:'\u0627\u0644\u0634\u0648\u0631\u0649',p:483},{n:43,name:'\u0627\u0644\u0632\u062e\u0631\u0641',p:489},{n:44,name:'\u0627\u0644\u062f\u062e\u0627\u0646',p:496},
+      {n:45,name:'\u0627\u0644\u062c\u0627\u062b\u064a\u0629',p:499},{n:46,name:'\u0627\u0644\u0623\u062d\u0642\u0627\u0641',p:502},{n:47,name:'\u0645\u062d\u0645\u062f',p:507},{n:48,name:'\u0627\u0644\u0641\u062a\u062d',p:511},
+      {n:49,name:'\u0627\u0644\u062d\u062c\u0631\u0627\u062a',p:515},{n:50,name:'\u0642',p:518},{n:51,name:'\u0627\u0644\u0630\u0627\u0631\u064a\u0627\u062a',p:520},{n:52,name:'\u0627\u0644\u0637\u0648\u0631',p:523},
+      {n:53,name:'\u0627\u0644\u0646\u062c\u0645',p:526},{n:54,name:'\u0627\u0644\u0642\u0645\u0631',p:528},{n:55,name:'\u0627\u0644\u0631\u062d\u0645\u0646',p:531},{n:56,name:'\u0627\u0644\u0648\u0627\u0642\u0639\u0629',p:534},
+      {n:57,name:'\u0627\u0644\u062d\u062f\u064a\u062f',p:537},{n:58,name:'\u0627\u0644\u0645\u062c\u0627\u062f\u0644\u0629',p:542},{n:59,name:'\u0627\u0644\u062d\u0634\u0631',p:545},{n:60,name:'\u0627\u0644\u0645\u0645\u062a\u062d\u0646\u0629',p:549},
+      {n:61,name:'\u0627\u0644\u0635\u0641',p:551},{n:62,name:'\u0627\u0644\u062c\u0645\u0639\u0629',p:553},{n:63,name:'\u0627\u0644\u0645\u0646\u0627\u0641\u0642\u0648\u0646',p:554},{n:64,name:'\u0627\u0644\u062a\u063a\u0627\u0628\u0646',p:556},
+      {n:65,name:'\u0627\u0644\u0637\u0644\u0627\u0642',p:558},{n:66,name:'\u0627\u0644\u062a\u062d\u0631\u064a\u0645',p:560},{n:67,name:'\u0627\u0644\u0645\u0644\u0643',p:562},{n:68,name:'\u0627\u0644\u0642\u0644\u0645',p:564},
+      {n:69,name:'\u0627\u0644\u062d\u0627\u0642\u0629',p:566},{n:70,name:'\u0627\u0644\u0645\u0639\u0627\u0631\u062c',p:568},{n:71,name:'\u0646\u0648\u062d',p:570},{n:72,name:'\u0627\u0644\u062c\u0646',p:572},
+      {n:73,name:'\u0627\u0644\u0645\u0632\u0645\u0644',p:574},{n:74,name:'\u0627\u0644\u0645\u062f\u062b\u0631',p:575},{n:75,name:'\u0627\u0644\u0642\u064a\u0627\u0645\u0629',p:577},{n:76,name:'\u0627\u0644\u0625\u0646\u0633\u0627\u0646',p:578},
+      {n:77,name:'\u0627\u0644\u0645\u0631\u0633\u0644\u0627\u062a',p:580},{n:78,name:'\u0627\u0644\u0646\u0628\u0623',p:582},{n:79,name:'\u0627\u0644\u0646\u0627\u0632\u0639\u0627\u062a',p:583},{n:80,name:'\u0639\u0628\u0633',p:585},
+      {n:81,name:'\u0627\u0644\u062a\u0643\u0648\u064a\u0631',p:586},{n:82,name:'\u0627\u0644\u0627\u0646\u0641\u0637\u0627\u0631',p:587},{n:83,name:'\u0627\u0644\u0645\u0637\u0641\u0641\u064a\u0646',p:587},{n:84,name:'\u0627\u0644\u0627\u0646\u0634\u0642\u0627\u0642',p:589},
+      {n:85,name:'\u0627\u0644\u0628\u0631\u0648\u062c',p:590},{n:86,name:'\u0627\u0644\u0637\u0627\u0631\u0642',p:591},{n:87,name:'\u0627\u0644\u0623\u0639\u0644\u0649',p:591},{n:88,name:'\u0627\u0644\u063a\u0627\u0634\u064a\u0629',p:592},
+      {n:89,name:'\u0627\u0644\u0641\u062c\u0631',p:593},{n:90,name:'\u0627\u0644\u0628\u0644\u062f',p:594},{n:91,name:'\u0627\u0644\u0634\u0645\u0633',p:595},{n:92,name:'\u0627\u0644\u0644\u064a\u0644',p:595},
+      {n:93,name:'\u0627\u0644\u0636\u062d\u0649',p:596},{n:94,name:'\u0627\u0644\u0634\u0631\u062d',p:596},{n:95,name:'\u0627\u0644\u062a\u064a\u0646',p:597},{n:96,name:'\u0627\u0644\u0639\u0644\u0642',p:597},
+      {n:97,name:'\u0627\u0644\u0642\u062f\u0631',p:598},{n:98,name:'\u0627\u0644\u0628\u064a\u0646\u0629',p:598},{n:99,name:'\u0627\u0644\u0632\u0644\u0632\u0644\u0629',p:599},{n:100,name:'\u0627\u0644\u0639\u0627\u062f\u064a\u0627\u062a',p:599},
+      {n:101,name:'\u0627\u0644\u0642\u0627\u0631\u0639\u0629',p:600},{n:102,name:'\u0627\u0644\u062a\u0643\u0627\u062b\u0631',p:600},{n:103,name:'\u0627\u0644\u0639\u0635\u0631',p:601},{n:104,name:'\u0627\u0644\u0647\u0645\u0632\u0629',p:601},
+      {n:105,name:'\u0627\u0644\u0641\u064a\u0644',p:601},{n:106,name:'\u0642\u0631\u064a\u0634',p:602},{n:107,name:'\u0627\u0644\u0645\u0627\u0639\u0648\u0646',p:602},{n:108,name:'\u0627\u0644\u0643\u0648\u062b\u0631',p:602},
+      {n:109,name:'\u0627\u0644\u0643\u0627\u0641\u0631\u0648\u0646',p:603},{n:110,name:'\u0627\u0644\u0646\u0635\u0631',p:603},{n:111,name:'\u0627\u0644\u0645\u0633\u062f',p:603},
+      {n:112,name:'\u0627\u0644\u0625\u062e\u0644\u0627\u0635',p:604},{n:113,name:'\u0627\u0644\u0641\u0644\u0642',p:604},{n:114,name:'\u0627\u0644\u0646\u0627\u0633',p:604}
+    ];
 
-    // Juz starting pages (Madani Mushaf)
-    const juzPages = [1,22,42,62,82,102,121,142,162,182,201,222,242,262,282,302,322,342,362,382,402,422,442,462,482,502,522,542,562,582];
+    var JUZ_PAGES = [1,22,42,62,82,102,121,142,162,182,201,222,242,262,282,302,322,342,362,382,402,422,442,462,482,502,522,542,562,582];
 
-    // DOM Elements
-    const reciterSelect = document.getElementById('reciterSelect');
-    const surahSelect = document.getElementById('surahSelect');
-    const juzSelect = document.getElementById('juzSelect');
-    const pageInput = document.getElementById('pageInput');
-    const prevPageBtn = document.getElementById('prevPageBtn');
-    const nextPageBtn = document.getElementById('nextPageBtn');
-    const quranContainer = document.getElementById('quranContainer');
-    const playBtn = document.getElementById('playBtn');
-    const playIcon = document.getElementById('playIcon');
-    const pauseIcon = document.getElementById('pauseIcon');
-    const audioStatus = document.getElementById('audioStatus');
-    const progressBar = document.getElementById('progressBar');
-
-    // Initialize
-    async function init() {
-      await Promise.all([loadReciters(), loadSurahsList()]);
-      loadJuzList();
-      loadPage(currentPage);
-      setupEventListeners();
-    }
-
-    function loadJuzList() {
-      juzSelect.innerHTML = '<option value="">الجزء</option>' +
-        Array.from({length: 30}, (_, i) => i + 1).map(j =>
-          \`<option value="\${j}">الجزء \${toArabic(j)}</option>\`
-        ).join('');
-    }
-
-    async function loadReciters() {
-      try {
-        const res = await fetch('/api/v1/reciters');
-        const data = await res.json();
-        reciters = data.reciters;
-        reciterSelect.innerHTML = reciters.map(r =>
-          \`<option value="\${r.id}" \${r.id === selectedReciter ? 'selected' : ''}>\${r.arabicName}</option>\`
-        ).join('');
-      } catch (e) {
-        reciterSelect.innerHTML = '<option value="husary">الحصري</option>';
+    // ====== PAGE RENDERING (img tags - browser handles SVG natively) ======
+    function prefetchPage(pageNum) {
+      if (pageNum >= 1 && pageNum <= TOTAL_PAGES) {
+        var img = new Image();
+        img.src = '/api/v1/quran-text/page/' + pageNum;
       }
     }
 
-    async function loadSurahsList() {
-      try {
-        const res = await fetch('/api/v1/surahs');
-        const data = await res.json();
-        surahs = data.surahs;
-        surahSelect.innerHTML = '<option value="">انتقل لسورة</option>' + surahs.map(s =>
-          \`<option value="\${s.number}">\${s.number}. \${s.name}</option>\`
-        ).join('');
-      } catch (e) {
-        console.error(e);
+    function renderPage(container, pageNumEl, pageNum) {
+      var frame = container.parentElement;
+      if (pageNum < 1 || pageNum > TOTAL_PAGES) {
+        container.innerHTML = '';
+        pageNumEl.textContent = '';
+        frame.style.display = 'none';
+        return;
       }
+      frame.style.display = '';
+      pageNumEl.textContent = pageNum;
+
+      var img = document.createElement('img');
+      img.alt = 'Page ' + pageNum;
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'contain';
+
+      // Show spinner until loaded
+      container.innerHTML = '<div class="page-loading"><div class="spinner"></div></div>';
+      img.onload = function() {
+        container.innerHTML = '';
+        container.appendChild(img);
+        requestAnimationFrame(function() { buildOverlay(container, pageNum); });
+      };
+      img.onerror = function() { container.innerHTML = '<div class="page-loading" style="color:#999;font-size:14px">\u0635\u0641\u062d\u0629 ' + pageNum + '</div>'; };
+      img.src = '/api/v1/quran-text/page/' + pageNum;
     }
 
-    async function loadPage(pageNum, keepPlaying = false) {
-      pageNum = Math.max(1, Math.min(604, pageNum));
-      currentPage = pageNum;
-      localStorage.setItem('quranPage', pageNum);
-      pageInput.value = pageNum;
+    // ====== NAVIGATION ======
+    function getSurahForPage(page) {
+      for (var i = SURAHS.length - 1; i >= 0; i--) {
+        if (SURAHS[i].p <= page) return SURAHS[i];
+      }
+      return SURAHS[0];
+    }
 
-      if (!keepPlaying) stopAudio();
-      prevPageBtn.disabled = pageNum <= 1;
-      nextPageBtn.disabled = pageNum >= 604;
+    function goToPage(page) {
+      page = Math.max(1, Math.min(TOTAL_PAGES, parseInt(page) || 1));
+      currentPage = page;
 
-      quranContainer.innerHTML = '<div class="loading">جاري التحميل...</div>';
+      var spread = document.getElementById('bookSpread');
+      var leftSvg = document.getElementById('leftSvg');
+      var rightSvg = document.getElementById('rightSvg');
+      var leftPageNum = document.getElementById('leftPageNum');
+      var rightPageNum = document.getElementById('rightPageNum');
+      var leftFrame = document.getElementById('leftPage');
+      var rightFrame = document.getElementById('rightPage');
+      var spine = document.querySelector('.book-spine');
 
-      try {
-        // Try local API first
-        let res = await fetch(\`/api/v1/quran-text/text/\${pageNum}\`);
-        let data = await res.json();
+      if (isMobile || page <= 2) {
+        // Single page mode
+        spread.classList.add('single');
+        leftFrame.style.display = 'none';
+        spine.style.display = 'none';
+        rightFrame.classList.add('single-page');
+        rightFrame.classList.remove('right-page');
+        renderPage(rightSvg, rightPageNum, page);
+        prefetchPage(page - 1); prefetchPage(page + 1);
+      } else {
+        // Spread mode
+        spread.classList.remove('single');
+        leftFrame.style.display = '';
+        spine.style.display = '';
+        rightFrame.classList.remove('single-page');
+        rightFrame.classList.add('right-page');
 
-        if (res.ok && data.ayahs) {
-          // Local data found - transform to expected format
-          pageVerses = data.ayahs.map(a => ({
-            number: a.number,
-            text: a.text,
-            surah: { number: a.surah, name: a.surahName, englishName: a.surahEnglishName },
-            numberInSurah: a.ayah,
-            juz: a.juz
-          }));
-        } else {
-          // Fallback to external API
-          res = await fetch(\`https://api.alquran.cloud/v1/page/\${pageNum}/quran-uthmani\`);
-          data = await res.json();
-          if (data.code !== 200) throw new Error('API error');
-          pageVerses = data.data.ayahs;
+        var rightP, leftP;
+        if (page % 2 === 1) { rightP = page; leftP = page + 1; }
+        else { rightP = page - 1; leftP = page; }
+
+        renderPage(rightSvg, rightPageNum, rightP);
+        renderPage(leftSvg, leftPageNum, leftP);
+
+        // Prefetch adjacent pages
+        prefetchPage(rightP - 2); prefetchPage(rightP - 1);
+        prefetchPage(leftP + 1); prefetchPage(leftP + 2);
+      }
+
+      // Update UI
+      var surah = getSurahForPage(page);
+      document.getElementById('pageInfo').textContent = surah.name + ' | ' + page + ' / ' + TOTAL_PAGES;
+      document.getElementById('pageInput').value = page;
+      document.getElementById('surahSelect').value = surah.p;
+
+      for (var j = JUZ_PAGES.length - 1; j >= 0; j--) {
+        if (JUZ_PAGES[j] <= page) {
+          document.getElementById('juzSelect').value = JUZ_PAGES[j];
+          break;
         }
-
-        renderPage(pageNum, pageVerses);
-        audioStatus.textContent = \`صفحة \${toArabic(pageNum)} - \${pageVerses.length} آية\`;
-      } catch (e) {
-        quranContainer.innerHTML = '<div class="error">فشل تحميل الصفحة</div>';
       }
+
+      // Stop audio on page change
+      stopAudio();
+
+      // Load verse metadata for audio
+      loadVerses(page);
+
+      // Load line data for highlighting
+      loadLineData(page);
+      if (!isMobile && page > 2) {
+        var rp = (page % 2 === 1) ? page : page - 1;
+        var lp = rp + 1;
+        loadVerses(rp); loadVerses(lp);
+        loadLineData(rp); loadLineData(lp);
+      }
+
+      // Persist
+      try { localStorage.setItem('mushaf-page', page); } catch(e) {}
     }
 
-    function renderPage(pageNum, verses) {
-      // Group verses by surah
-      const groups = [];
-      let currentGroup = null;
+    function nextPage() {
+      if (isMobile || currentPage <= 2) goToPage(currentPage + 1);
+      else goToPage(currentPage + 2);
+    }
 
-      verses.forEach(v => {
-        if (!currentGroup || currentGroup.surahNum !== v.surah.number) {
-          currentGroup = { surahNum: v.surah.number, surahName: v.surah.name, verses: [] };
-          groups.push(currentGroup);
-        }
-        currentGroup.verses.push(v);
-      });
+    function prevPage() {
+      if (isMobile || currentPage <= 3) goToPage(currentPage - 1);
+      else goToPage(currentPage - 2);
+    }
 
-      // Find which juz this page belongs to and first surah name
-      const juz = verses[0]?.juz || 1;
-      const firstSurah = groups[0]?.surahName || '';
-
-      let html = \`
-        <article>
-          <header class="page-header">
-            <span class="page-juz">الجزء \${toArabic(juz)}</span>
-            <span class="page-surah">\${firstSurah}</span>
-          </header>
-      \`;
-
-      groups.forEach((g, gi) => {
-        const isNewSurah = g.verses[0].numberInSurah === 1;
-
-        if (isNewSurah) {
-          html += \`<h3 class="surah-title">\${g.surahName}</h3>\`;
-          // Bismillah for all except Al-Fatiha and At-Tawbah
-          if (g.surahNum !== 1 && g.surahNum !== 9) {
-            html += '<p class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>';
+    // ====== AUDIO ======
+    function loadReciters() {
+      fetch('/api/v1/reciters')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var reciters = data.reciters || data;
+          var sel = document.getElementById('reciterSelect');
+          sel.innerHTML = '';
+          if (Array.isArray(reciters)) {
+            reciters.forEach(function(rec) {
+              var opt = document.createElement('option');
+              opt.value = rec.id || rec.identifier;
+              opt.textContent = rec.name || rec.englishName;
+              sel.appendChild(opt);
+            });
           }
-        }
+          // Restore saved reciter
+          try {
+            var saved = localStorage.getItem('mushaf-reciter');
+            if (saved) { sel.value = saved; }
+          } catch(e) {}
+          selectedReciter = sel.value;
+        })
+        .catch(function() {});
+    }
 
-        html += '<div class="ayahs-container">';
-        g.verses.forEach((v, vi) => {
-          const globalIdx = verses.indexOf(v);
-          // Strip Bismillah from first ayah if present (except Al-Fatiha where it IS the ayah)
-          let ayahText = v.text;
-          if (v.numberInSurah === 1 && v.surah.number !== 1 && v.surah.number !== 9) {
-            const bismillahPattern = 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ'.normalize('NFC');
-            ayahText = ayahText.normalize('NFC').replace(new RegExp('^' + bismillahPattern + '\\s*'), '').trim();
+    function loadVerses(page) {
+      if (verseCache[page]) { currentVerses = verseCache[page]; return; }
+      fetch('/api/v1/quran-text/text/' + page)
+        .then(function(r) { return r.ok ? r.json() : null; })
+        .then(function(data) {
+          if (!data) return;
+          var verses = data.ayahs || data.verses || data;
+          if (Array.isArray(verses)) {
+            verseCache[page] = verses;
+            currentVerses = verses;
           }
-          html += \`<span class="ayah" data-idx="\${globalIdx}" data-surah="\${v.surah.number}" data-ayah="\${v.numberInSurah}">\${ayahText}<span class="ayah-num">﴿\${toArabic(v.numberInSurah)}﴾</span></span> \`;
-        });
-        html += '</div>';
-      });
+        })
+        .catch(function() {});
+    }
 
-      html += '</article>';
-      quranContainer.innerHTML = html;
-      quranContainer.scrollTop = 0;
+    function loadLineData(page, callback) {
+      if (lineDataCache[page]) { if (callback) callback(lineDataCache[page]); return; }
+      fetch('https://api.quran.com/api/v4/verses/by_page/' + page + '?words=true&word_fields=line_number&per_page=50')
+        .then(function(r) { return r.ok ? r.json() : null; })
+        .then(function(data) {
+          if (!data || !data.verses) return;
+          var lineToVerses = {};
+          var verseToLines = {};
+          data.verses.forEach(function(v) {
+            var parts = v.verse_key.split(':');
+            var surah = parseInt(parts[0]);
+            var ayah = parseInt(parts[1]);
+            var vk = v.verse_key;
+            var lines = {};
+            (v.words || []).forEach(function(w) {
+              if (w.line_number) lines[w.line_number] = true;
+            });
+            var lineNums = Object.keys(lines).map(Number).sort(function(a,b){return a-b;});
+            verseToLines[vk] = lineNums;
+            lineNums.forEach(function(ln) {
+              if (!lineToVerses[ln]) lineToVerses[ln] = [];
+              var exists = lineToVerses[ln].some(function(e) { return e.verseKey === vk; });
+              if (!exists) lineToVerses[ln].push({surah:surah, ayah:ayah, verseKey:vk});
+            });
+          });
+          lineDataCache[page] = {lineToVerses:lineToVerses, verseToLines:verseToLines};
+          if (callback) callback(lineDataCache[page]);
+        })
+        .catch(function() {});
+    }
 
-      // Click handlers
-      document.querySelectorAll('.ayah').forEach(el => {
-        el.addEventListener('click', () => {
-          currentVerseIndex = parseInt(el.dataset.idx);
-          playAudio();
-        });
+    // ====== AYAH HIGHLIGHTING ======
+    var SVG_ASPECT = 510.236 / 729.448;
+    var LINE_TOP_PCT = 8.5;
+    var LINE_BOTTOM_PCT = 95.5;
+    var TOTAL_LINES = 15;
+    var LINE_HEIGHT_PCT = (LINE_BOTTOM_PCT - LINE_TOP_PCT) / TOTAL_LINES;
+
+    function buildOverlay(container, pageNum) {
+      var existing = container.querySelector('.line-overlay');
+      if (existing) existing.remove();
+      var img = container.querySelector('img');
+      if (!img) return;
+
+      var overlay = document.createElement('div');
+      overlay.className = 'line-overlay';
+      overlay.setAttribute('data-page', pageNum);
+
+      // Compute rendered image bounds within container (object-fit:contain)
+      var cw = container.clientWidth, ch = container.clientHeight;
+      var containerAspect = cw / ch;
+      var imgW, imgH, offsetX, offsetY;
+      if (containerAspect > SVG_ASPECT) {
+        imgH = ch; imgW = imgH * SVG_ASPECT;
+        offsetX = (cw - imgW) / 2; offsetY = 0;
+      } else {
+        imgW = cw; imgH = imgW / SVG_ASPECT;
+        offsetX = 0; offsetY = (ch - imgH) / 2;
+      }
+      overlay.style.left = offsetX + 'px';
+      overlay.style.top = offsetY + 'px';
+      overlay.style.width = imgW + 'px';
+      overlay.style.height = imgH + 'px';
+
+      if (pageNum <= 2) {
+        buildSpecialOverlay(overlay, pageNum);
+      } else {
+        for (var i = 1; i <= TOTAL_LINES; i++) {
+          var strip = document.createElement('div');
+          strip.className = 'line-strip';
+          strip.setAttribute('data-line', i);
+          strip.style.top = (LINE_TOP_PCT + (i - 1) * LINE_HEIGHT_PCT) + '%';
+          strip.style.height = LINE_HEIGHT_PCT + '%';
+          strip.addEventListener('click', (function(ln, pg) {
+            return function() { onLineClick(pg, ln); };
+          })(i, pageNum));
+          overlay.appendChild(strip);
+        }
+      }
+      container.appendChild(overlay);
+
+      // Re-apply highlight if one is active
+      if (highlightedVerseKey) highlightVerse(pageNum, highlightedVerseKey);
+    }
+
+    function buildSpecialOverlay(overlay, pageNum) {
+      // Page 1 (Fatiha): 7 ayahs, centered text
+      // Page 2 (Baqarah opening): ~5 ayahs, centered text
+      var cfg = pageNum === 1
+        ? {startLine:1, count:7, topPct:37, bottomPct:73}
+        : {startLine:1, count:7, topPct:37, bottomPct:73};
+      var lh = (cfg.bottomPct - cfg.topPct) / cfg.count;
+      for (var i = 0; i < cfg.count; i++) {
+        var strip = document.createElement('div');
+        strip.className = 'line-strip';
+        strip.setAttribute('data-line', cfg.startLine + i);
+        strip.style.top = (cfg.topPct + i * lh) + '%';
+        strip.style.height = lh + '%';
+        strip.style.left = '15%';
+        strip.style.width = '70%';
+        strip.addEventListener('click', (function(ln, pg) {
+          return function() { onLineClick(pg, ln); };
+        })(cfg.startLine + i, pageNum));
+        overlay.appendChild(strip);
+      }
+    }
+
+    function highlightVerse(pageNum, verseKey) {
+      clearHighlights();
+      highlightedVerseKey = verseKey;
+      var ld = lineDataCache[pageNum];
+      if (!ld || !ld.verseToLines[verseKey]) return;
+      var lines = ld.verseToLines[verseKey];
+      document.querySelectorAll('.line-overlay[data-page="' + pageNum + '"] .line-strip').forEach(function(el) {
+        var ln = parseInt(el.getAttribute('data-line'));
+        if (lines.indexOf(ln) !== -1) el.classList.add('highlighted');
       });
     }
 
-    function toArabic(n) {
-      const d = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
-      return String(n).split('').map(c => d[parseInt(c)]).join('');
+    function clearHighlights() {
+      highlightedVerseKey = '';
+      document.querySelectorAll('.line-strip.highlighted').forEach(function(el) {
+        el.classList.remove('highlighted');
+      });
     }
 
-    function setupEventListeners() {
-      reciterSelect.addEventListener('change', e => {
-        selectedReciter = e.target.value;
-        localStorage.setItem('quranReciter', selectedReciter);
-        if (isPlaying) {
-          const idx = currentVerseIndex;
-          stopAudio();
-          currentVerseIndex = idx;
-          playAudio();
+    function onLineClick(pageNum, lineNum) {
+      var ld = lineDataCache[pageNum];
+      if (!ld) return;
+      var versesOnLine = ld.lineToVerses[lineNum];
+      if (!versesOnLine || !versesOnLine.length) return;
+
+      // Pick the first verse, or cycle if already highlighted
+      var target = versesOnLine[0];
+      if (versesOnLine.length > 1 && highlightedVerseKey === target.verseKey) {
+        target = versesOnLine[1];
+      }
+
+      highlightVerse(pageNum, target.verseKey);
+
+      // Play audio for this single ayah
+      selectedReciter = document.getElementById('reciterSelect').value;
+      if (!selectedReciter) return;
+      try { localStorage.setItem('mushaf-reciter', selectedReciter); } catch(e) {}
+
+      // Sync with currentVerses so play button continues from here
+      for (var i = 0; i < currentVerses.length; i++) {
+        if (currentVerses[i].surah === target.surah && currentVerses[i].ayah === target.ayah) {
+          currentVerseIndex = i;
+          break;
         }
-      });
+      }
 
-      surahSelect.addEventListener('change', e => {
-        if (e.target.value) {
-          loadPage(surahPages[parseInt(e.target.value) - 1]);
-          e.target.value = '';
-        }
-      });
-
-      juzSelect.addEventListener('change', e => {
-        if (e.target.value) {
-          loadPage(juzPages[parseInt(e.target.value) - 1]);
-          e.target.value = '';
-        }
-      });
-
-      // Navigation: Next = forward in reading (higher page), Prev = back (lower page)
-      nextPageBtn.addEventListener('click', () => loadPage(currentPage + 1));
-      prevPageBtn.addEventListener('click', () => loadPage(currentPage - 1));
-
-      pageInput.addEventListener('change', e => loadPage(parseInt(e.target.value) || 1));
-      pageInput.addEventListener('keypress', e => {
-        if (e.key === 'Enter') { loadPage(parseInt(e.target.value) || 1); e.target.blur(); }
-      });
-
-      document.addEventListener('keydown', e => {
-        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
-        if (e.key === 'ArrowRight') loadPage(currentPage + 1);
-        else if (e.key === 'ArrowLeft') loadPage(currentPage - 1);
-        else if (e.key === ' ') { e.preventDefault(); togglePlay(); }
-      });
-
-      playBtn.addEventListener('click', togglePlay);
-
-      // Swipe
-      let startX = 0;
-      quranContainer.addEventListener('touchstart', e => { startX = e.changedTouches[0].screenX; }, {passive:true});
-      quranContainer.addEventListener('touchend', e => {
-        const diff = e.changedTouches[0].screenX - startX;
-        if (Math.abs(diff) > 50) {
-          if (diff > 0) loadPage(currentPage + 1);
-          else loadPage(currentPage - 1);
-        }
-      }, {passive:true});
-    }
-
-    function togglePlay() {
-      isPlaying ? pauseAudio() : playAudio();
+      document.getElementById('audioStatus').textContent = target.surah + ':' + target.ayah;
+      sequentialPlay = false;
+      audio.src = '/api/v1/audio/' + selectedReciter + '/surah/' + target.surah + '/ayah/' + target.ayah;
+      isPlaying = true;
+      updatePlayBtn();
+      audio.play().catch(function() { isPlaying = false; updatePlayBtn(); });
     }
 
     function playAudio() {
-      if (!pageVerses.length) return;
+      if (!currentVerses.length) return;
+      selectedReciter = document.getElementById('reciterSelect').value;
+      if (!selectedReciter) return;
+      try { localStorage.setItem('mushaf-reciter', selectedReciter); } catch(e) {}
+      sequentialPlay = true;
       isPlaying = true;
       updatePlayBtn();
       playCurrentVerse();
     }
 
     function playCurrentVerse() {
-      if (currentVerseIndex >= pageVerses.length) {
-        // Page finished - auto-advance to next page if available
-        if (currentPage < 604 && isPlaying) {
-          loadPage(currentPage + 1, true).then(() => {
-            currentVerseIndex = 0;
-            if (isPlaying && pageVerses.length) playCurrentVerse();
-          });
-        } else {
-          stopAudio();
-          audioStatus.textContent = 'اكتملت الصفحة';
+      if (!isPlaying || currentVerseIndex >= currentVerses.length) {
+        if (isPlaying && currentVerseIndex >= currentVerses.length && currentVerses.length > 0) {
+          // Auto-advance to next page only if we had verses to play through
+          isPlaying = false;
+          updatePlayBtn();
+          nextPage();
+          setTimeout(function() { currentVerseIndex = 0; playAudio(); }, 1000);
+          return;
         }
+        isPlaying = false;
+        updatePlayBtn();
+        clearHighlights();
         return;
       }
 
-      const v = pageVerses[currentVerseIndex];
-      document.querySelectorAll('.ayah').forEach(el => el.classList.remove('playing'));
-      const el = document.querySelector(\`.ayah[data-idx="\${currentVerseIndex}"]\`);
-      if (el) { el.classList.add('playing'); el.scrollIntoView({behavior:'smooth',block:'center'}); }
+      var v = currentVerses[currentVerseIndex];
+      var surahNum = (typeof v.surah === 'object') ? v.surah.number : v.surah;
+      var ayahNum = v.ayah || v.numberInSurah || v.ayahNumber || v.verse;
+      if (!surahNum || !ayahNum) { currentVerseIndex++; playCurrentVerse(); return; }
 
-      audioStatus.textContent = \`\${v.surah.number}:\${v.numberInSurah}\`;
-      progressBar.style.width = \`\${((currentVerseIndex+1)/pageVerses.length)*100}%\`;
+      document.getElementById('audioStatus').textContent = surahNum + ':' + ayahNum;
+      var pct = ((currentVerseIndex + 1) / currentVerses.length * 100).toFixed(1);
+      document.getElementById('progressBar').style.width = pct + '%';
 
-      // Reuse audio element for better mobile compatibility
-      if (!audio) {
-        audio = new Audio();
-        audio.addEventListener('ended', onAudioEnded);
-        audio.addEventListener('error', onAudioError);
-      }
-      audio.src = \`/api/v1/audio/\${selectedReciter}/surah/\${v.surah.number}/ayah/\${v.numberInSurah}\`;
-      audio.play().catch(() => {
-        // Try next verse on error
+      // Highlight the current ayah
+      highlightVerse(currentPage, surahNum + ':' + ayahNum);
+
+      audio.src = '/api/v1/audio/' + selectedReciter + '/surah/' + surahNum + '/ayah/' + ayahNum;
+      audio.play().catch(function() {
         currentVerseIndex++;
         if (isPlaying) playCurrentVerse();
       });
     }
 
-    function onAudioEnded() {
+    audio.addEventListener('ended', function() {
+      if (!sequentialPlay) { isPlaying = false; updatePlayBtn(); return; }
       currentVerseIndex++;
       if (isPlaying) playCurrentVerse();
-    }
+    });
 
-    function onAudioError() {
+    audio.addEventListener('error', function() {
+      if (!sequentialPlay) { isPlaying = false; updatePlayBtn(); return; }
       currentVerseIndex++;
       if (isPlaying) playCurrentVerse();
-    }
+    });
 
     function pauseAudio() {
       isPlaying = false;
-      if (audio) audio.pause();
+      audio.pause();
       updatePlayBtn();
     }
 
     function stopAudio() {
       isPlaying = false;
+      sequentialPlay = false;
       currentVerseIndex = 0;
-      if (audio) { audio.pause(); }
-      document.querySelectorAll('.ayah').forEach(el => el.classList.remove('playing'));
-      progressBar.style.width = '0%';
+      audio.pause();
+      document.getElementById('progressBar').style.width = '0%';
+      document.getElementById('audioStatus').textContent = '\u2014';
       updatePlayBtn();
+      clearHighlights();
     }
 
     function updatePlayBtn() {
-      playIcon.classList.toggle('hidden', isPlaying);
-      pauseIcon.classList.toggle('hidden', !isPlaying);
-      playBtn.classList.toggle('playing', isPlaying);
+      var btn = document.getElementById('playBtn');
+      if (isPlaying) {
+        btn.innerHTML = '&#9646;&#9646;';
+        btn.classList.add('playing');
+      } else {
+        btn.innerHTML = '&#9654;';
+        btn.classList.remove('playing');
+      }
+    }
+
+    // ====== EVENT LISTENERS ======
+    document.getElementById('nextBtn').addEventListener('click', nextPage);
+    document.getElementById('prevBtn').addEventListener('click', prevPage);
+    document.getElementById('pageInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') goToPage(e.target.value);
+    });
+    document.getElementById('surahSelect').addEventListener('change', function(e) {
+      goToPage(e.target.value);
+    });
+    document.getElementById('juzSelect').addEventListener('change', function(e) {
+      goToPage(e.target.value);
+    });
+    document.getElementById('reciterSelect').addEventListener('change', function(e) {
+      selectedReciter = e.target.value;
+      try { localStorage.setItem('mushaf-reciter', selectedReciter); } catch(ex) {}
+    });
+    document.getElementById('playBtn').addEventListener('click', function() {
+      if (isPlaying) pauseAudio();
+      else playAudio();
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') nextPage();
+      else if (e.key === 'ArrowRight') prevPage();
+      else if (e.key === ' ') {
+        e.preventDefault();
+        if (isPlaying) pauseAudio(); else playAudio();
+      }
+    });
+
+    // Touch swipe
+    var touchStartX = 0;
+    document.addEventListener('touchstart', function(e) {
+      touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+    document.addEventListener('touchend', function(e) {
+      var diff = e.changedTouches[0].screenX - touchStartX;
+      if (Math.abs(diff) > 60) {
+        if (diff > 0) prevPage(); else nextPage();
+      }
+    }, {passive: true});
+
+    // Resize handler - switch between mobile/desktop
+    window.addEventListener('resize', function() {
+      var wasMobile = isMobile;
+      isMobile = window.innerWidth <= 768;
+      if (wasMobile !== isMobile) goToPage(currentPage);
+      else {
+        // Rebuild overlays to match new dimensions
+        document.querySelectorAll('.line-overlay').forEach(function(ov) {
+          var pg = parseInt(ov.getAttribute('data-page'));
+          if (pg) buildOverlay(ov.parentElement, pg);
+        });
+      }
+    });
+
+    // ====== INIT ======
+    function init() {
+      loadReciters();
+
+      // Determine start page: URL path > query param > localStorage
+      var savedPage = 0;
+
+      // Check URL path: /read/page/N or /read/surah/N
+      var pathMatch = window.location.pathname.match(/\\/read\\/page\\/(\\d+)/);
+      if (pathMatch) {
+        savedPage = parseInt(pathMatch[1]) || 0;
+      }
+      if (!savedPage) {
+        var surahMatch = window.location.pathname.match(/\\/read\\/surah\\/(\\d+)/);
+        if (surahMatch) {
+          var sn = parseInt(surahMatch[1]) || 0;
+          for (var i = 0; i < SURAHS.length; i++) {
+            if (SURAHS[i].n === sn) { savedPage = SURAHS[i].p; break; }
+          }
+        }
+      }
+
+      // Check query param: ?page=N
+      if (!savedPage) {
+        var params = new URLSearchParams(window.location.search);
+        var qp = params.get('page');
+        if (qp) savedPage = parseInt(qp) || 0;
+      }
+
+      // Fall back to localStorage
+      if (!savedPage) {
+        try {
+          var sp = localStorage.getItem('mushaf-page');
+          if (sp) savedPage = parseInt(sp) || 1;
+        } catch(e) {}
+      }
+
+      goToPage(savedPage || 1);
     }
 
     init();
@@ -2513,6 +2725,7 @@ export function handleReadPage(): Response {
     },
   });
 }
+
 
 // Surah metadata for SSR
 const SURAHS_DATA = [
@@ -2649,7 +2862,7 @@ function toArabicNum(n: number): string {
 
 /**
  * Server-side rendered Quran page for SEO
- * Routes: /read/page/:pageNumber, /read/surah/:surahNumber
+ * Routes: /read-seo/page/:pageNumber, /read-seo/surah/:surahNumber
  */
 export async function handleReadPageSSR(
   request: Request,
@@ -2731,8 +2944,8 @@ export async function handleReadPageSSR(
     : `اقرأ صفحة ${toArabicNum(pageNum)} من القرآن الكريم - ${firstSurah}. ${firstAyahSimple}...`;
 
   const canonicalUrl = type === 'surah'
-    ? `https://alfurqan.online/read/surah/${num}`
-    : `https://alfurqan.online/read/page/${pageNum}`;
+    ? `https://alfurqan.online/read-seo/surah/${num}`
+    : `https://alfurqan.online/read-seo/page/${pageNum}`;
 
   // Render verses HTML - display tashkeel, include hidden simple text for SEO
   let versesHtml = '';
@@ -2766,8 +2979,8 @@ export async function handleReadPageSSR(
   });
 
   // Generate navigation links
-  const prevPageUrl = pageNum > 1 ? `/read/page/${pageNum - 1}` : null;
-  const nextPageUrl = pageNum < 604 ? `/read/page/${pageNum + 1}` : null;
+  const prevPageUrl = pageNum > 1 ? `/read-seo/page/${pageNum - 1}` : null;
+  const nextPageUrl = pageNum < 604 ? `/read-seo/page/${pageNum + 1}` : null;
 
   // Build simple text for JSON-LD (searchable content)
   const pageTextSimple = pageData.ayahs.map(a => a.textSimple).join(' ');
@@ -3086,18 +3299,18 @@ export function handleIndexNowKey(): Response {
 export function handleSitemapXml(): Response {
   const today = new Date().toISOString().split('T')[0];
 
-  // Generate surah URLs (high priority - main entry points)
+  // Generate surah URLs (SSR paths for crawlable content)
   const surahUrls = Array.from({ length: 114 }, (_, i) => `
   <url>
-    <loc>https://alfurqan.online/read/surah/${i + 1}</loc>
+    <loc>https://alfurqan.online/read-seo/surah/${i + 1}</loc>
     <changefreq>yearly</changefreq>
     <priority>0.9</priority>
   </url>`).join('');
 
-  // Generate page URLs
+  // Generate page URLs (SSR paths for crawlable content)
   const pageUrls = Array.from({ length: 604 }, (_, i) => `
   <url>
-    <loc>https://alfurqan.online/read/page/${i + 1}</loc>
+    <loc>https://alfurqan.online/read-seo/page/${i + 1}</loc>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>`).join('');
