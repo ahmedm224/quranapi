@@ -303,6 +303,10 @@ router.get('/m/v1/v1/:filename', (request: any, env: Env) => {
   const { filename } = request.params;
   return handleReciteModelRequest(request, env, `v1/${filename}`);
 });
+router.get('/m/v1/v1/:variant/:filename', (request: any, env: Env) => {
+  const { variant, filename } = request.params;
+  return handleReciteModelRequest(request, env, `v1/${variant}/${filename}`);
+});
 
 // Search endpoint
 router.get('/api/v1/search', handleSearch);

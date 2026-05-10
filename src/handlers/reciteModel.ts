@@ -15,6 +15,8 @@ const ALLOWED_PATHS = new Set<string>([
   'v1/quran_ctc_v1.onnx.sha256',
   'v1/quran_ctc_v1.labels',
   'v1/quran_ctc_v1.labels.sha256',
+  'v1/compact/quran_ctc_v2.onnx',
+  'v1/compact/quran_ctc_v2.onnx.sha256',
 ]);
 
 // Common scraper UAs. Note: Android apps often use okhttp, so we don't block it here —
